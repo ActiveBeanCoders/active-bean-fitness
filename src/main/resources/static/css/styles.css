@@ -1,0 +1,283 @@
+body {
+  padding: 12px;
+}
+
+.grid {
+  width: 100%;
+}
+
+h1 {
+    text-decoration:none;
+    border:0;
+    width : 500px;
+    height : 150px;
+    margin : 0;
+    padding : 0;
+}
+ 
+h1 a {
+    display : block;
+    height : 113px;
+    text-indent : -9999px;
+}
+
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+
+fieldset legend {
+	width: auto;	/* To override width:100% in bootstrap */
+	margin-bottom: 0px;
+	border: 0;
+	padding: 0;
+	font-size: 1.2em;
+}
+
+#logo {
+    text-decoration:none;
+    border:0;
+    width : 500px;
+    height : 150px;
+    margin : 0;
+    padding : 0;
+    background : url(../images/logo.png) no-repeat 0 0;
+}
+
+.selectedTabRow {
+  	background-color: #33CC33;
+  	color:white;
+	font-weight:bold;
+}
+        
+@media screen and (max-width: 480px){
+  #logo { display: none; }
+}
+
+/* Login */
+ul li, ol li {
+	list-style: none;
+}
+a:hover {
+	color: #B8CC66;
+}
+a:focus {
+	outline: none;
+}
+#main-container {
+	width: 980px;
+	margin: 0 auto;
+}
+#login-container {
+	width: 980px;
+	margin: 0 auto;
+}
+.login-form-icons {
+	font-size: 1.4em;
+	color: #63747e;
+	vertical-align: middle;
+}
+
+/* intup fields placeholders */
+::-webkit-input-placeholder {
+	color: #ccc;
+}
+:-moz-placeholder {
+	color: #ccc;
+}
+:-ms-input-placeholder {
+	color: #ccc;
+}
+
+li#login input:focus::-webkit-input-placeholder {
+	/*color: transparent;*/
+	color: #ebebeb;
+	outline: none;
+}
+li#login input:focus:-moz-placeholder {
+	/*color: transparent;*/
+	color: #ebebeb;
+	outline: none;
+}
+
+li#login input {
+	width: 122px;
+	padding: 4px;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+li#login, li#top-menu-items {
+	clear: both;
+}
+li#login {
+	text-align: right;
+	height: 40px;
+	padding-top: 10px;
+	margin-bottom: 12px;
+}
+li#login form {
+	float: left;
+	display: none;
+	margin-top: 2px;
+}
+
+/* show login form link*/
+li#login a.show-form {
+	font-size: 0.9em;
+	float: right;
+	width: 100px;
+	text-align: center;
+	padding: 3px 12px 2px 12px;
+	margin-right: 2px;
+	display: block;
+	position: relative;
+	border: 1px solid #aaa;
+	border-radius: 90px;
+	-moz-border-radius: 90px;
+	-webkit-border-radius: 90px;
+}
+li#login a.show-form:link {
+	background: #fff;
+	color: #999;
+}
+li#login a.show-form:link span {
+	color: #999;
+}
+li#login a.show-form:hover {
+	color: #333;
+}
+li#login a.show-form:hover span {
+	color: #333;
+}
+
+/* login form submit link */
+a#login-submit {
+	display: none;
+	width: 100px;
+	float: left;
+	padding: 3px 12px;
+	margin-left: 20px;
+	text-align: center;
+	border-radius: 90px;
+	-moz-border-radius: 90px;
+	-webkit-border-radius: 90px;
+}
+a#login-submit:link {
+	background: #555;
+}
+a#login-submit:hover {
+	background: #B8CC66
+}
+
+#authorized {
+	display: none;
+	width: 140px;
+	height: 40px;
+	float: right;
+	text-align: left;
+	line-height: 17px;
+	position: relative;
+	top: -7px;
+}
+#user-authorized {
+	font-weight: bold;
+	color: #666;
+	font-size: 1em;
+}
+.authorized-icon {
+	width: 40px;
+	height: 40px;
+	font-size: 30px;
+	color: #999;
+	display: block;
+	float: left;
+	position: relative;
+	top: 9px;
+}
+#authorized a {
+	display: inline;
+	background: none;
+	font-size: 0.9em;
+	padding: 0;
+}
+#authorized a:link {
+	color: #119bf6;
+}
+#authorized a:hover {
+	color: #555;
+}
+li#top-menu-items ul li {
+	float: left;
+	margin-left: 1px;
+}
+nav ul li a {
+	text-decoration: none;
+	display: block;
+	padding: 7px 12px;
+	border-radius: 4px;
+}
+nav ul li a:link {
+	background: #6685CC;
+	color: #fff;
+}
+nav ul li a:hover {
+	background: #B8CC66;
+	color: #fff;
+}
+@font-face {
+	font-family: 'icomoon';
+	src:url('../fonts/icomoon.eot');
+	src:url('../fonts/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.svg#icomoon') format('svg'),
+		url('../fonts/icomoon.woff') format('woff'),
+		url('../fonts/icomoon.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+
+[data-icon]:before {
+	font-family: 'icomoon';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+
+
+/* Use the following CSS code if you want to have a class per icon */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+	font-family: 'icomoon';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-user:before {
+	content: "\21";
+}
+.icon-locked:before {
+	content: "\22";
+}
+.icon-enter:before {
+	content: "\23";
+}
+.icon-facebook:before {
+	content: "\24";
+}
+.icon-gplus:before {
+	content: "\25";
+}
+.icon-feed:before {
+	content: "\26";
+}
+.icon-twitter:before {
+	content: "\27";
+}
+.icon-cancel:before {
+	content: "\28";
+}
