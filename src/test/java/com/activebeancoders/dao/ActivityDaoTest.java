@@ -1,35 +1,35 @@
 package com.activebeancoders.dao;
 
+import com.activebeancoders.Config;
 import com.activebeancoders.entity.Activity;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Ignore
-public class RunEsDaoTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = Config.class)
+public class ActivityDaoTest {
 
-    public static ActivityDao runEsDao;
-
-    @BeforeClass
-    public static void beforeClass() {
-        runEsDao = new ActivityDao();
-    }
+    @Autowired
+    public ActivityDao activityDao;
 
     @Test
     public void testSaveToElasticsearchThenRetrieve() throws Exception {
         // create a run
         Activity toBeSaved = new Activity();
-        toBeSaved.setId("1");
+        toBeSaved.setId("0");
         toBeSaved.setComment("my run around the house");
         toBeSaved.setDistance(1.2);
         toBeSaved.setUnit("Miles");
 
         // save
-        runEsDao.save(toBeSaved);
+        activityDao.save(toBeSaved);
 
         // get
-        Activity retrieved = runEsDao.get(toBeSaved.getId());
+        Activity retrieved = activityDao.get(toBeSaved.getId());
         System.out.println(retrieved);
 
         Assert.assertNotNull(toBeSaved);

@@ -17,8 +17,4 @@ public class AbstractEsEntity {
         this.id = id;
     }
 
-    public String toString() {
-        return EsService.toJson(this);
-    }
-
 }

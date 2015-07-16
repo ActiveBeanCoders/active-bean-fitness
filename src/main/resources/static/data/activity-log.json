@@ -1,8 +1,9 @@
 [
   {
-    "UserId": 1,
+    "id": "1",
+    "userId": 1,
     "activity": "Run",
-    "date": "03/01/2015 15:45:00",
+    "date": "2015-03-01 15:45:00",
     "unit": "Miles",
     "distance": 7,
     "dist_hour": 0,
@@ -11,9 +12,10 @@
     "comment": "Felt totally awesome!"
   },
   {
-    "UserId": 1,
+    "id": "2",
+    "userId": 1,
     "activity": "Run",
-    "date": "03/07/2015 17:17:00",
+    "date": "2015-3-07 17:17:00",
     "unit": "Miles",
     "distance": 10,
     "dist_hour": 1,
@@ -22,9 +24,10 @@
     "comment": "Terrible run.  Didn't feel good at all."
   },
   {
-    "UserId": 1,
+    "id": "3",
+    "userId": 1,
     "activity": "Run",
-    "date": "03/10/2015 13:15:00",
+    "date": "2015-03-10 13:15:00",
     "unit": "Miles",
     "distance": 4,
     "dist_hour": 0,
@@ -33,9 +36,10 @@
     "comment": "Nice little loop around Lake"
   },
   {
-    "UserId": 1,
+    "id": "4",
+    "userId": 1,
     "activity": "Run",
-    "date": "03/14/2015 19:03:00",
+    "date": "2015-03-14 19:03:00",
     "unit": "Miles",
     "distance": 5,
     "dist_hour": 0,
@@ -44,9 +48,10 @@
     "comment": "Blazing fast today."
   },
   {
-    "UserId": 1,
+    "id": "5",
+    "userId": 1,
     "activity": "Run",
-    "date": "03/22/2015 14:00:00",
+    "date": "2015-03-22 14:00:00",
     "unit": "Miles",
     "distance": 20,
     "dist_hour": 3,
