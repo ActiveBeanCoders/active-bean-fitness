@@ -1,19 +1,33 @@
 package com.activebeancoders.entity;
 
+import com.activebeancoders.entity.util.View;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.Date;
 
 public class Activity extends AbstractEsEntity {
 
+    @JsonView({ View.All.class })
     private Long userId;
+
+    @JsonView({ View.All.class })
     private String activity;
+
+    @JsonView({ View.All.class })
     private Date date;
+
+    @JsonView({ View.All.class })
     private String unit;
+
+    @JsonView({ View.All.class })
     private Double distance;
+
+    @JsonView({ View.All.class, View.Comment.class })
     private String comment;
 
     @JsonProperty("dist_hour")
+    @JsonView({ View.All.class })
     private Integer distHour;
 
     @JsonProperty("dist_min")

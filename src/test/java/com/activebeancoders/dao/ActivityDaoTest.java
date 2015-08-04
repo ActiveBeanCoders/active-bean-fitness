@@ -2,6 +2,7 @@ package com.activebeancoders.dao;
 
 import com.activebeancoders.Config;
 import com.activebeancoders.entity.Activity;
+import com.activebeancoders.entity.util.View;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,7 +57,7 @@ public class ActivityDaoTest {
         Activity update = new Activity();
         update.setId(toBeSaved.getId());
         update.setComment("updated");
-        activityDao.update(update);
+        activityDao.update(update, View.Comment.class);
 
         Activity retrieved = activityDao.get(toBeSaved.getId());
 

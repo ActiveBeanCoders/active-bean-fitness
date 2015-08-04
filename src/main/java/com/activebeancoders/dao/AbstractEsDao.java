@@ -1,6 +1,7 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.entity.AbstractEsEntity;
+import com.activebeancoders.entity.util.View;
 import com.activebeancoders.service.EsClient;
 import com.activebeancoders.service.EsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,8 +38,8 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
         esService.save(t, getIndexName(), getIndexType(), t.getId());
     }
 
-    public void update(T t) {
-        esService.update(t, getIndexName(), getIndexType(), t.getId());
+    public void update(T t, Class<?> jsonView) {
+        esService.update(t, jsonView, getIndexName(), getIndexType(), t.getId());
     }
 
     protected int getResultsSize() {

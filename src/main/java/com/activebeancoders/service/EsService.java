@@ -1,20 +1,14 @@
 package com.activebeancoders.service;
 
+import com.activebeancoders.entity.util.View;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.elasticsearch.action.admin.indices.create.CreateIndexAction;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateRequestBuilder;
-import org.elasticsearch.indices.IndexMissingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 @Component
 public class EsService {
@@ -26,15 +20,24 @@ public class EsService {
     private EsObjectMapper esObjectMapper;
 
     /**
-     * Convert object to JSON.
+     * Convert object to JSON using the specified JsonView class.
      */
-    public <T> String toJson(T t) {
+    public <T> String toJson(T t, Class<?> jsonView) {
         try {
-            return esObjectMapper.writeValueAsString(t);
+            String json = esObjectMapper.writerWithView(jsonView).writeValueAsString(t);
+            System.out.println("toJson produced: " + json);
+            return json;
         } catch (JsonProcessingException e) {
             e.printStackTrace(); // TODO: log error
             return "ERROR";
         }
+    }
+
+    /**
+     * Convert object to JSON.
+     */
+    public <T> String toJson(T t) {
+        return toJson(t, View.All.class);
     }
 
     /**
@@ -68,12 +71,12 @@ public class EsService {
     /**
      * Save object into Elasticsearch.
      */
-    public <T> void update(T t, String indexName, String indexType, String id) {
+    public <T> void update(T t, Class<?> jsonView, String indexName, String indexType, String id) {
         UpdateRequest ur = new UpdateRequest();
         ur.index(indexName);
         ur.type(indexType);
         ur.id(id);
-        ur.doc(toJson(t));
+        ur.doc(toJson(t, jsonView));
         client.update(ur).actionGet();
     }
 
