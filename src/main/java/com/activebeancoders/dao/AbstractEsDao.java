@@ -33,8 +33,12 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
         }
     }
 
-    public void save(T t) throws JsonProcessingException {
+    public void save(T t) {
         esService.save(t, getIndexName(), getIndexType(), t.getId());
+    }
+
+    public void update(T t) {
+        esService.update(t, getIndexName(), getIndexType(), t.getId());
     }
 
     protected int getResultsSize() {

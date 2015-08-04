@@ -6,6 +6,8 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexAction;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateRequestBuilder;
 import org.elasticsearch.indices.IndexMissingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,6 +38,18 @@ public class EsService {
     }
 
     /**
+     * Convert object to byte array.
+     */
+    public <T> byte[] toBytes(T t) {
+        try {
+            return esObjectMapper.writeValueAsBytes(t);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace(); // TODO: log error
+            return null;
+        }
+    }
+
+    /**
      * Convert JSON to object.
      */
     public <T> T toObject(String json, Class<T> clazz) throws IOException {
@@ -49,6 +63,18 @@ public class EsService {
         IndexRequestBuilder b = client.prepareIndex(indexName, indexType, id);
         b.setSource(toJson(t));
         b.execute().actionGet();
+    }
+
+    /**
+     * Save object into Elasticsearch.
+     */
+    public <T> void update(T t, String indexName, String indexType, String id) {
+        UpdateRequest ur = new UpdateRequest();
+        ur.index(indexName);
+        ur.type(indexType);
+        ur.id(id);
+        ur.doc(toJson(t));
+        client.update(ur).actionGet();
     }
 
     /**

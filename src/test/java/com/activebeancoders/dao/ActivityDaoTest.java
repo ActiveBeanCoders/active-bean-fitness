@@ -40,4 +40,31 @@ public class ActivityDaoTest {
         Assert.assertEquals(toBeSaved.getUnit(), retrieved.getUnit());
     }
 
+    @Test
+    public void update() throws Exception {
+        // create a run
+        Activity toBeSaved = new Activity();
+        toBeSaved.setId("0");
+        toBeSaved.setComment("my run around the house");
+        toBeSaved.setDistance(1.2);
+        toBeSaved.setUnit("Miles");
+
+        // save
+        activityDao.save(toBeSaved);
+
+        // update
+        Activity update = new Activity();
+        update.setId(toBeSaved.getId());
+        update.setComment("updated");
+        activityDao.update(update);
+
+        Activity retrieved = activityDao.get(toBeSaved.getId());
+
+        Assert.assertNotNull(toBeSaved);
+        Assert.assertNotNull(retrieved);
+        Assert.assertEquals(toBeSaved.getId(), retrieved.getId());
+        Assert.assertEquals(update.getComment(), retrieved.getComment());
+        Assert.assertEquals(toBeSaved.getDistance(), retrieved.getDistance());
+        Assert.assertEquals(toBeSaved.getUnit(), retrieved.getUnit());
+    }
 }
