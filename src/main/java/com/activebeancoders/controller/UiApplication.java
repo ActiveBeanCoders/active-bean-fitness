@@ -26,7 +26,7 @@ public class UiApplication {
     @Autowired
     private EsIndexer esIndexer;
 
-    @RequestMapping("/activityLog")
+    @RequestMapping(RestEndpoint.ACTIVITY_LOG)
     public Map<String, Object> activityLog() {
         // TODO: why is this method being called twice on page load?
         Activity a = activityDao.get("1");
@@ -39,7 +39,7 @@ public class UiApplication {
         return model;
     }
 
-    @RequestMapping("/resource")
+    @RequestMapping(RestEndpoint.RESOURCE)
     public Map<String, Object> home() {
         Map<String, Object> model = new HashMap<>();
         model.put("id", UUID.randomUUID().toString());

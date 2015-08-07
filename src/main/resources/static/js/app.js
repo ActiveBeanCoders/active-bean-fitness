@@ -75,8 +75,8 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter','
 	   //$scope.packageData = data;
 //    });
 
-    $http.get('/activityLog/').success(function(data) {
-        $scope.log = data;
+    $http.get('/activityLog').success(function(data) {
+        $scope.recentActivities = data;
     });
 
 	

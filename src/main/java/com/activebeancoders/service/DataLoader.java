@@ -3,6 +3,8 @@ package com.activebeancoders.service;
 import com.activebeancoders.RootObject;
 import com.activebeancoders.entity.AbstractEsEntity;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Component
 public class DataLoader {
+
+    private static final Logger log = LoggerFactory.getLogger(DataLoader.class);
 
     @Autowired
     private EsService esService;
@@ -48,7 +52,7 @@ public class DataLoader {
             }
             return fileContents.toString();
         } catch (IOException e) {
-            e.printStackTrace(); // TODO: handle exception
+            log.error("Could not read file contents.", e);
             return null;
         }
     }

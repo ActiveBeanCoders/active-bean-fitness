@@ -1,9 +1,8 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.entity.Activity;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -27,15 +26,24 @@ public class ActivityDao extends AbstractEsDao<Activity> {
         return INDEX_CLASS;
     }
 
-    public List<Activity> findByLocation(String location) throws JsonProcessingException {
+//    public List<Activity> findByLocation(String location) {
+//        SearchResponse response = esClient.prepareSearch(getIndexName())
+//                .setTypes(getIndexType())
+//                .setQuery(QueryBuilders.termQuery(Activity., location))
+//                .setFrom(0).setSize(getResultsSize()).setExplain(true)
+//                .execute()
+//                .actionGet();
+//        return convertSearchResponse(response);
+//    }
+
+    public List<Activity> findMostRecentActivities(int size) {
         SearchResponse response = esClient.prepareSearch(getIndexName())
                 .setTypes(getIndexType())
-                .setQuery(QueryBuilders.termQuery("location", location))
-                .setFrom(0).setSize(getResultsSize()).setExplain(true)
+                .setFrom(0).setSize(size).setExplain(true)
+                .addSort(Activity._date, SortOrder.DESC)
                 .execute()
                 .actionGet();
         return convertSearchResponse(response);
     }
-
 
 }

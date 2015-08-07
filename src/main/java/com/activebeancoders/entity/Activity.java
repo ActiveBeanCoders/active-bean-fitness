@@ -10,31 +10,42 @@ public class Activity extends AbstractEsEntity {
 
     @JsonView({ View.All.class })
     private Long userId;
+    public static final String _userId = "userId";
 
     @JsonView({ View.All.class })
     private String activity;
+    public static final String _activity = "activity";
 
     @JsonView({ View.All.class })
     private Date date;
+    public static final String _date = "date";
 
     @JsonView({ View.All.class })
     private String unit;
+    public static final String _unit = "unit";
 
     @JsonView({ View.All.class })
     private Double distance;
+    public static final String _distance = "distance";
 
     @JsonView({ View.All.class, View.Comment.class })
     private String comment;
+    public static final String _comment = "comment";
 
-    @JsonProperty("dist_hour")
+    @JsonProperty(_distHour)
     @JsonView({ View.All.class })
-    private Integer distHour;
+    private Long distHour;
+    public static final String _distHour = "dist_hour";
 
-    @JsonProperty("dist_min")
-    private Integer distMin;
+    @JsonProperty(_distMin)
+    @JsonView({ View.All.class })
+    private Long distMin;
+    public static final String _distMin = "dist_min";
 
-    @JsonProperty("dist_sec")
-    private Integer distSec;
+    @JsonProperty(_distSec)
+    @JsonView({ View.All.class })
+    private Long distSec;
+    public static final String _distSec = "dist_sec";
 
     public Long getUserId() {
         return userId;
@@ -84,27 +95,27 @@ public class Activity extends AbstractEsEntity {
         this.comment = comment;
     }
 
-    public Integer getDistHour() {
+    public Long getDistHour() {
         return distHour;
     }
 
-    public void setDistHour(Integer distHour) {
+    public void setDistHour(Long distHour) {
         this.distHour = distHour;
     }
 
-    public Integer getDistMin() {
+    public Long getDistMin() {
         return distMin;
     }
 
-    public void setDistMin(Integer distMin) {
+    public void setDistMin(Long distMin) {
         this.distMin = distMin;
     }
 
-    public Integer getDistSec() {
+    public Long getDistSec() {
         return distSec;
     }
 
-    public void setDistSec(Integer distSec) {
+    public void setDistSec(Long distSec) {
         this.distSec = distSec;
     }
 }
