@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +15,16 @@ import java.io.IOException;
 @Component
 public class EsService {
 
+    private static final Logger log = LoggerFactory.getLogger(EsService.class);
+
     @Autowired
     private EsClient client;
 
     @Autowired
     private EsObjectMapper esObjectMapper;
+
+    public EsService() {
+    }
 
     /**
      * Convert object to JSON using the specified JsonView class.
@@ -28,7 +35,7 @@ public class EsService {
             System.out.println("toJson produced: " + json);
             return json;
         } catch (JsonProcessingException e) {
-            e.printStackTrace(); // TODO: log error
+            log.error("Could not convert object to JSON.", e);
             return "ERROR";
         }
     }
@@ -47,7 +54,7 @@ public class EsService {
         try {
             return esObjectMapper.writeValueAsBytes(t);
         } catch (JsonProcessingException e) {
-            e.printStackTrace(); // TODO: log error
+            log.error("Could not convert object to byte array.", e);
             return null;
         }
     }

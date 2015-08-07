@@ -1,13 +1,13 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.entity.AbstractEsEntity;
-import com.activebeancoders.entity.util.View;
 import com.activebeancoders.service.EsClient;
 import com.activebeancoders.service.EsService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -25,6 +25,8 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
     protected abstract String getIndexName();
     protected abstract String getIndexType();
     protected abstract Class<T> getIndexClass();
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractEsDao.class);
 
     public T get(String id) {
         try {
@@ -57,7 +59,7 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
                         results.add(t);
                     }
                 } catch (IOException e) {
-                    e.printStackTrace(); // TODO: log
+                    log.error("Failed to convert a search result to Java object.  Returning empty results.");
                     results.clear();
                 }
             }

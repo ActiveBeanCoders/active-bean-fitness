@@ -1,7 +1,6 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.entity.Activity;
-import com.activebeancoders.service.EsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilders;

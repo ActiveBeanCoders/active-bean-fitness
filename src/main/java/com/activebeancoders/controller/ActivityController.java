@@ -2,7 +2,6 @@ package com.activebeancoders.controller;
 
 import com.activebeancoders.dao.ActivityDao;
 import com.activebeancoders.entity.Activity;
-import com.activebeancoders.service.EsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +11,6 @@ public class ActivityController {
 
     @Autowired
     private ActivityDao activityDao;
-
-    @Autowired
-    private EsService esService;
 
     @RequestMapping(value = "/activity", method = RequestMethod.GET)
     public Activity getActivity(@RequestParam String id, Model model) {

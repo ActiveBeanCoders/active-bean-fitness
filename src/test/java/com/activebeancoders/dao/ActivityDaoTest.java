@@ -6,6 +6,8 @@ import com.activebeancoders.entity.util.View;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,6 +15,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 public class ActivityDaoTest {
+
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     public ActivityDao activityDao;
@@ -68,4 +72,5 @@ public class ActivityDaoTest {
         Assert.assertEquals(toBeSaved.getDistance(), retrieved.getDistance());
         Assert.assertEquals(toBeSaved.getUnit(), retrieved.getUnit());
     }
+
 }
