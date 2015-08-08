@@ -1,0 +1,14 @@
+[
+  '{{repeat(3000)}}',
+  {
+    userId: '{{integer(1, 1000)}}',
+    activity: '{{random("Run", "Bicycle", "Walk", "Jog")}}',
+    date: '{{integer(2000, 2015)}}-{{integer(1, 12)}}-{{integer(1, 27)}} {{integer(0, 23)}}:{{integer(0, 59)}}:{{integer(0, 59)}}',
+    distance: '{{random(1,100)}}',
+    unit: '{{random("Miles", "Meters", "Steps")}}',
+    comment: '{{lorem(1, "paragraphs")}}',
+    dist_hour: '{{random(0, 12)}}',
+    dist_min: '{{random(0, 59)}}',
+    dist_sec: '{{random(0, 59)}}'
+  }
+]
