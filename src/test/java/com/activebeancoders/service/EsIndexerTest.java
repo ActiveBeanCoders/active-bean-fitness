@@ -23,7 +23,7 @@ public class EsIndexerTest {
     /**
      * Run this to erase everything in your local index, then rebuild it with stock data.
      */
-//    @Ignore // safeguard!  uncomment to run
+    @Ignore // safeguard!  uncomment to run
     @Test
     public void indexAllData() throws Exception {
         esIndexer.rebuildAllIndexStructures();
