@@ -36,7 +36,6 @@ public class EsService {
     public <T> String toJson(T t, Class<?> jsonView) {
         try {
             String json = esObjectMapper.writerWithView(jsonView).writeValueAsString(t);
-            System.out.println("toJson produced: " + json);
             return json;
         } catch (JsonProcessingException e) {
             log.error("Could not convert object to JSON.", e);

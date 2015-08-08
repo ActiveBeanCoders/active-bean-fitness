@@ -2,6 +2,7 @@ package com.activebeancoders.controller;
 
 import com.activebeancoders.dao.ActivityDao;
 import com.activebeancoders.entity.Activity;
+import com.activebeancoders.service.EsIndexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ActivityController {
 
     @Autowired
     private ActivityDao activityDao;
+
+    @Autowired
+    private EsIndexer esIndexer;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY, method = RequestMethod.GET)
     public Activity getActivity(@RequestParam String id, Model model) {

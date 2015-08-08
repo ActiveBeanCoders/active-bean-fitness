@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 public class AbstractEsEntity {
 
-    @JsonView({ View.All.class })
+//    @JsonView({ View.All.class })
     private String id;
 
     public AbstractEsEntity() {

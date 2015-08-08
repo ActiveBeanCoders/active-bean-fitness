@@ -184,6 +184,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/ActivityDaoTest.java</exclude>
+                        <exclude>**/EsIndexerTest.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

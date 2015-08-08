@@ -1,9 +1,6 @@
 package com.activebeancoders.service;
 
 import com.activebeancoders.Config;
-import com.activebeancoders.dao.ActivityDao;
-import com.activebeancoders.entity.Activity;
-import com.activebeancoders.entity.util.View;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,7 +23,7 @@ public class EsIndexerTest {
     /**
      * Run this to erase everything in your local index, then rebuild it with stock data.
      */
-    @Ignore // safeguard!  uncomment to run
+//    @Ignore // safeguard!  uncomment to run
     @Test
     public void indexAllData() throws Exception {
         esIndexer.rebuildAllIndexStructures();

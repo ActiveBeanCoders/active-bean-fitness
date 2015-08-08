@@ -48,7 +48,9 @@ public class EsIndexer {
     public void indexAllData() {
         try {
             List<Activity> activities = dataLoader.loadDataFromJsonFile("activity-log.json", Activity.class);
+            long id = 0;
             for (Activity a : activities) {
+                a.setId(String.valueOf(++id));
                 activityDao.save(a);
             }
         } catch (IOException e) {
