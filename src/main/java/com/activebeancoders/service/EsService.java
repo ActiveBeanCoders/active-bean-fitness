@@ -3,7 +3,6 @@ package com.activebeancoders.service;
 import com.activebeancoders.entity.util.View;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexAction;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;

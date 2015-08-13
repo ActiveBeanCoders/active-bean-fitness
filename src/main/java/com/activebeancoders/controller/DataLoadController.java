@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 @RestController
 public class DataLoadController {
@@ -24,13 +23,11 @@ public class DataLoadController {
      */
     @RequestMapping(value = RestEndpoint.RELOAD, method = RequestMethod.GET)
     public String reloadActivities() {
+        lastKnownStatus = "Loading...";
         ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
         Runnable runnable = () -> {
-            System.out.println("a");
             esIndexer.rebuildAllIndexStructures();
-            System.out.println("b");
             esIndexer.indexAllData();
-            System.out.println("c");
         };
         ListenableFuture<?> future = executorService.submit(runnable);
         Futures.addCallback(future, new FutureCallback<Object>() {

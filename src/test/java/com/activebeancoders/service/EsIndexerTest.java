@@ -1,7 +1,6 @@
 package com.activebeancoders.service;
 
 import com.activebeancoders.Config;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

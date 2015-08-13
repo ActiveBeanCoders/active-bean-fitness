@@ -8,44 +8,45 @@ import java.util.Date;
 
 public class Activity extends AbstractEsEntity {
 
+    public static final String _userId = "userId";
+    public static final String _activity = "activity";
+    public static final String _date = "date";
+    public static final String _unit = "unit";
+    public static final String _distance = "distance";
+    public static final String _comment = "comment";
+    public static final String _distHour = "dist_hour";
+    public static final String _distMin = "dist_min";
+    public static final String _distSec = "dist_sec";
+
     @JsonView({ View.All.class })
     private Long userId;
-    public static final String _userId = "userId";
 
     @JsonView({ View.All.class })
     private String activity;
-    public static final String _activity = "activity";
 
     @JsonView({ View.All.class })
     private Date date;
-    public static final String _date = "date";
 
     @JsonView({ View.All.class })
     private String unit;
-    public static final String _unit = "unit";
 
     @JsonView({ View.All.class })
     private Double distance;
-    public static final String _distance = "distance";
 
     @JsonView({ View.All.class, View.Comment.class })
     private String comment;
-    public static final String _comment = "comment";
 
     @JsonProperty(_distHour)
     @JsonView({ View.All.class })
     private Long distHour;
-    public static final String _distHour = "dist_hour";
 
     @JsonProperty(_distMin)
     @JsonView({ View.All.class })
     private Long distMin;
-    public static final String _distMin = "dist_min";
 
     @JsonProperty(_distSec)
     @JsonView({ View.All.class })
     private Long distSec;
-    public static final String _distSec = "dist_sec";
 
     public Long getUserId() {
         return userId;
