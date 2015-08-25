@@ -2,6 +2,7 @@ package com.activebeancoders.controller;
 
 import com.activebeancoders.dao.ActivityDao;
 import com.activebeancoders.entity.Activity;
+import com.activebeancoders.search.SearchCriteria;
 import com.activebeancoders.service.EsIndexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ActivityController {
@@ -45,6 +48,11 @@ public class ActivityController {
             log.warn("Count of `{}` cannot be converted to a number.  Defaulting to {}.", count, size);
         }
         return activityDao.findMostRecentActivities(size);
+    }
+
+    public List<Activity> search(@RequestParam(required = true) SearchCriteria searchCriteria, Model model) {
+        log.debug("searching for... {} ", searchCriteria.toString());
+        return new ArrayList<>();
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)

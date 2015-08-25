@@ -25,10 +25,17 @@ public class DataLoadController {
     public String reloadActivities() {
         lastKnownStatus = "Loading...";
         ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
-        Runnable runnable = () -> {
-            esIndexer.rebuildAllIndexStructures();
-            esIndexer.indexAllData();
+        Runnable runnable = new Runnable() {
+            public void run() {
+                esIndexer.rebuildAllIndexStructures();
+                esIndexer.indexAllData();
+            }
         };
+        // Java 8 feature...
+//        Runnable runnable = () -> {
+//            esIndexer.rebuildAllIndexStructures();
+//            esIndexer.indexAllData();
+//        };
         ListenableFuture<?> future = executorService.submit(runnable);
         Futures.addCallback(future, new FutureCallback<Object>() {
             @Override

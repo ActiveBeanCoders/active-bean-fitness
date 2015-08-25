@@ -1,79 +1,72 @@
-var app = angular.module('app', ['ngTouch', 'ui.grid', 'ui.grid.resizeColumns', 'ui.grid.pinning', 'ui.grid.selection', 'ui.grid.pagination', 'ui.grid.exporter', 'ui.grid.autoResize']);
+var app = angular.module('app', ['ngTouch']);
 
-app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter','uiGridConstants', 
-    function ($scope, $http, $log, $interval, $filter, uiGridConstants) {
+app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
+    function ($scope, $http, $log, $interval, $filter) {
 
-	$scope.hideHomePage  = true;
-	$scope.hideActivityPage = true;
-	$scope.hideLogPage = true;
-	$scope.hideWorkoutsPage = true;
-	$scope.hideEquipmentPage = true;
-	$scope.hideCoursesPage = true;
-	$scope.hideLoginPage = true;
+    $scope.activePage = "";
+	$scope.pageMode = "";
 	
-	$scope.homePage = function() {
-		$scope.hideAllPages();
-		$scope.hideHomePage  = false;
-	};
-
-	$scope.activityPage = function(){
-		$scope.hideAllPages();
-		$scope.hideActivityPage = false;
-	}
-	
-	$scope.logPage = function(){
-		$scope.hideAllPages();
-		$scope.hideLogPage = false;
-	}
-	
-	$scope.workoutsPage = function(){
-		$scope.hideAllPages();
-		$scope.hideWorkoutsPage = false;
-	}
-	
-	$scope.equipmentPage = function(){
-		$scope.hideAllPages();
-		$scope.hideEquipmentPage = false;
-	}
-	
-	$scope.coursesPage = function(){
-		$scope.hideAllPages();
-		$scope.hideCoursesPage = false;
-	}
-	
-	$scope.loginPage = function(){
-		$scope.hideAllPages();
-		$scope.hideLoginPage = false;
-	}
-	
-	
-	$scope.myProgress = function(){
+    $scope.searchMode = "search";
+    $scope.editMode = "edit";
+    $scope.viewMode = "view";
+    $scope.createMode = "create";
+    
+    //Page Names
+    $scope.activityPage = "Activity_Page";
+    $scope.coursesPage = "Courses_Page";
+    $scope.equipmentPage = "Equipment_Page";
+    $scope.homePage = "Home_Page";
+    $scope.loginPage = "Login_Page";
+    $scope.progressPage = "Progress_Page";
+    $scope.logPage = "Log_Page";
+    $scope.workoutsPage = "Workouts_Page";
+    $scope.viewOthersPage = "View_Others_Page";
+	$scope.danObject = {};
 		
+	$scope.initHomePage = function() {
+		$scope.activePage = $scope.homePage;
+	}
+
+	$scope.initActivityPage = function(){
+		$scope.activePage = $scope.activityPage;
 	}
 	
-	$scope.viewOthers = function(){
-		
+	$scope.initLogPage = function(){
+		$scope.activePage = $scope.logPage;
 	}
 	
-	$scope.hideAllPages = function(){
-		$scope.hideHomePage  = true;
-		$scope.hideActivityPage = true;
-		$scope.hideLogPage = true;
-		$scope.hideWorkoutsPage = true;
-		$scope.hideEquipmentPage = true;
-		$scope.hideCoursesPage = true;
-		$scope.hideLoginPage = true;
+	$scope.initWorkoutsPage = function(){
+		$scope.activePage = $scope.workoutsPage;
 	}
 	
-	//alert("nowhere");
+	$scope.initEquipmentPage = function(){
+		$scope.activePage = $scope.equipmentPage;
+	}
 	
-//    $http.get('data/activity-log.json')
-//      .success(function(data) {
-//    	  alert("test test");
-	   //$scope.gridOptions.data = data;
-	   //var packageData = [];
-	   //$scope.packageData = data;
-//    });
+	$scope.initCoursesPage = function(){
+		$scope.activePage = $scope.coursesPage;
+	}
+	
+	$scope.initLoginPage = function(){
+		$scope.activePage = $scope.loginPage;
+	}
+	
+	$scope.initMyProgress = function(){
+		$scope.activePage = $scope.progressPage;
+	}
+	
+	$scope.initViewOthers = function(){
+		$scope.activePage = $scope.progressPage;
+	}
+	
+	$scope.danDoSomething = function(){
+		//do something here
+		alert("You pushed Me!  Value of your field is: " + $scope.danObject.input1);
+	}
+	
+    $http.get('data/activity-log.json')
+      .success(function(data) {
+    });
 
     $http.get('/activityLog').success(function(data) {
         $scope.recentActivities = data;
