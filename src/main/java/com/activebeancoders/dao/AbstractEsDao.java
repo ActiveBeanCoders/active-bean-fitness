@@ -3,6 +3,7 @@ package com.activebeancoders.dao;
 import com.activebeancoders.entity.AbstractEsEntity;
 import com.activebeancoders.service.EsClient;
 import com.activebeancoders.service.EsService;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -65,6 +66,13 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
             }
         }
         return results;
+    }
+
+    protected SearchRequestBuilder getDefaultSearchRequestBuilder() {
+        SearchRequestBuilder b = esClient.prepareSearch(getIndexName());
+        b.setTypes(getIndexType());
+        b.setFrom(0).setExplain(true);
+        return b;
     }
 
 }

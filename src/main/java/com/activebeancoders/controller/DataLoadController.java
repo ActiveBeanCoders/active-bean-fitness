@@ -16,6 +16,7 @@ public class DataLoadController {
 
     @Autowired
     private EsIndexer esIndexer;
+
     private String lastKnownStatus = "Inactive.";
 
     /**
@@ -31,11 +32,6 @@ public class DataLoadController {
                 esIndexer.indexAllData();
             }
         };
-        // Java 8 feature...
-//        Runnable runnable = () -> {
-//            esIndexer.rebuildAllIndexStructures();
-//            esIndexer.indexAllData();
-//        };
         ListenableFuture<?> future = executorService.submit(runnable);
         Futures.addCallback(future, new FutureCallback<Object>() {
             @Override

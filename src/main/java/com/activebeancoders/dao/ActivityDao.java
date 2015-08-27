@@ -1,8 +1,14 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.entity.Activity;
+import com.activebeancoders.search.SearchCriteria;
+import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +16,7 @@ import java.util.List;
 @Component
 public class ActivityDao extends AbstractEsDao<Activity> {
 
+    private static final Logger log = LoggerFactory.getLogger(ActivityDao.class);
     private static final Class<Activity> INDEX_CLASS = Activity.class;
     private static final String INDEX_NAME = INDEX_CLASS.getPackage().getName();
     private static final String INDEX_TYPE = INDEX_CLASS.getSimpleName();
@@ -26,16 +33,6 @@ public class ActivityDao extends AbstractEsDao<Activity> {
         return INDEX_CLASS;
     }
 
-//    public List<Activity> findByLocation(String location) {
-//        SearchResponse response = esClient.prepareSearch(getIndexName())
-//                .setTypes(getIndexType())
-//                .setQuery(QueryBuilders.termQuery(Activity., location))
-//                .setFrom(0).setSize(getResultsSize()).setExplain(true)
-//                .execute()
-//                .actionGet();
-//        return convertSearchResponse(response);
-//    }
-
     public List<Activity> findMostRecentActivities(int size) {
         SearchResponse response = esClient.prepareSearch(getIndexName())
                 .setTypes(getIndexType())
@@ -43,6 +40,22 @@ public class ActivityDao extends AbstractEsDao<Activity> {
                 .addSort(Activity._date, SortOrder.DESC)
                 .execute()
                 .actionGet();
+        return convertSearchResponse(response);
+    }
+
+    public List<Activity> search(SearchCriteria searchCriteria) {
+        log.info("searching for... {} ", searchCriteria);
+        SearchRequestBuilder b = getDefaultSearchRequestBuilder();
+        if (searchCriteria.getFullText() != null) {
+            String[] tokens = searchCriteria.getFullText().split(" ");
+            BoolQueryBuilder bool = QueryBuilders.boolQuery();
+            for (String token : tokens) {
+                bool.must(QueryBuilders.matchQuery("_all", token));
+            }
+            b.setQuery(bool);
+        }
+        b.addSort(Activity._date, SortOrder.DESC);
+        SearchResponse response = b.execute().actionGet();
         return convertSearchResponse(response);
     }
 

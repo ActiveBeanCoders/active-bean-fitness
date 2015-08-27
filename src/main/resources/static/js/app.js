@@ -59,18 +59,28 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter',
 		$scope.activePage = $scope.progressPage;
 	}
 	
-	$scope.danDoSomething = function(){
-		//do something here
-		alert("You pushed Me!  Value of your field is: " + $scope.danObject.input1);
-	}
-	
-    $http.get('data/activity-log.json')
-      .success(function(data) {
-    });
+    $scope.messages = [];
+    $scope.search = {};
+    $scope.searchActivity = function() {
+        $http({
+            method: 'POST', url: '/search',
+            data: { 'fullText': $scope.search.fullText }
+        }).
+        success(function(data, status, headers, config) {
+            $scope.searchResults = data;
+        }).
+        error(function(data, status, headers, config) {
+            alert("failed");
+            if(status == 400) {
+                $scope.messages = data;
+            } else {
+                alert('Unexpected server error.');
+            }
+        });
+    };
 
     $http.get('/activityLog').success(function(data) {
         $scope.recentActivities = data;
     });
 
-	
 }]);

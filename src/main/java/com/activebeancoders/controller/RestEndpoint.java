@@ -7,5 +7,6 @@ public class RestEndpoint {
     public static final String RESOURCE = "/resource";
     public static final String RELOAD = "/reload";
     public static final String RELOAD_STATUS = "/reload-status";
+    public static final String SEARCH = "/search";
 
 }

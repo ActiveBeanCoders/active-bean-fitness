@@ -3,6 +3,8 @@ package com.activebeancoders.dao;
 import com.activebeancoders.Config;
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.entity.util.View;
+import com.activebeancoders.search.SearchCriteria;
+import com.activebeancoders.service.EsService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
 public class ActivityDaoTest {
@@ -20,6 +24,9 @@ public class ActivityDaoTest {
 
     @Autowired
     public ActivityDao activityDao;
+
+    @Autowired
+    public EsService esService;
 
     @Test
     public void testSaveToElasticsearchThenRetrieve() throws Exception {
@@ -71,6 +78,16 @@ public class ActivityDaoTest {
         Assert.assertEquals(update.getComment(), retrieved.getComment());
         Assert.assertEquals(toBeSaved.getDistance(), retrieved.getDistance());
         Assert.assertEquals(toBeSaved.getUnit(), retrieved.getUnit());
+    }
+
+    @Test
+    public void search() throws Exception {
+        SearchCriteria sc = new SearchCriteria();
+        sc.setFullText("Jog 2013 12 01");
+        List<Activity> results = activityDao.search(sc);
+        for (Activity a : results) {
+            System.out.println(esService.toJson(a));
+        }
     }
 
 }

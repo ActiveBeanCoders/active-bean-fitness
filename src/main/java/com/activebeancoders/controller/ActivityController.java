@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ActivityController {
@@ -21,9 +19,6 @@ public class ActivityController {
 
     @Autowired
     private ActivityDao activityDao;
-
-    @Autowired
-    private EsIndexer esIndexer;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY, method = RequestMethod.GET)
     public Activity getActivity(@RequestParam String id, Model model) {
@@ -50,9 +45,9 @@ public class ActivityController {
         return activityDao.findMostRecentActivities(size);
     }
 
-    public List<Activity> search(@RequestParam(required = true) SearchCriteria searchCriteria, Model model) {
-        log.debug("searching for... {} ", searchCriteria.toString());
-        return new ArrayList<>();
+    @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
+    public List<Activity> search(@RequestBody SearchCriteria searchCriteria) {
+        return activityDao.search(searchCriteria);
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)
