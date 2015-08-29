@@ -1,6 +1,8 @@
-package com.activebeancoders.dao;
+package com.activebeancoders.dao.es;
 
+import com.activebeancoders.dao.IDao;
 import com.activebeancoders.entity.AbstractEsEntity;
+import com.activebeancoders.entity.util.View;
 import com.activebeancoders.service.EsClient;
 import com.activebeancoders.service.EsService;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractEsDao<T extends AbstractEsEntity> {
+public abstract class AbstractEsDao<T extends AbstractEsEntity> implements IDao<T> {
 
     @Autowired
     protected EsService esService;
@@ -39,6 +41,10 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> {
 
     public void save(T t) {
         esService.save(t, getIndexName(), getIndexType(), t.getId());
+    }
+
+    public void update(T t) {
+        update(t, View.All.class);
     }
 
     public void update(T t, Class<?> jsonView) {

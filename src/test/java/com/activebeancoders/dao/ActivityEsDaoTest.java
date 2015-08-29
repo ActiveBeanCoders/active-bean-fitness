@@ -1,6 +1,7 @@
 package com.activebeancoders.dao;
 
 import com.activebeancoders.Config;
+import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.entity.util.View;
 import com.activebeancoders.search.SearchCriteria;
@@ -18,12 +19,12 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
-public class ActivityDaoTest {
+public class ActivityEsDaoTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public ActivityDao activityDao;
+    public ActivityEsDao activityEsDao;
 
     @Autowired
     public EsService esService;
@@ -38,10 +39,10 @@ public class ActivityDaoTest {
         toBeSaved.setUnit("Miles");
 
         // save
-        activityDao.save(toBeSaved);
+        activityEsDao.save(toBeSaved);
 
         // get
-        Activity retrieved = activityDao.get(toBeSaved.getId());
+        Activity retrieved = activityEsDao.get(toBeSaved.getId());
         System.out.println(retrieved);
 
         Assert.assertNotNull(toBeSaved);
@@ -62,15 +63,15 @@ public class ActivityDaoTest {
         toBeSaved.setUnit("Miles");
 
         // save
-        activityDao.save(toBeSaved);
+        activityEsDao.save(toBeSaved);
 
         // update
         Activity update = new Activity();
         update.setId(toBeSaved.getId());
         update.setComment("updated");
-        activityDao.update(update, View.Comment.class);
+        activityEsDao.update(update, View.Comment.class);
 
-        Activity retrieved = activityDao.get(toBeSaved.getId());
+        Activity retrieved = activityEsDao.get(toBeSaved.getId());
 
         Assert.assertNotNull(toBeSaved);
         Assert.assertNotNull(retrieved);
@@ -84,7 +85,7 @@ public class ActivityDaoTest {
     public void search() throws Exception {
         SearchCriteria sc = new SearchCriteria();
         sc.setFullText("Jog 2013 12 01");
-        List<Activity> results = activityDao.search(sc);
+        List<Activity> results = activityEsDao.search(sc);
         for (Activity a : results) {
             System.out.println(esService.toJson(a));
         }

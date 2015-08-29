@@ -1,7 +1,9 @@
 var app = angular.module('app', ['ngTouch']);
 
-app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
+app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter',
     function ($scope, $http, $log, $interval, $filter) {
+
+    $scope.messages = [];
 
     $scope.activePage = "";
 	$scope.pageMode = "";
@@ -59,23 +61,32 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter',
 		$scope.activePage = $scope.progressPage;
 	}
 	
-    $scope.messages = [];
-    $scope.search = {};
+    $scope.searchCriteria = {};
     $scope.searchActivity = function() {
         $http({
             method: 'POST', url: '/search',
-            data: { 'fullText': $scope.search.fullText }
+            data: { 'fullText': $scope.searchCriteria.fullText }
         }).
         success(function(data, status, headers, config) {
+            $scope.messages.push('Search OK.');
             $scope.searchResults = data;
         }).
         error(function(data, status, headers, config) {
-            alert("failed");
-            if(status == 400) {
-                $scope.messages = data;
-            } else {
-                alert('Unexpected server error.');
-            }
+            $scope.messages.push('ERROR - Search failed.');
+        });
+    };
+
+    $scope.activityToAdd = {};
+    $scope.addActivity = function() {
+        $http({
+            method: 'POST', url: '/activity-add',
+            data: $scope.activityToAdd
+        }).
+        success(function(data, status, headers, config) {
+            $scope.messages.push("Saved.");
+        }).
+        error(function(data, status, headers, config) {
+            $scope.messages.push('ERROR - Save failed.');
         });
     };
 

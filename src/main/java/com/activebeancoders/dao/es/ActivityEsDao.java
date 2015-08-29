@@ -1,4 +1,4 @@
-package com.activebeancoders.dao;
+package com.activebeancoders.dao.es;
 
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.search.SearchCriteria;
@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ActivityDao extends AbstractEsDao<Activity> {
+public class ActivityEsDao extends AbstractEsDao<Activity> {
 
-    private static final Logger log = LoggerFactory.getLogger(ActivityDao.class);
+    private static final Logger log = LoggerFactory.getLogger(ActivityEsDao.class);
     private static final Class<Activity> INDEX_CLASS = Activity.class;
     private static final String INDEX_NAME = INDEX_CLASS.getPackage().getName();
     private static final String INDEX_TYPE = INDEX_CLASS.getSimpleName();

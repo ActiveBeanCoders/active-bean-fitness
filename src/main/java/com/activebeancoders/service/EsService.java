@@ -72,8 +72,10 @@ public class EsService {
      * Save object into Elasticsearch.
      */
     public <T> void save(T t, String indexName, String indexType, String id) {
+        String json = toJson(t);
+        log.info("SAVE - {}", json);
         IndexRequestBuilder b = client.prepareIndex(indexName, indexType, id);
-        b.setSource(toJson(t));
+        b.setSource(json);
         b.execute().actionGet();
     }
 
@@ -81,11 +83,13 @@ public class EsService {
      * Save object into Elasticsearch.
      */
     public <T> void update(T t, Class<?> jsonView, String indexName, String indexType, String id) {
+        String json = toJson(t, jsonView);
+        log.info("UPDATE - {}", json);
         UpdateRequest ur = new UpdateRequest();
         ur.index(indexName);
         ur.type(indexType);
         ur.id(id);
-        ur.doc(toJson(t, jsonView));
+        ur.doc(json);
         client.update(ur).actionGet();
     }
 
@@ -93,6 +97,7 @@ public class EsService {
      * Get document from Elasticsearch as Java object.
      */
     public <T> T get(String id, String indexName, String indexType, Class<T> clazz) throws IOException {
+        log.info("GET - {}", id);
         GetResponse r = client.prepareGet(indexName, indexType, id).execute().actionGet();
         String json = r.getSourceAsString();
         return json == null ? null : toObject(json, clazz);

@@ -1,9 +1,6 @@
 package com.activebeancoders.service;
 
-import com.activebeancoders.dao.ActivityDao;
 import com.activebeancoders.entity.Activity;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.mapping.put.PutMappingRequestBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

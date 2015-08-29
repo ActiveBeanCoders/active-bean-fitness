@@ -1,5 +1,6 @@
-package com.activebeancoders.controller;
+package com.activebeancoders.controller.es;
 
+import com.activebeancoders.controller.RestEndpoint;
 import com.activebeancoders.service.EsIndexer;
 import com.google.common.util.concurrent.*;
 import org.slf4j.Logger;

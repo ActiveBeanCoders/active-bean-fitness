@@ -1,6 +1,6 @@
 package com.activebeancoders.service;
 
-import com.activebeancoders.dao.ActivityDao;
+import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class EsIndexer {
     private EsService esService;
 
     @Autowired
-    private ActivityDao activityDao;
+    private ActivityEsDao activityEsDao;
 
     @Autowired
     private DataLoader dataLoader;
@@ -51,7 +51,7 @@ public class EsIndexer {
             long id = 0;
             for (Activity a : activities) {
                 a.setId(String.valueOf(++id));
-                activityDao.save(a);
+                activityEsDao.save(a);
             }
         } catch (IOException e) {
             log.error("Error while indexing all data from source file.", e);

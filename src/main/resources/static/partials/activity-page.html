@@ -1,23 +1,34 @@
     <form  name="addActivityForm" 
            class="form-horizontal"
-           role="form" > 
+           role="form"
+           ng-submit="addActivity()">
       <fieldset>
         <legend>Add Activity</legend>
         <br>
         <div class="form-group">
           <label for="activity_type" class="col-sm-1 control-label">Activity</label>
             <div class="col-sm-4">
-              <select class="form-control" 
-                      ng-model="activity.type" 
-                      name="type">
+                <select id="activity_type"
+                        class="form-control"
+                        ng-model="activityToAdd.activity"
+                        name="type">
                     <option value=""></option>
                     <option value="Running">Running</option>
-                    <option value="Cycling">Cycling</option>  
+                    <option value="Cycling">Cycling</option>
                     <option value="Hiking">Hiking</option>
                     <option value="Swimming">Swimming</option>
-              </select>              
+                </select>
+            </div>
+            <label for="activity_comment" class="col-sm-1 control-label">Comment</label>
+            <div class="col-sm-4">
+                <textarea id="activity_comment"
+                          class="form-control"
+                          ng-model="activityToAdd.comment"
+                          name="comment">
+                </textarea>
             </div>
             <div class="col-sm-7">
+                <button type="button" class="btn btn-info" ng-click="addActivity()">Add</button>
             </div>
         </div>
    </fieldset>
@@ -25,8 +36,7 @@
 
    <pre>
      activePage = {{ activePage }}<br>
-     activity = {{ activity }} <br>
-     dan value = {{danObject.input1}}<br>
+     activity = {{ activityToAdd }} <br>
    </pre>
    
 
