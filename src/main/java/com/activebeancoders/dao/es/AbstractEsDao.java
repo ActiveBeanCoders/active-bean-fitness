@@ -43,6 +43,10 @@ public abstract class AbstractEsDao<T extends AbstractEsEntity> implements IDao<
         esService.save(t, getIndexName(), getIndexType(), t.getId());
     }
 
+    public void saveAsync(T t) {
+        esService.saveAsync(t, getIndexName(), getIndexType(), t.getId());
+    }
+
     public void update(T t) {
         update(t, View.All.class);
     }

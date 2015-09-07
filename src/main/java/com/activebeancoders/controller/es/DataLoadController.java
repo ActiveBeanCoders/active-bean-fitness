@@ -1,7 +1,9 @@
 package com.activebeancoders.controller.es;
 
 import com.activebeancoders.controller.RestEndpoint;
+import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.service.EsIndexer;
+import com.activebeancoders.service.EsService;
 import com.google.common.util.concurrent.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,19 +20,30 @@ public class DataLoadController {
     @Autowired
     private EsIndexer esIndexer;
 
+    @Autowired
+    private EsService esService;
+
     private String lastKnownStatus = "Inactive.";
 
     /**
      * Rebilds the index with random data.
      */
     @RequestMapping(value = RestEndpoint.RELOAD, method = RequestMethod.GET)
-    public String reloadActivities() {
+    public String reloadActivities(@RequestParam(required = false, defaultValue = "1000000") final String count) {
         lastKnownStatus = "Loading...";
         ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newSingleThreadExecutor());
         Runnable runnable = new Runnable() {
+            @Override
             public void run() {
-                esIndexer.rebuildAllIndexStructures();
-                esIndexer.indexAllData();
+                try {
+                    esService.setVerbose(false);
+                    esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
+                    esIndexer.rebuildAllIndexStructures();
+                    esIndexer.indexABunchOfRandomData(Long.valueOf(count));
+                } finally {
+                    esService.setVerbose(true);
+                    esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "1s");
+                }
             }
         };
         ListenableFuture<?> future = executorService.submit(runnable);

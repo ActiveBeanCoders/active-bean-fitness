@@ -4,7 +4,7 @@ import com.activebeancoders.Config;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.entity.util.View;
-import com.activebeancoders.search.SearchCriteria;
+import com.activebeancoders.search.ActivitySearchCriteria;
 import com.activebeancoders.service.EsService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public class ActivityEsDaoTest {
 
     @Test
     public void search() throws Exception {
-        SearchCriteria sc = new SearchCriteria();
+        ActivitySearchCriteria sc = new ActivitySearchCriteria();
         sc.setFullText("Jog 2013 12 01");
         List<Activity> results = activityEsDao.search(sc);
         for (Activity a : results) {

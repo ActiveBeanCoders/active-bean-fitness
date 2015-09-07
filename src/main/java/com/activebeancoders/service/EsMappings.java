@@ -1,6 +1,7 @@
 package com.activebeancoders.service;
 
 import com.activebeancoders.entity.Activity;
+import com.activebeancoders.entity.ActivityEs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class EsMappings {
         Map<String, Object> type = new HashMap<>();
 
         type.put("type", "date");
-        properties.put(Activity._date, type);
+        properties.put(ActivityEs._date, type);
         mapping.put("properties", properties);
 
         esService.buildIndex(Activity.class.getPackage().toString(), Activity.class.getSimpleName(), mapping);

@@ -2,5 +2,7 @@
 *.swp
 tags
 target
+bin
 workspace.xml
+.idea
 

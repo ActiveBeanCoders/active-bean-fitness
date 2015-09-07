@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Represents search criteria.
  */
-public class SearchCriteria {
+public class ActivitySearchCriteria {
 
     private Map<String, Object> simpleCriteria;
 
@@ -15,7 +15,7 @@ public class SearchCriteria {
      */
     private String fullText;
 
-    public SearchCriteria() {
+    public ActivitySearchCriteria() {
         simpleCriteria = new HashMap<>();
     }
 

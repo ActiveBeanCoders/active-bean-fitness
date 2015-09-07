@@ -1,6 +1,7 @@
 package com.activebeancoders.service;
 
 import com.activebeancoders.Config;
+import com.activebeancoders.dao.es.ActivityEsDao;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,30 +13,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
-public class EsIndexerTest {
+public class EsServiceTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public EsIndexer esIndexer;
-
-    /**
-     * Run this to erase everything in your local index, then rebuild it with stock data.
-     */
-    @Ignore // safeguard!  uncomment to run
-    @Test
-    public void indexAllData() throws Exception {
-        esIndexer.rebuildAllIndexStructures();
-        esIndexer.indexAllData();
-    }
+    EsService esService;
 
     /**
      * Run this to erase everything in your local index, then rebuild it with random data.
      */
     @Test
-    public void indexRandomData() throws Exception {
-        esIndexer.rebuildAllIndexStructures();
-        esIndexer.indexABunchOfRandomData(100L);
+    public void setRefreshInterval() throws Exception {
+        esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
     }
 
 }

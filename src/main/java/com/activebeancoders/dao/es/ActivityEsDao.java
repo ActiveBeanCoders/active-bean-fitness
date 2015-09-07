@@ -1,7 +1,8 @@
 package com.activebeancoders.dao.es;
 
 import com.activebeancoders.entity.Activity;
-import com.activebeancoders.search.SearchCriteria;
+import com.activebeancoders.entity.ActivityEs;
+import com.activebeancoders.search.ActivitySearchCriteria;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -16,10 +17,10 @@ import java.util.List;
 @Component
 public class ActivityEsDao extends AbstractEsDao<Activity> {
 
+    public static final Class<Activity> INDEX_CLASS = Activity.class;
+    public static final String INDEX_NAME = INDEX_CLASS.getPackage().getName();
+    public static final String INDEX_TYPE = INDEX_CLASS.getSimpleName();
     private static final Logger log = LoggerFactory.getLogger(ActivityEsDao.class);
-    private static final Class<Activity> INDEX_CLASS = Activity.class;
-    private static final String INDEX_NAME = INDEX_CLASS.getPackage().getName();
-    private static final String INDEX_TYPE = INDEX_CLASS.getSimpleName();
 
     protected String getIndexName() {
         return INDEX_NAME;
@@ -37,24 +38,24 @@ public class ActivityEsDao extends AbstractEsDao<Activity> {
         SearchResponse response = esClient.prepareSearch(getIndexName())
                 .setTypes(getIndexType())
                 .setFrom(0).setSize(size).setExplain(true)
-                .addSort(Activity._date, SortOrder.DESC)
+                .addSort(ActivityEs._date, SortOrder.DESC)
                 .execute()
                 .actionGet();
         return convertSearchResponse(response);
     }
 
-    public List<Activity> search(SearchCriteria searchCriteria) {
-        log.info("searching for... {} ", searchCriteria);
+    public List<Activity> search(ActivitySearchCriteria activitySearchCriteria) {
+        log.info("searching for... {} ", activitySearchCriteria);
         SearchRequestBuilder b = getDefaultSearchRequestBuilder();
-        if (searchCriteria.getFullText() != null) {
-            String[] tokens = searchCriteria.getFullText().split(" ");
+        if (activitySearchCriteria.getFullText() != null) {
+            String[] tokens = activitySearchCriteria.getFullText().split(" ");
             BoolQueryBuilder bool = QueryBuilders.boolQuery();
             for (String token : tokens) {
                 bool.must(QueryBuilders.matchQuery("_all", token));
             }
             b.setQuery(bool);
         }
-        b.addSort(Activity._date, SortOrder.DESC);
+        b.addSort(ActivityEs._date, SortOrder.DESC);
         SearchResponse response = b.execute().actionGet();
         return convertSearchResponse(response);
     }

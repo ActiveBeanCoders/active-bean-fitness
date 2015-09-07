@@ -1,12 +1,8 @@
 package com.activebeancoders.entity;
 
-import com.activebeancoders.entity.util.View;
-import com.fasterxml.jackson.annotation.JsonView;
-
 public class AbstractEsEntity {
 
-//    @JsonView({ View.All.class })
-    private String id;
+    protected String id;
 
     public AbstractEsEntity() {
     }

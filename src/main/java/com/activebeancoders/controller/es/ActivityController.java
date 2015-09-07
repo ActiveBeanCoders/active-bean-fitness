@@ -3,14 +3,13 @@ package com.activebeancoders.controller.es;
 import com.activebeancoders.controller.RestEndpoint;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
-import com.activebeancoders.search.SearchCriteria;
+import com.activebeancoders.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -30,8 +29,6 @@ public class ActivityController {
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
     public void addActivity(@RequestBody Activity activity) {
-        System.out.println("comment=" + activity.getComment());
-        activity.setDate(new Date());
         activityEsDao.save(activity);
     }
 
@@ -47,8 +44,8 @@ public class ActivityController {
     }
 
     @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
-    public List<Activity> search(@RequestBody SearchCriteria searchCriteria) {
-        return activityEsDao.search(searchCriteria);
+    public List<Activity> search(@RequestBody ActivitySearchCriteria activitySearchCriteria) {
+        return activityEsDao.search(activitySearchCriteria);
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)
