@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.concurrent.Callable;
 
 @Component
 public class EsIndexer {
@@ -66,64 +66,64 @@ public class EsIndexer {
         long tenPercent = (long) (count * 0.10);
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
         for (long l = 0; l < count; l++) {
-            Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Function>builder()
-                    .put("setId", new Function() {
+            Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
+                    .put("setId", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return String.valueOf(generator.nextId());
                         }
                     })
-                    .put("setUserId", new Function() {
+                    .put("setUserId", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomLong(1, 500);
                         }
                     })
-                    .put("setActivity", new Function() {
+                    .put("setActivity", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.choose(new String[]{"Running", "Cycling", "Hiking", "Swimming"});
                         }
                     })
-                    .put("setUnit", new Function() {
+                    .put("setUnit", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.choose(new String[]{"Miles", "Kilometers", "Steps", "Laps"});
                         }
                     })
-                    .put("setDistance", new Function() {
+                    .put("setDistance", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomDouble(1.0, 100.0);
                         }
                     })
-                    .put("setDistHour", new Function() {
+                    .put("setDistHour", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomLong(0, 12);
                         }
                     })
-                    .put("setDistMin", new Function() {
+                    .put("setDistMin", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomLong(1, 59);
                         }
                     })
-                    .put("setDistSec", new Function() {
+                    .put("setDistSec", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomLong(0, 59);
                         }
                     })
-                    .put("setDate", new Function() {
+                    .put("setDate", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.randomDate("2000-01-01 00:00:00");
                         }
                     })
-                    .put("setComment", new Function() {
+                    .put("setComment", new Callable() {
                         @Override
-                        public Object apply(Object o) {
+                        public Object call() throws Exception {
                             return generator.words(generator.randomInt(10, 100));
                         }
                     })
@@ -141,16 +141,16 @@ public class EsIndexer {
 //        IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
 //        for (long l = 0; l < count; l++) {
 //            Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Function>builder()
-//                    .put("setId", o -> String.valueOf(generator.nextId()))
-//                    .put("setUserId", o -> generator.randomLong(1, 500))
-//                    .put("setActivity", o -> generator.choose(new String[]{ "Running", "Cycling", "Hiking", "Swimming" }))
-//                    .put("setUnit", o -> generator.choose(new String[]{ "Miles", "Kilometers", "Steps", "Laps" }))
-//                    .put("setDistance", o -> generator.randomDouble(1.0, 100.0))
-//                    .put("setDistHour", o -> generator.randomLong(0, 12))
-//                    .put("setDistMin", o -> generator.randomLong(1, 59))
-//                    .put("setDistSec", o -> generator.randomLong(0, 59))
-//                    .put("setDate", o -> generator.randomDate("2000-01-01 00:00:00"))
-//                    .put("setComment", o -> generator.words(generator.randomInt(10, 100)))
+//                    .put("setId", () -> String.valueOf(generator.nextId()))
+//                    .put("setUserId", () -> generator.randomLong(1, 500))
+//                    .put("setActivity", () -> generator.choose(new String[]{ "Running", "Cycling", "Hiking", "Swimming" }))
+//                    .put("setUnit", () -> generator.choose(new String[]{ "Miles", "Kilometers", "Steps", "Laps" }))
+//                    .put("setDistance", () -> generator.randomDouble(1.0, 100.0))
+//                    .put("setDistHour", () -> generator.randomLong(0, 12))
+//                    .put("setDistMin", () -> generator.randomLong(1, 59))
+//                    .put("setDistSec", () -> generator.randomLong(0, 59))
+//                    .put("setDate", () -> generator.randomDate("2000-01-01 00:00:00"))
+//                    .put("setComment", () -> generator.words(generator.randomInt(10, 100)))
 //                    .build());
 //            activityEsDao.save(activity);
 //            if (l % tenPercent == 0) {

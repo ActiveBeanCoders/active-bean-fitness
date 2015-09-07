@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45acae5a-ae8d-45e0-b4d0-73444d130ca8" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/search/SearchCriteria.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/search/ActivitySearchCriteria.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/dao/es/AbstractEsDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/dao/es/AbstractEsDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/entity/AbstractEsEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/entity/AbstractEsEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/entity/Activity.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/entity/Activity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/controller/es/ActivityController.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/controller/es/ActivityController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/dao/es/ActivityEsDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/dao/es/ActivityEsDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/activebeancoders/dao/ActivityEsDaoTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/activebeancoders/dao/ActivityEsDaoTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/controller/es/DataLoadController.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/controller/es/DataLoadController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsIndexer.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsIndexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/activebeancoders/service/EsIndexerTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/activebeancoders/service/EsIndexerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsMappings.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsMappings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsObjectMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsObjectMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsService.java" afterPath="$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/es-pilot.iml" afterPath="$PROJECT_DIR$/es-pilot.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="es-pilot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,30 +37,29 @@
       <file leaf-file-name="EsIndexer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsIndexer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37441498" vertical-offset="0" max-vertical-offset="2535">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.07194245" vertical-offset="1020" max-vertical-offset="2535">
+              <caret line="70" column="32" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
               <folding>
-                <element signature="e#2342#2360#0" expanded="true" />
-                <element signature="e#2404#2629#0" expanded="true" />
-                <element signature="e#2628#2629#0" expanded="true" />
-                <element signature="e#2669#2888#0" expanded="true" />
-                <element signature="e#2887#2888#0" expanded="true" />
-                <element signature="e#2930#3195#0" expanded="true" />
-                <element signature="e#3194#3195#0" expanded="true" />
-                <element signature="e#3233#3494#0" expanded="true" />
-                <element signature="e#3493#3494#0" expanded="true" />
-                <element signature="e#3536#3761#0" expanded="true" />
-                <element signature="e#3760#3761#0" expanded="true" />
-                <element signature="e#3803#4021#0" expanded="true" />
-                <element signature="e#4020#4021#0" expanded="true" />
-                <element signature="e#4062#4280#0" expanded="true" />
-                <element signature="e#4279#4280#0" expanded="true" />
-                <element signature="e#4321#4539#0" expanded="true" />
-                <element signature="e#4538#4539#0" expanded="true" />
-                <element signature="e#4577#4811#0" expanded="true" />
-                <element signature="e#4810#4811#0" expanded="true" />
-                <element signature="e#4852#5088#0" expanded="true" />
-                <element signature="e#5087#5088#0" expanded="true" />
+                <element signature="e#2344#2362#0" expanded="true" />
+                <element signature="e#2638#2639#0" expanded="true" />
+                <element signature="e#2679#2906#0" expanded="true" />
+                <element signature="e#2905#2906#0" expanded="true" />
+                <element signature="e#2948#3221#0" expanded="true" />
+                <element signature="e#3220#3221#0" expanded="true" />
+                <element signature="e#3259#3528#0" expanded="true" />
+                <element signature="e#3527#3528#0" expanded="true" />
+                <element signature="e#3570#3803#0" expanded="true" />
+                <element signature="e#3802#3803#0" expanded="true" />
+                <element signature="e#3845#4071#0" expanded="true" />
+                <element signature="e#4070#4071#0" expanded="true" />
+                <element signature="e#4112#4338#0" expanded="true" />
+                <element signature="e#4337#4338#0" expanded="true" />
+                <element signature="e#4379#4605#0" expanded="true" />
+                <element signature="e#4604#4605#0" expanded="true" />
+                <element signature="e#4643#4885#0" expanded="true" />
+                <element signature="e#4884#4885#0" expanded="true" />
+                <element signature="e#4926#5170#0" expanded="true" />
+                <element signature="e#5169#5170#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1049,7 +1031,7 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32892805" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32892805" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290653" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -1504,30 +1486,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/activebeancoders/service/EsIndexer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37441498" vertical-offset="0" max-vertical-offset="2535">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.07194245" vertical-offset="1020" max-vertical-offset="2535">
+          <caret line="70" column="32" selection-start-line="70" selection-start-column="32" selection-end-line="70" selection-end-column="32" />
           <folding>
-            <element signature="e#2342#2360#0" expanded="true" />
-            <element signature="e#2404#2629#0" expanded="true" />
-            <element signature="e#2628#2629#0" expanded="true" />
-            <element signature="e#2669#2888#0" expanded="true" />
-            <element signature="e#2887#2888#0" expanded="true" />
-            <element signature="e#2930#3195#0" expanded="true" />
-            <element signature="e#3194#3195#0" expanded="true" />
-            <element signature="e#3233#3494#0" expanded="true" />
-            <element signature="e#3493#3494#0" expanded="true" />
-            <element signature="e#3536#3761#0" expanded="true" />
-            <element signature="e#3760#3761#0" expanded="true" />
-            <element signature="e#3803#4021#0" expanded="true" />
-            <element signature="e#4020#4021#0" expanded="true" />
-            <element signature="e#4062#4280#0" expanded="true" />
-            <element signature="e#4279#4280#0" expanded="true" />
-            <element signature="e#4321#4539#0" expanded="true" />
-            <element signature="e#4538#4539#0" expanded="true" />
-            <element signature="e#4577#4811#0" expanded="true" />
-            <element signature="e#4810#4811#0" expanded="true" />
-            <element signature="e#4852#5088#0" expanded="true" />
-            <element signature="e#5087#5088#0" expanded="true" />
+            <element signature="e#2344#2362#0" expanded="true" />
+            <element signature="e#2638#2639#0" expanded="true" />
+            <element signature="e#2679#2906#0" expanded="true" />
+            <element signature="e#2905#2906#0" expanded="true" />
+            <element signature="e#2948#3221#0" expanded="true" />
+            <element signature="e#3220#3221#0" expanded="true" />
+            <element signature="e#3259#3528#0" expanded="true" />
+            <element signature="e#3527#3528#0" expanded="true" />
+            <element signature="e#3570#3803#0" expanded="true" />
+            <element signature="e#3802#3803#0" expanded="true" />
+            <element signature="e#3845#4071#0" expanded="true" />
+            <element signature="e#4070#4071#0" expanded="true" />
+            <element signature="e#4112#4338#0" expanded="true" />
+            <element signature="e#4337#4338#0" expanded="true" />
+            <element signature="e#4379#4605#0" expanded="true" />
+            <element signature="e#4604#4605#0" expanded="true" />
+            <element signature="e#4643#4885#0" expanded="true" />
+            <element signature="e#4884#4885#0" expanded="true" />
+            <element signature="e#4926#5170#0" expanded="true" />
+            <element signature="e#5169#5170#0" expanded="true" />
           </folding>
         </state>
       </provider>
