@@ -8,6 +8,7 @@ import net.pladform.random.IdAwareObjectGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -27,6 +28,16 @@ public class EsIndexer {
 
     @Autowired
     private DataLoader dataLoader;
+
+    private String lastKnownStatus = "Inactive.";
+
+    public String getLastKnownStatus() {
+        return lastKnownStatus;
+    }
+
+    public void setLastKnownStatus(String lastKnownStatus) {
+        this.lastKnownStatus = lastKnownStatus;
+    }
 
     /**
      * Initializes all indexes.  Deletes all indexes, then rebuilds their structures without any data.
@@ -60,7 +71,26 @@ public class EsIndexer {
         }
     }
 
-    public void indexABunchOfRandomData(long count) {
+    @Async
+    public void loadRandomRecords(long count) {
+        try {
+            lastKnownStatus = "Loading...";
+            esService.setVerbose(false);
+            rebuildAllIndexStructures();
+            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
+            indexABunchOfRandomData(Long.valueOf(count));
+            log.info("Data reload complete.");
+            lastKnownStatus = "Data reload complete.  Loaded " + count + " records.";
+        } catch (Exception e) {
+            log.error("Failed to reload data.", e);
+            lastKnownStatus = "Failed to reload data";
+        } finally {
+            esService.setVerbose(true);
+            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "1s");
+        }
+    }
+
+    protected void indexABunchOfRandomData(long count) {
         long tenPercent = (long) (count * 0.10);
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
         for (long l = 0; l < count; l++) {
