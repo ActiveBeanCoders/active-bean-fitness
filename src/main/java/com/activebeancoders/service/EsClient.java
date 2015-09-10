@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 public class EsClient extends TransportClient {
 
     private static String esHostname = "localhost";
-    private static int esPort = 9300;
+    private static int esPort = 9300; // 9300 for Java API, 9200 for REST API.
     private static Logger log = LoggerFactory.getLogger(EsClient.class);
 
     public EsClient() {

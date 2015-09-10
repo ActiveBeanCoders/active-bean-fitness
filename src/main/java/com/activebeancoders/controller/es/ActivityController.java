@@ -20,11 +20,9 @@ public class ActivityController {
     @Autowired
     private ActivityEsDao activityEsDao;
 
-    @RequestMapping(value = RestEndpoint.ACTIVITY, method = RequestMethod.GET)
-    public Activity getActivity(@RequestParam String id, Model model) {
-        Activity activity = activityEsDao.get(id);
-        model.addAttribute(activity); // TODO: what does this do?
-        return activity;
+    @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
+    public Activity get(@PathVariable("id") String id) {
+        return activityEsDao.get(id);
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
