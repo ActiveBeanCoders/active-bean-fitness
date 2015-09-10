@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-@Component
 public class EsIndexer {
 
     private static final Logger log = LoggerFactory.getLogger(EsIndexer.class);

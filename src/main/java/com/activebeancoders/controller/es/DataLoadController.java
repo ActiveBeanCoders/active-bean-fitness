@@ -36,9 +36,9 @@ public class DataLoadController {
             @Override
             public void run() {
                 try {
-                    esService.setVerbose(false);
-                    esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
+//                    esService.setVerbose(false);
                     esIndexer.rebuildAllIndexStructures();
+                    esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
                     esIndexer.indexABunchOfRandomData(Long.valueOf(count));
                 } finally {
                     esService.setVerbose(true);

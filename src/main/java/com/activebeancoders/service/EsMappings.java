@@ -5,7 +5,6 @@ import com.activebeancoders.entity.ActivityEs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +12,6 @@ import java.util.Map;
 /**
  * Responsible for defining the object mappings for the index.
  */
-@Component
 public class EsMappings {
 
     private static final Logger log = LoggerFactory.getLogger(EsIndexer.class);

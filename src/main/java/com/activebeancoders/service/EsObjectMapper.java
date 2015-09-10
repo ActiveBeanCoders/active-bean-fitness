@@ -10,13 +10,9 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 
-@Component
-@Scope("singleton")
 public class EsObjectMapper extends ObjectMapper {
 
     public EsObjectMapper() {
