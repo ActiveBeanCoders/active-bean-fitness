@@ -8,6 +8,7 @@ import net.pladform.random.IdAwareObjectGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class EsIndexer {
 
     @Autowired
     private DataLoader dataLoader;
+
+    @Value("${elasticsearch.refresh_interval}")
+    private String refreshInterval;
 
     private String lastKnownStatus = "Inactive.";
 
@@ -86,7 +90,7 @@ public class EsIndexer {
             lastKnownStatus = "Failed to reload data";
         } finally {
             esService.setVerbose(true);
-            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "1s");
+            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, refreshInterval);
         }
     }
 

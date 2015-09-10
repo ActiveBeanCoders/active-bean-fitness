@@ -4,13 +4,13 @@ import com.activebeancoders.controller.es.ActivityController;
 import com.activebeancoders.controller.es.DataLoadController;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.service.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @Import({ ActivityController.class, DataLoadController.class })
+@PropertySource(value = "/application.properties", ignoreResourceNotFound = false)
 public class Config {
 
     @Bean
@@ -48,6 +48,12 @@ public class Config {
     @Bean
     public EsMappings esMappings() {
         return new EsMappings();
+    }
+
+    //To resolve ${} in @Value
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
 }

@@ -16,7 +16,9 @@ import org.elasticsearch.common.settings.Settings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +34,12 @@ public class EsService {
 
     @Autowired
     private EsObjectMapper esObjectMapper;
+
+    @Value("${elasticsearch.refresh_interval}")
+    private String refreshInterval;
+
+    @Value("${elasticsearch.replicas}")
+    private String replicas;
 
     public EsService() {
         verbose = true;
@@ -149,8 +157,8 @@ public class EsService {
         deleteIndexAction.execute().actionGet();
 
         Map<String, String> settings = new HashMap<>();
-        settings.put("index.number_of_replicas", "0");
-        settings.put("index.refresh_interval", "1s");
+        settings.put("index.number_of_replicas", replicas);
+        settings.put("index.refresh_interval", refreshInterval);
 
         CreateIndexRequestBuilder b = client.admin().indices().prepareCreate(indexName);
         b.addMapping(indexType, mapping);
