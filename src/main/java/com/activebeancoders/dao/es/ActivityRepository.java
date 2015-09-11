@@ -6,14 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import java.util.List;
-
 public interface ActivityRepository extends ElasticsearchRepository<Activity, String> {
 
-    public Activity findByActivity(String activity);
-    public List<Activity> findByUnit(String unit);
+    Activity findByUserIdAndActivity(String userId, String activity);
 
-    @Query("{ \"match_all\": {} }, \"sort\": { \"date\": { \"order\": \"desc\" }, \"size\": ?0 }")
+    @Query("{ \"match_all\": {} }, \"sort\": { \"date\": { \"order\": \"desc\" } }")
     Page<Activity> findTopNOrderByDateDesc(Pageable pageable);
 
 }
