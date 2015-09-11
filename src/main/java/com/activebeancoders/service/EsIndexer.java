@@ -10,12 +10,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 public class EsIndexer {
 
@@ -30,7 +33,7 @@ public class EsIndexer {
     @Autowired
     private DataLoader dataLoader;
 
-    @Value("${elasticsearch.refresh_interval}")
+    @Value("${elasticsearch.activity.refresh_interval}")
     private String refreshInterval;
 
     private String lastKnownStatus = "Inactive.";
@@ -76,18 +79,20 @@ public class EsIndexer {
     }
 
     @Async
-    public void loadRandomRecords(long count) {
+    public Future<Boolean> loadRandomRecords(long count) {
         try {
             lastKnownStatus = "Loading...";
             esService.setVerbose(false);
             rebuildAllIndexStructures();
-            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "0");
+            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "-1");
             indexABunchOfRandomData(Long.valueOf(count));
             log.info("Data reload complete.");
             lastKnownStatus = "Data reload complete.  Loaded " + count + " records.";
+            return new AsyncResult<>(true);
         } catch (Exception e) {
             log.error("Failed to reload data.", e);
             lastKnownStatus = "Failed to reload data";
+            return new AsyncResult<>(false);
         } finally {
             esService.setVerbose(true);
             esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, refreshInterval);
@@ -97,6 +102,8 @@ public class EsIndexer {
     protected void indexABunchOfRandomData(long count) {
         long tenPercent = (long) (count * 0.10);
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
+        List<Long> saveTimes = new ArrayList<>();
+        long start, end;
         for (long l = 0; l < count; l++) {
             Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
                     .put("setId", new Callable() {
@@ -160,12 +167,20 @@ public class EsIndexer {
                         }
                     })
                     .build());
+            start = System.currentTimeMillis();
             activityEsDao.save(activity);
+            end = System.currentTimeMillis();
+            saveTimes.add(end - start);
             if (l % tenPercent == 0) {
                 log.debug("Indexed {} objects so far.", l);
             }
         }
         log.info("Done indexing random data.");
+        long sum = 0L;
+        for (Long l : saveTimes) {
+            sum += l;
+        }
+        log.info("avg save time: {}", ((1.0 * sum / saveTimes.size())));
     }
 
 //    public void indexABunchOfRandomData_JAVA8(long count) {

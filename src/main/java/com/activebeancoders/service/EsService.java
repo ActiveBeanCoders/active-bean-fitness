@@ -35,10 +35,10 @@ public class EsService {
     @Autowired
     private EsObjectMapper esObjectMapper;
 
-    @Value("${elasticsearch.refresh_interval}")
+    @Value("${elasticsearch.activity.refresh_interval}")
     private String refreshInterval;
 
-    @Value("${elasticsearch.replicas}")
+    @Value("${elasticsearch.activity.replicas}")
     private String replicas;
 
     public EsService() {
