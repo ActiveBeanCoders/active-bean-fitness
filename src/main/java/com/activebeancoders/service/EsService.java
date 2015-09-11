@@ -158,7 +158,9 @@ public class EsService {
 
         Map<String, String> settings = new HashMap<>();
         settings.put("index.number_of_replicas", replicas);
+        settings.put("index.number_of_shards", "1");
         settings.put("index.refresh_interval", refreshInterval);
+        settings.put("index.store.type", "fs");
 
         CreateIndexRequestBuilder b = client.admin().indices().prepareCreate(indexName);
         b.addMapping(indexType, mapping);
