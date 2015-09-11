@@ -1,13 +1,15 @@
 package com.activebeancoders.controller.es;
 
 import com.activebeancoders.controller.RestEndpoint;
-import com.activebeancoders.dao.es.ActivityEsDao;
+import com.activebeancoders.dao.es.ActivityRepository;
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,39 +20,28 @@ public class ActivityController {
     private static final Logger log = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
-    private ActivityEsDao activityEsDao;
+    private ActivityRepository activityRepository;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
     public Activity get(@PathVariable("id") String id) {
-        return activityEsDao.get(id);
+        return activityRepository.findOne(id);
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
     public void addActivity(@RequestBody Activity activity) {
-        activityEsDao.save(activity);
+        activityRepository.save(activity);
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_LOG, method = RequestMethod.GET)
-    public List<Activity> mostRecentActivities(@RequestParam(required = false, defaultValue = "10") String count) {
-        int size = 10;
-        try {
-            size = Integer.valueOf(count);
-        } catch (Exception e) {
-            log.warn("Count of `{}` cannot be converted to a number.  Defaulting to {}.", count, size);
-        }
-        return activityEsDao.findMostRecentActivities(size);
+    // TODO: try Integer request param
+    public Page<Activity> mostRecentActivities(@RequestParam(required = false, defaultValue = "10") String count) {
+        PageRequest pageRequest = new PageRequest(0, Integer.valueOf(count));
+        return activityRepository.findTopNOrderByDateDesc(pageRequest);
     }
 
     @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
     public List<Activity> search(@RequestBody ActivitySearchCriteria activitySearchCriteria) {
-        return activityEsDao.search(activitySearchCriteria);
+        throw new UnsupportedOperationException();
     }
-
-//    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)
-//    public String updateActivity(@ModelAttribute Activity activity, Model model) {
-//        model.addAttribute("activity", activity); // TODO: what does this do?
-//        activityDao.update(activity);
-//        return "result";
-//    }
 
 }

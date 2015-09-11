@@ -1,7 +1,10 @@
 package com.activebeancoders.entity;
 
+import org.springframework.data.annotation.Id;
+
 public class AbstractEsEntity {
 
+    @Id
     protected String id;
 
     public AbstractEsEntity() {

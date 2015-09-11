@@ -1,17 +1,44 @@
 package com.activebeancoders.entity;
 
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.util.Date;
 
+import static com.activebeancoders.entity.Activity.INDEX_NAME;
+import static com.activebeancoders.entity.Activity.INDEX_TYPE;
+
+@Document(indexName = INDEX_NAME, type = INDEX_TYPE, shards = 1, replicas = 0, refreshInterval = "1s")
 public class Activity extends AbstractEsEntity {
 
+    public static final String INDEX_NAME = "com.activebeancoders.entity";
+    public static final String INDEX_TYPE = "Activity";
+
+    @Field(type = FieldType.Long)
     protected Long userId;
+
     protected String activity;
+
+    @Field(type = FieldType.Date, format = DateFormat.ordinal_date_time)
     protected Date date;
+
     protected String unit;
+
+    @Field(type = FieldType.Double)
     protected Double distance;
+
+    @Field(indexAnalyzer = "standard")
     protected String comment;
+
+    @Field(type = FieldType.Long)
     protected Long distHour;
+
+    @Field(type = FieldType.Long)
     protected Long distMin;
+
+    @Field(type = FieldType.Long)
     protected Long distSec;
 
     public Long getUserId() {

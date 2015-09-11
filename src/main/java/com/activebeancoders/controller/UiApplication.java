@@ -3,13 +3,14 @@ package com.activebeancoders.controller;
 import com.activebeancoders.Config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.RestController;
 
 @Configuration
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = ElasticsearchAutoConfiguration.class)
 @RestController
 @Import(Config.class)
 @EnableAsync

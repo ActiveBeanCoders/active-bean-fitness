@@ -2,35 +2,35 @@ package com.activebeancoders;
 
 import com.activebeancoders.controller.es.ActivityController;
 import com.activebeancoders.controller.es.DataLoadController;
-import com.activebeancoders.dao.es.ActivityEsDao;
-import com.activebeancoders.service.*;
+import com.activebeancoders.service.EsClient;
+import com.activebeancoders.service.EsIndexer;
+import com.activebeancoders.service.EsService;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchAutoConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
+import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 
 @Configuration
+@EnableAutoConfiguration(exclude = ElasticsearchAutoConfiguration.class)
 @Import({ ActivityController.class, DataLoadController.class })
-@PropertySource(value = "/application.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
+@EnableElasticsearchRepositories(basePackages = "com.activebeancoders.dao.es")
 public class Config {
-
-    @Bean
-    public ActivityEsDao activityEsDao() {
-        return new ActivityEsDao();
-    }
 
     @Bean
     public EsService esService() {
         return new EsService();
     }
 
+    @Primary
     @Bean
     @Scope("singleton")
-    public EsClient esClient() {
+    public EsClient elasticsearchClient() {
         return new EsClient();
-    }
-
-    @Bean
-    public DataLoader dataLoader() {
-        return new DataLoader();
     }
 
     @Bean
@@ -38,21 +38,15 @@ public class Config {
         return new EsIndexer();
     }
 
-    @Bean
-    @Scope("singleton")
-    public EsObjectMapper esObjectMapper() {
-        return new EsObjectMapper();
-    }
-
-    @Bean
-    public EsMappings esMappings() {
-        return new EsMappings();
-    }
-
     //To resolve ${} in @Value
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public ElasticsearchOperations elasticsearchTemplate() {
+        return new ElasticsearchTemplate(elasticsearchClient());
     }
 
 }

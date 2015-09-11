@@ -20,21 +20,11 @@ public class EsIndexerTest {
     public EsIndexer esIndexer;
 
     /**
-     * Run this to erase everything in your local index, then rebuild it with stock data.
-     */
-    @Ignore // safeguard!  uncomment to run
-    @Test
-    public void indexAllData() throws Exception {
-        esIndexer.rebuildAllIndexStructures();
-        esIndexer.indexAllData();
-    }
-
-    /**
      * Run this to erase everything in your local index, then rebuild it with random data.
      */
+    @Ignore
     @Test
     public void indexRandomData() throws Exception {
-        esIndexer.rebuildAllIndexStructures();
         esIndexer.indexABunchOfRandomData(100L);
     }
 

@@ -1,6 +1,8 @@
-package com.activebeancoders.service;
+package com.activebeancoders.dao;
 
 import com.activebeancoders.Config;
+import com.activebeancoders.controller.es.DataLoadController;
+import com.activebeancoders.dao.es.ActivityRepository;
 import com.activebeancoders.entity.Activity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,19 +14,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = Config.class)
-public class EsServiceTest {
+public class ActivityRepositoryTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    EsService esService;
+    public ActivityRepository activityRepository;
 
-    /**
-     * Run this to erase everything in your local index, then rebuild it with random data.
-     */
+    @Autowired
+    public DataLoadController dataLoadController;
+
     @Test
-    public void setRefreshInterval() throws Exception {
-        esService.setRefreshInterval(Activity.INDEX_NAME, "0");
+    public void blah() throws Exception {
+        dataLoadController.reloadActivities("100");
+        Thread.sleep(2000L);
+        Activity activity = activityRepository.findOne("1");
+        log.debug(String.valueOf(activity));
     }
 
 }

@@ -22,8 +22,8 @@ public class EsClient extends TransportClient {
     @PostConstruct
     private void init() {
         try {
-            if (!admin().indices().prepareExists(Activity.class.getPackage().getName()).execute().actionGet().isExists()) {
-                admin().indices().prepareCreate(Activity.class.getPackage().getName()).execute().actionGet();
+            if (!admin().indices().prepareExists(Activity.INDEX_NAME).execute().actionGet().isExists()) {
+                admin().indices().prepareCreate(Activity.INDEX_NAME).execute().actionGet();
             }
         } catch (NoNodeAvailableException e) {
             log.warn("Could not connect to Elasticsearch.  Is it running?");
