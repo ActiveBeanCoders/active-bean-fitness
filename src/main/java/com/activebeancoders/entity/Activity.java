@@ -19,17 +19,19 @@ public class Activity extends AbstractEsEntity {
     @Field(type = FieldType.Long)
     protected Long userId;
 
+    @Field(type = FieldType.String)
     protected String activity;
 
     @Field(type = FieldType.Date, format = DateFormat.ordinal_date_time)
     protected Date date;
 
+    @Field(type = FieldType.String)
     protected String unit;
 
     @Field(type = FieldType.Double)
     protected Double distance;
 
-    @Field(indexAnalyzer = "standard")
+    @Field(type = FieldType.String, indexAnalyzer = "standard")
     protected String comment;
 
     @Field(type = FieldType.Long)

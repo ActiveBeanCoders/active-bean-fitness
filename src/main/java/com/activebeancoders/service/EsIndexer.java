@@ -12,6 +12,8 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -48,7 +50,7 @@ public class EsIndexer {
             esService.setVerbose(false);
             esOperations.deleteIndex(Activity.class);
             esOperations.createIndex(Activity.class);
-            esService.setRefreshInterval(Activity.INDEX_NAME, "0");
+            esService.setRefreshInterval(Activity.INDEX_NAME, "-1");
             indexABunchOfRandomData(Long.valueOf(count));
             log.info("Data reload complete.");
             lastKnownStatus = "Data reload complete.  Loaded " + count + " records.";
@@ -66,6 +68,8 @@ public class EsIndexer {
     protected void indexABunchOfRandomData(long count) {
         long tenPercent = (long) (count * 0.10);
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
+        List<Long> saveTimes = new ArrayList<>();
+        long start, end;
         for (long l = 0; l < count; l++) {
             Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
                     .put("setId", new Callable() {
@@ -129,11 +133,19 @@ public class EsIndexer {
                         }
                     })
                     .build());
+            start = System.currentTimeMillis();
             activityRepository.save(activity);
+            end = System.currentTimeMillis();
+            saveTimes.add(end - start);
             if (l % tenPercent == 0) {
                 log.debug("Indexed {} objects so far.", l);
             }
         }
+        long sum = 0L;
+        for (Long l : saveTimes) {
+            sum += l;
+        }
+        log.info("avg save time: {}", ((1.0 * sum / saveTimes.size())));
         log.info("Done indexing random data.");
     }
 

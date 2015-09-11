@@ -19,7 +19,10 @@ public class EsIndexerTest extends BaseTest {
      */
     @Test
     public void indexRandomData() throws Exception {
-        esIndexer.loadRandomRecords(100L).get();
+        long start = System.currentTimeMillis();
+        esIndexer.loadRandomRecords(1000L).get();
+        long end = System.currentTimeMillis();
+        System.out.println(end - start);
     }
 
 }
