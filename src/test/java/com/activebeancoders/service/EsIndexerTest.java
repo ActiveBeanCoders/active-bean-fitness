@@ -35,7 +35,7 @@ public class EsIndexerTest {
     @Test
     public void indexRandomData() throws Exception {
         esIndexer.rebuildAllIndexStructures();
-        esIndexer.indexABunchOfRandomData(100L);
+        esIndexer.loadRandomRecords(1000L).get();
     }
 
 }
