@@ -7,4 +7,5 @@ workspace.xml
 .idea
 *.iml
 data
+.name
 
