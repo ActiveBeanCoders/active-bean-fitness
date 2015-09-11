@@ -62,22 +62,6 @@ public class EsIndexer {
         esService.buildIndex(Activity.class.getPackage().getName(), Activity.class.getSimpleName(), mapping);
     }
 
-    /**
-     * Populates index with all data found in a JSON file within the project.
-     */
-    public void indexAllData() {
-        try {
-            List<Activity> activities = dataLoader.loadDataFromJsonFile("activity-log.json", Activity.class);
-            long id = 0;
-            for (Activity a : activities) {
-                a.setId(String.valueOf(++id));
-                activityEsDao.save(a);
-            }
-        } catch (IOException e) {
-            log.error("Error while indexing all data from source file.", e);
-        }
-    }
-
     @Async
     public Future<Boolean> loadRandomRecords(long count) {
         try {
@@ -102,8 +86,6 @@ public class EsIndexer {
     protected void indexABunchOfRandomData(long count) {
         long tenPercent = (long) (count * 0.10);
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
-        List<Long> saveTimes = new ArrayList<>();
-        long start, end;
         for (long l = 0; l < count; l++) {
             Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
                     .put("setId", new Callable() {
@@ -167,20 +149,12 @@ public class EsIndexer {
                         }
                     })
                     .build());
-            start = System.currentTimeMillis();
             activityEsDao.save(activity);
-            end = System.currentTimeMillis();
-            saveTimes.add(end - start);
             if (l % tenPercent == 0) {
                 log.debug("Indexed {} objects so far.", l);
             }
         }
         log.info("Done indexing random data.");
-        long sum = 0L;
-        for (Long l : saveTimes) {
-            sum += l;
-        }
-        log.info("avg save time: {}", ((1.0 * sum / saveTimes.size())));
     }
 
 //    public void indexABunchOfRandomData_JAVA8(long count) {

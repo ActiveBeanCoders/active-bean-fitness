@@ -145,16 +145,16 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>copy-json-resources</id>
+                        <id>copy-property-resources</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/classes/com/activebeancoders</outputDirectory>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/main/resources/static/data</directory>
+                                    <directory>src/main/resources/</directory>
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>

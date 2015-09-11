@@ -1,6 +1,6 @@
 package com.activebeancoders.service;
 
-import com.activebeancoders.entity.Activity;
+import com.activebeancoders.dao.es.ActivityEsDao;
 import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -22,8 +22,9 @@ public class EsClient extends TransportClient {
     @PostConstruct
     private void init() {
         try {
-            if (!admin().indices().prepareExists(Activity.class.getPackage().getName()).execute().actionGet().isExists()) {
-                admin().indices().prepareCreate(Activity.class.getPackage().getName()).execute().actionGet();
+            if (!admin().indices().prepareExists(ActivityEsDao.INDEX_NAME).execute().actionGet().isExists()) {
+                admin().indices().prepareCreate(ActivityEsDao.INDEX_NAME).execute().actionGet();
+
             }
         } catch (NoNodeAvailableException e) {
             log.warn("Could not connect to Elasticsearch.  Is it running?");

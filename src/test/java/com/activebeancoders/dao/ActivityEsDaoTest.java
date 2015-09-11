@@ -1,6 +1,6 @@
 package com.activebeancoders.dao;
 
-import com.activebeancoders.Config;
+import com.activebeancoders.BaseTest;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
 import com.activebeancoders.entity.util.View;
@@ -8,18 +8,13 @@ import com.activebeancoders.search.ActivitySearchCriteria;
 import com.activebeancoders.service.EsService;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Config.class)
-public class ActivityEsDaoTest {
+public class ActivityEsDaoTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

@@ -16,8 +16,8 @@ import java.util.List;
 public class ActivityEsDao extends AbstractEsDao<Activity> {
 
     public static final Class<Activity> INDEX_CLASS = Activity.class;
-    public static final String INDEX_NAME = INDEX_CLASS.getPackage().getName();
-    public static final String INDEX_TYPE = INDEX_CLASS.getSimpleName();
+    public static final String INDEX_NAME = "com.activebeancoders.entity";
+    public static final String INDEX_TYPE = "Activity";
     private static final Logger log = LoggerFactory.getLogger(ActivityEsDao.class);
 
     protected String getIndexName() {

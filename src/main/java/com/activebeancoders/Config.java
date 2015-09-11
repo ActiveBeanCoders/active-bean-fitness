@@ -4,13 +4,12 @@ import com.activebeancoders.controller.es.ActivityController;
 import com.activebeancoders.controller.es.DataLoadController;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.service.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
 @Import({ ActivityController.class, DataLoadController.class })
-@PropertySource(value = "/application.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
 public class Config {
 
     @Bean
