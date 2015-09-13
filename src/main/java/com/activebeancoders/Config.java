@@ -4,6 +4,7 @@ import com.activebeancoders.controller.es.ActivityController;
 import com.activebeancoders.controller.es.DataLoadController;
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.service.*;
+import com.activebeancoders.service.es.ActivityIndexManager;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
@@ -53,6 +54,11 @@ public class Config {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public ActivityIndexManager activityIndexManager() {
+        return new ActivityIndexManager();
     }
 
 }

@@ -2,7 +2,7 @@ package com.activebeancoders.service;
 
 import com.activebeancoders.dao.es.ActivityEsDao;
 import com.activebeancoders.entity.Activity;
-import com.activebeancoders.entity.ActivityEs;
+import com.activebeancoders.service.es.ActivityIndexManager;
 import com.google.common.collect.ImmutableMap;
 import net.pladform.random.IdAwareObjectGenerator;
 import org.slf4j.Logger;
@@ -12,11 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -33,6 +28,9 @@ public class EsIndexer {
     @Autowired
     private DataLoader dataLoader;
 
+    @Autowired
+    private ActivityIndexManager activityIndexManager;
+
     @Value("${elasticsearch.activity.refresh_interval}")
     private String refreshInterval;
 
@@ -46,28 +44,12 @@ public class EsIndexer {
         this.lastKnownStatus = lastKnownStatus;
     }
 
-    /**
-     * Initializes all indexes.  Deletes all indexes, then rebuilds their structures without any data.
-     */
-    public void rebuildAllIndexStructures() {
-        Map<String, Object> mapping = new HashMap<>();
-        Map<String, Object> properties = new HashMap<>();
-        Map<String, Object> type = new HashMap<>();
-
-        type.put("type", "date");
-        type.put("format", "yyyy-MM-dd HH:mm:SS");
-        properties.put(ActivityEs._date, type);
-        mapping.put("properties", properties);
-
-        esService.buildIndex(Activity.class.getPackage().getName(), Activity.class.getSimpleName(), mapping);
-    }
-
     @Async
     public Future<Boolean> loadRandomRecords(long count) {
         try {
             lastKnownStatus = "Loading...";
             esService.setVerbose(false);
-            rebuildAllIndexStructures();
+            activityIndexManager.rebuildIndex();
             esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "-1");
             indexABunchOfRandomData(Long.valueOf(count));
             log.info("Data reload complete.");
@@ -79,7 +61,7 @@ public class EsIndexer {
             return new AsyncResult<>(false);
         } finally {
             esService.setVerbose(true);
-            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, refreshInterval);
+            activityIndexManager.resetRefreshInterval();
         }
     }
 

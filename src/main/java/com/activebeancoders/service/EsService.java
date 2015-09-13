@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,12 +33,6 @@ public class EsService {
 
     @Autowired
     private EsObjectMapper esObjectMapper;
-
-    @Value("${elasticsearch.activity.refresh_interval}")
-    private String refreshInterval;
-
-    @Value("${elasticsearch.activity.replicas}")
-    private String replicas;
 
     public EsService() {
         verbose = true;
@@ -141,31 +134,6 @@ public class EsService {
         GetResponse r = client.prepareGet(indexName, indexType, id).execute().actionGet();
         String json = r.getSourceAsString();
         return json == null ? null : toObject(json, clazz);
-    }
-
-    /**
-     * Rebuilds an index.  If the index exists, it will be deleted first.
-     * TODO: this cannot be called twice in succession with different index types because the 2nd call will erase what was created by the 1st.
-     *
-     * @param indexName The name of the index.
-     * @param indexType The name of the index type.
-     * @param mapping Any custom mappings to be applied to the index.
-     */
-    public boolean buildIndex(String indexName, String indexType, Map<String, Object> mapping) {
-        // delete index if it already exists
-        DeleteIndexRequestBuilder deleteIndexAction = client.admin().indices().prepareDelete(indexName);
-        deleteIndexAction.execute().actionGet();
-
-        Map<String, String> settings = new HashMap<>();
-        settings.put("index.number_of_replicas", replicas);
-        settings.put("index.number_of_shards", "1");
-        settings.put("index.refresh_interval", refreshInterval);
-        settings.put("index.store.type", "fs");
-
-        CreateIndexRequestBuilder b = client.admin().indices().prepareCreate(indexName);
-        b.addMapping(indexType, mapping);
-        b.setSettings(settings);
-        return b.execute().actionGet().isAcknowledged();
     }
 
     public boolean setRefreshInterval(String indexName, String interval) {
