@@ -21,9 +21,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
         <random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>
+        <jackson.version>2.3.4</jackson.version>
+        <elasticsearch-utils.version>0.1-SNAPSHOT</elasticsearch-utils.version>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -43,30 +46,10 @@
 
         <!-- Elasticsearch -->
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>1.6.0</version>
+            <groupId>net.pladform</groupId>
+            <artifactId>elasticsearch-utils</artifactId>
+            <version>${elasticsearch-utils.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.3.4</version>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
-            <!--<artifactId>jackson-datatype-joda</artifactId>-->
-            <!--<version>2.3.4</version>-->
-        <!--</dependency>-->
 
         <!-- Logging -->
         <dependency>
