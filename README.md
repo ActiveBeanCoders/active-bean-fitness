@@ -1,5 +1,9 @@
 # Active Bean Fitness App
 
+## Dependent Projects
+* [elasticsearch-utils](http://github.com/danbarrese/elasticsearch-utils)
+* [random-object-generator](http://github.com/danbarrese/random-object-generator)
+
 ## TODO
 * Set up multiple EC2 instances to run Elasticsearch.
   * Prevent "split-brain" problem by setting up multiple master nodes.
