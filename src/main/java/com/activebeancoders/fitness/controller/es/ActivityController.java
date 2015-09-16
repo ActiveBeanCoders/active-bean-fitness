@@ -8,7 +8,6 @@ import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,17 +18,16 @@ public class ActivityController {
     private static final Logger log = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
-    @Qualifier("activityEsDao")
-    private IActivityDao activityEsDao;
+    private IActivityDao activityDao;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
     public Activity get(@PathVariable("id") String id) {
-        return activityEsDao.get(id);
+        return activityDao.get(id);
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
     public void addActivity(@RequestBody Activity activity) {
-        activityEsDao.save(activity);
+        activityDao.save(activity);
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_LOG, method = RequestMethod.GET)
@@ -40,12 +38,12 @@ public class ActivityController {
         } catch (Exception e) {
             log.warn("Count of `{}` cannot be converted to a number.  Defaulting to {}.", count, size);
         }
-        return activityEsDao.findMostRecentActivities(size);
+        return activityDao.findMostRecentActivities(size);
     }
 
     @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
     public List<Activity> search(@RequestBody ActivitySearchCriteria activitySearchCriteria) {
-        return activityEsDao.search(activitySearchCriteria);
+        return activityDao.search(activitySearchCriteria);
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)

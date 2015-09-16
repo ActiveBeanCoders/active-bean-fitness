@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.service;
 
+import com.activebeancoders.fitness.dao.IActivityDao;
 import com.activebeancoders.fitness.dao.es.ActivityEsDao;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.service.es.ActivityIndexManager;
@@ -24,7 +25,7 @@ public class EsIndexer {
     private EsService esService;
 
     @Autowired
-    private ActivityEsDao activityEsDao;
+    private IActivityDao activityEsDao;
 
     @Autowired
     private DataLoader dataLoader;

@@ -7,47 +7,55 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityDao implements IActivityDao {
 
     private static final Logger log = LoggerFactory.getLogger(ActivityDao.class);
 
-    private IActivityDao primaryActivityDao;
+    public static String primaryActivityDaoName;
+    private Map<String, IActivityDao> daos;
 
-    private List<IActivityDao> daos;
-
-    public ActivityDao(List<IActivityDao> daos) {
+    public ActivityDao(String primaryActivityDaoName, Map<String, IActivityDao> daos) {
+        ActivityDao.setPrimaryActivityDaoName(primaryActivityDaoName);
         this.daos = daos;
     }
+
+    public static void setPrimaryActivityDaoName(String primaryActivityDaoName) {
+        ActivityDao.primaryActivityDaoName = primaryActivityDaoName;
+    }
+
+    // TODO: provide mechanism to change primary dao.
 
     @PostConstruct
     protected void init() {
         // TODO: assert daos not null and size > 0.
-        primaryActivityDao = daos.get(0);
     }
 
     @Override
     public Activity get(Object id) {
-        return primaryActivityDao.get(id);
+        return getPrimaryActivityDao().get(id);
     }
 
     @Override
     public boolean save(Activity activity) {
-        boolean allSucceeded = true;
-        for (IActivityDao dao : daos) {
-            if (dao.save(activity)) {
+        boolean allSucceeded = getPrimaryActivityDao().save(activity);
+        for (Map.Entry<String, IActivityDao> entry : daos.entrySet()) {
+            if (!entry.getKey().equals(ActivityDao.primaryActivityDaoName)
+                    && entry.getValue().save(activity)) {
                 allSucceeded = false;
             }
         }
         return allSucceeded;
     }
 
+    // TODO: should not accept jsonview?
     @Override
-    // TODO: should not accept jsonview
     public boolean update(Activity activity, Class<?> jsonView) {
-        boolean allSucceeded = true;
-        for (IActivityDao dao : daos) {
-            if (dao.update(activity, jsonView)) {
+        boolean allSucceeded = getPrimaryActivityDao().update(activity, jsonView);
+        for (Map.Entry<String, IActivityDao> entry : daos.entrySet()) {
+            if (!entry.getKey().equals(ActivityDao.primaryActivityDaoName)
+                    && entry.getValue().update(activity, jsonView)) {
                 allSucceeded = false;
             }
         }
@@ -56,12 +64,16 @@ public class ActivityDao implements IActivityDao {
 
     @Override
     public List<Activity> search(ActivitySearchCriteria activitySearchCriteria) {
-        return primaryActivityDao.search(activitySearchCriteria);
+        return getPrimaryActivityDao().search(activitySearchCriteria);
     }
 
     @Override
     public List<Activity> findMostRecentActivities(int size) {
-        return primaryActivityDao.findMostRecentActivities(size);
+        return getPrimaryActivityDao().findMostRecentActivities(size);
+    }
+
+    private IActivityDao getPrimaryActivityDao() {
+        return daos.get(ActivityDao.primaryActivityDaoName);
     }
 
 }

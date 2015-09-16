@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.controller;
 
-import com.activebeancoders.fitness.Config;
+import com.activebeancoders.fitness.config.FitnessConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Configuration
 @EnableAutoConfiguration
 @RestController
-@Import(Config.class)
+@Import(FitnessConfig.class)
 @EnableAsync
 public class UiApplication {
 

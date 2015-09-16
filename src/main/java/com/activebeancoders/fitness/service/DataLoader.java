@@ -2,7 +2,7 @@ package com.activebeancoders.fitness.service;
 
 import com.activebeancoders.fitness.RootObject;
 import com.fasterxml.jackson.databind.JsonNode;
-import net.pladform.elasticsearch.entity.Id;
+import net.pladform.elasticsearch.entity.IdAware;
 import net.pladform.elasticsearch.service.EsObjectMapper;
 import net.pladform.elasticsearch.service.EsService;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public class DataLoader {
     @Autowired
     private EsObjectMapper mapper;
 
-    public <T extends Id> List<T> loadDataFromJsonFile(String pathRelativeToRootObject, Class<T> clazz) throws IOException {
+    public <T extends IdAware> List<T> loadDataFromJsonFile(String pathRelativeToRootObject, Class<T> clazz) throws IOException {
         String fileContents = readFileContents(pathRelativeToRootObject);
         List<T> activities = new ArrayList<>();
         if (fileContents != null) {
