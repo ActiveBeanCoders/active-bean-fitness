@@ -4,6 +4,7 @@ import com.activebeancoders.fitness.controller.es.ActivityController;
 import com.activebeancoders.fitness.controller.es.DataLoadController;
 import com.activebeancoders.fitness.dao.ActivityDao;
 import com.activebeancoders.fitness.dao.IActivityDao;
+import com.activebeancoders.fitness.dao.IdGenerator;
 import com.activebeancoders.fitness.dao.es.ActivityEsDao;
 import com.activebeancoders.fitness.dao.hib.ActivityHibDao;
 import com.activebeancoders.fitness.service.DataLoader;
@@ -15,20 +16,14 @@ import net.pladform.elasticsearch.service.EsClient;
 import net.pladform.elasticsearch.service.EsService;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Configuration
 @Import({ ActivityController.class, DataLoadController.class })
 @PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
 @ComponentScan({ "com.activebeancoders.*.config" })
-@EnableTransactionManagement
-//@EnableJpaRepositories // TODO: not ready yet, need to generate metamodel
 public class FitnessConfig {
 
     @Primary
@@ -91,6 +86,13 @@ public class FitnessConfig {
     @Bean
     public ActivityIndexManager activityIndexManager() {
         return new ActivityIndexManager();
+    }
+
+    @Bean
+    @Scope("singleton")
+    @Lazy
+    public IdGenerator idGenerator() {
+        return new IdGenerator();
     }
 
 }

@@ -13,10 +13,15 @@ import java.util.Date;
         )
 })
 @NamedNativeQueries({
+        // see: https://dev.mysql.com/doc/refman/5.1/en/fulltext-fine-tuning.html
         @NamedNativeQuery(
                 name = Activity.QUERY_FULL_TEXT_SEARCH,
                 query = "select * from activity where match(`alltext`) against (:criteria);",
                 resultClass = Activity.class
+        ),
+        @NamedNativeQuery(
+                name = Activity.QUERY_FIND_MAX_ID,
+                query = "select max(id) as id from activity;"
         ),
         @NamedNativeQuery(
                 name = Activity.EXEC_ADD_FULLTEXT_INDEX,
@@ -29,6 +34,7 @@ public class Activity implements IdAware<Long> {
 
     public static final String QUERY_FIND_BY_ID = "findActivityById";
     public static final String QUERY_FULL_TEXT_SEARCH = "activityFullTextSearch";
+    public static final String QUERY_FIND_MAX_ID = "activityFindMaxId";
     public static final String EXEC_ADD_FULLTEXT_INDEX = "addFulltextIndexToActivity";
 
     protected Long id;
@@ -70,7 +76,7 @@ public class Activity implements IdAware<Long> {
     public Double getDistance() { return distance; }
     public void setDistance(Double distance) { this.distance = distance; }
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 4000)
     public String getComment() { return comment; }
     public void setComment(String comment) { this.comment = comment; }
 

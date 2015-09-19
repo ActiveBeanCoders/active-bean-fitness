@@ -8,6 +8,7 @@ import java.util.Date;
 
 public abstract class ActivityMixin extends Activity {
 
+    public static final String _id = "id";
     public static final String _userId = "userId";
     public static final String _activity = "activity";
     public static final String _date = "date";
@@ -17,6 +18,9 @@ public abstract class ActivityMixin extends Activity {
     public static final String _distHour = "distHour";
     public static final String _distMin = "distMin";
     public static final String _distSec = "distSec";
+
+    @JsonView({ EsJsonView.All.class })
+    public abstract Long getId();
 
     @JsonView({ EsJsonView.All.class })
     public abstract Long getUserId();

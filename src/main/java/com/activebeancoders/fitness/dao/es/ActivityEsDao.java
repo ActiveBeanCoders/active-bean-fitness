@@ -22,18 +22,22 @@ public class ActivityEsDao extends AbstractEsDao<Activity> implements IActivityD
     public static final String INDEX_TYPE = "Activity";
     private static final Logger log = LoggerFactory.getLogger(ActivityEsDao.class);
 
+    @Override
     protected String getIndexName() {
         return INDEX_NAME;
     }
 
+    @Override
     protected String getIndexType() {
         return INDEX_TYPE;
     }
 
+    @Override
     protected Class<Activity> getIndexClass() {
         return INDEX_CLASS;
     }
 
+    @Override
     public List<Activity> findMostRecentActivities(int size) {
         SearchResponse response = esClient.prepareSearch(getIndexName())
                 .setTypes(getIndexType())
@@ -44,6 +48,7 @@ public class ActivityEsDao extends AbstractEsDao<Activity> implements IActivityD
         return convertSearchResponse(response);
     }
 
+    @Override
     public List<Activity> search(ActivitySearchCriteria activitySearchCriteria) {
         log.info("searching for... {} ", activitySearchCriteria);
         SearchRequestBuilder b = getDefaultSearchRequestBuilder();
@@ -58,6 +63,20 @@ public class ActivityEsDao extends AbstractEsDao<Activity> implements IActivityD
         b.addSort(ActivityMixin._date, SortOrder.DESC);
         SearchResponse response = b.execute().actionGet();
         return convertSearchResponse(response);
+    }
+
+    @Override
+    public Long findMaxId() {
+        SearchRequestBuilder b = getDefaultSearchRequestBuilder();
+        b.addSort("id", SortOrder.DESC);
+        b.setSize(1);
+        SearchResponse response = b.execute().actionGet();
+        List<Activity> results = convertSearchResponse(response);
+        if (results == null || results.isEmpty()) {
+            return 0L;
+        } else {
+            return results.get(0).getId();
+        }
     }
 
 }

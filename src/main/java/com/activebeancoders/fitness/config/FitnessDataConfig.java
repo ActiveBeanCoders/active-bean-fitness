@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
+@EnableTransactionManagement
+//@EnableJpaRepositories // TODO: not ready yet, need to generate metamodel
 public class FitnessDataConfig {
 
     @Bean

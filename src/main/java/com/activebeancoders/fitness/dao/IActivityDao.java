@@ -12,6 +12,7 @@ public interface IActivityDao {
     public boolean update(Activity activity, Class<?> jsonView);
     public List<Activity> search(ActivitySearchCriteria activitySearchCriteria);
     public List<Activity> findMostRecentActivities(int size);
+    public Long findMaxId();
 
 }
 

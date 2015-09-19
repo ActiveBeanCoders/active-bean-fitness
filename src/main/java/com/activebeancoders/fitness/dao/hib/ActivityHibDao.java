@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,19 @@ public class ActivityHibDao implements IActivityDao {
             typedResults.add((Activity) o);
         }
         return typedResults;
+    }
+
+    @Override
+    @Transactional
+    public Long findMaxId() {
+        Query query = sessionFactory.getCurrentSession().getNamedQuery(Activity.QUERY_FIND_MAX_ID);
+        Object id = query.uniqueResult();
+        if (id == null) {
+            return 0L;
+        } else {
+            Long maxId = ((BigInteger) id).longValue();
+            return maxId;
+        }
     }
 
 }
