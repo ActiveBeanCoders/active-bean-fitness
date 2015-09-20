@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.service.es;
 
-import com.activebeancoders.fitness.dao.es.ActivityEsDao;
+import com.activebeancoders.fitness.dto.es.ActivityEsDto;
 import com.activebeancoders.fitness.entity.es.mixin.ActivityMixin;
 import net.pladform.elasticsearch.service.es.AbstractIndexManager;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,11 +38,11 @@ public class ActivityIndexManager extends AbstractIndexManager {
     }
 
     public String getIndexName() {
-        return ActivityEsDao.INDEX_NAME;
+        return ActivityEsDto.INDEX_NAME;
     }
 
     public String getIndexType() {
-        return ActivityEsDao.INDEX_TYPE;
+        return ActivityEsDto.INDEX_TYPE;
     }
 
     public String getStoreType() {

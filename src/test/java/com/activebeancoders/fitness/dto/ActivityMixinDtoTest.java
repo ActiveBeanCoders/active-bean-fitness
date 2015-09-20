@@ -1,8 +1,8 @@
-package com.activebeancoders.fitness.dao;
+package com.activebeancoders.fitness.dto;
 
 import com.activebeancoders.BaseTest;
-import com.activebeancoders.fitness.dao.es.ActivityEsDao;
-import com.activebeancoders.fitness.dao.es.util.EsJsonView;
+import com.activebeancoders.fitness.dto.es.ActivityEsDto;
+import com.activebeancoders.fitness.dto.es.util.EsJsonView;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import net.pladform.elasticsearch.service.EsService;
@@ -14,12 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class ActivityMixinDaoTest extends BaseTest {
+public class ActivityMixinDtoTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public ActivityEsDao activityEsDao;
+    public ActivityEsDto activityEsDto;
 
     @Autowired
     public EsService esService;
@@ -34,10 +34,10 @@ public class ActivityMixinDaoTest extends BaseTest {
         toBeSaved.setUnit("Miles");
 
         // save
-        activityEsDao.save(toBeSaved);
+        activityEsDto.save(toBeSaved);
 
         // get
-        Activity retrieved = activityEsDao.get(toBeSaved.getId());
+        Activity retrieved = activityEsDto.get(toBeSaved.getId());
         System.out.println(retrieved);
 
         Assert.assertNotNull(toBeSaved);
@@ -58,15 +58,15 @@ public class ActivityMixinDaoTest extends BaseTest {
         toBeSaved.setUnit("Miles");
 
         // save
-        activityEsDao.save(toBeSaved);
+        activityEsDto.save(toBeSaved);
 
         // update
         Activity update = new Activity();
         update.setId(toBeSaved.getId());
         update.setComment("updated");
-        activityEsDao.update(update, EsJsonView.Comment.class);
+        activityEsDto.update(update, EsJsonView.Comment.class);
 
-        Activity retrieved = activityEsDao.get(toBeSaved.getId());
+        Activity retrieved = activityEsDto.get(toBeSaved.getId());
 
         Assert.assertNotNull(toBeSaved);
         Assert.assertNotNull(retrieved);
@@ -80,7 +80,7 @@ public class ActivityMixinDaoTest extends BaseTest {
     public void search() throws Exception {
         ActivitySearchCriteria sc = new ActivitySearchCriteria();
         sc.setFullText("Jog 2013 12 01");
-        List<Activity> results = activityEsDao.search(sc);
+        List<Activity> results = activityEsDto.search(sc);
         for (Activity a : results) {
             System.out.println(esService.toJson(a));
         }

@@ -1,7 +1,7 @@
 package com.activebeancoders.fitness.entity.es.mixin;
 
 import com.activebeancoders.fitness.entity.Activity;
-import com.activebeancoders.fitness.dao.es.util.EsJsonView;
+import com.activebeancoders.fitness.dto.es.util.EsJsonView;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.Date;

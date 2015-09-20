@@ -1,11 +1,11 @@
-package com.activebeancoders.fitness.dao;
+package com.activebeancoders.fitness.dto;
 
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 
 import java.util.List;
 
-public interface IActivityDao {
+public interface IActivityDto {
 
     public Activity get(Object id);
     public boolean save(Activity activity);

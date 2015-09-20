@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class EsMappings {
 
-    private static final Logger log = LoggerFactory.getLogger(EsIndexer.class);
+    private static final Logger log = LoggerFactory.getLogger(EsDataLoader.class);
 
     @Autowired
     private ActivityIndexManager activityIndexManager;

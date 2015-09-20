@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness.dao;
+package com.activebeancoders.fitness.dto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +12,7 @@ public class IdGenerator {
     private AtomicLong nextId;
 
     @Autowired
-    private IActivityDao activityDao;
+    private IActivityDto activityDto;
 
     // public methods
     // ````````````````````````````````````````````````````````````````````````
@@ -29,7 +29,7 @@ public class IdGenerator {
 
     @PostConstruct
     protected void init() {
-        Long maxId = activityDao.findMaxId();
+        Long maxId = activityDto.findMaxId();
         nextId = new AtomicLong(maxId + 1);
     }
 

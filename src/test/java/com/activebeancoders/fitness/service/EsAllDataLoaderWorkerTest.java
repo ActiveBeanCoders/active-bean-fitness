@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class EsIndexerTest extends BaseTest {
+public class EsAllDataLoaderWorkerTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public EsIndexer esIndexer;
+    public DataLoaderWorker dataLoaderWorker;
 
     @Autowired
     public ActivityIndexManager activityIndexManager;
@@ -25,7 +25,7 @@ public class EsIndexerTest extends BaseTest {
     @Test
     public void indexRandomData() throws Exception {
         activityIndexManager.rebuildIndex();
-        esIndexer.loadRandomRecords(1000L).get();
+        dataLoaderWorker.loadRandomRecords(1000L).get();
     }
 
 }

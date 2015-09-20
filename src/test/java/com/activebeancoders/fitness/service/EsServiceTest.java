@@ -1,7 +1,7 @@
 package com.activebeancoders.fitness.service;
 
 import com.activebeancoders.BaseTest;
-import com.activebeancoders.fitness.dao.es.ActivityEsDao;
+import com.activebeancoders.fitness.dto.es.ActivityEsDto;
 import net.pladform.elasticsearch.service.EsService;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class EsServiceTest extends BaseTest {
     @Ignore
     @Test
     public void setRefreshInterval() throws Exception {
-        esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "-1");
+        esService.setRefreshInterval(ActivityEsDto.INDEX_NAME, "-1");
     }
 
 }

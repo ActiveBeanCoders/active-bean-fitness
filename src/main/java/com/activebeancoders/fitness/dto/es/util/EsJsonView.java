@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness.dao.es.util;
+package com.activebeancoders.fitness.dto.es.util;
 
 import net.pladform.elasticsearch.entity.util.RootEsJsonView;
 

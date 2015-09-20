@@ -1,10 +1,10 @@
-package com.activebeancoders.fitness.dao.es;
+package com.activebeancoders.fitness.dto.es;
 
-import com.activebeancoders.fitness.dao.IActivityDao;
+import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.entity.es.mixin.ActivityMixin;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
-import net.pladform.elasticsearch.dao.AbstractEsDao;
+import net.pladform.elasticsearch.dao.AbstractEsDto;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -15,12 +15,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class ActivityEsDao extends AbstractEsDao<Activity> implements IActivityDao {
+public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityDto {
 
     public static final Class<Activity> INDEX_CLASS = Activity.class;
     public static final String INDEX_NAME = "com.activebeancoders.entity";
     public static final String INDEX_TYPE = "Activity";
-    private static final Logger log = LoggerFactory.getLogger(ActivityEsDao.class);
+    private static final Logger log = LoggerFactory.getLogger(ActivityEsDto.class);
 
     @Override
     protected String getIndexName() {

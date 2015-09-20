@@ -1,6 +1,7 @@
-package com.activebeancoders.fitness.dao;
+package com.activebeancoders.fitness.dto;
 
 import com.activebeancoders.BaseTest;
+import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.hibernate.SessionFactory;
@@ -15,13 +16,13 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
-public class ActivityHibDaoTest extends BaseTest {
+public class ActivityHibDtoTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    @Qualifier("activityHibDao")
-    public IActivityDao activityHibDao;
+    @Qualifier("activityHibDto")
+    public IActivityDto activityHibDto;
 
     @Test
     public void save() throws Exception {
@@ -30,12 +31,12 @@ public class ActivityHibDaoTest extends BaseTest {
         activity.setUserId(1L);
         activity.setComment("hello 1 12 123 1234");
         activity.setDate(new Date());
-        activityHibDao.save(activity);
+        activityHibDto.save(activity);
     }
 
     @Test
     public void get() throws Exception {
-        Activity activity = activityHibDao.get(1L);
+        Activity activity = activityHibDto.get(1L);
         Assert.assertNotNull(activity);
         Assert.assertNotNull(activity.getId());
         log.info(activity.toString());
@@ -55,7 +56,7 @@ public class ActivityHibDaoTest extends BaseTest {
     public void search() throws Exception {
         ActivitySearchCriteria crit = new ActivitySearchCriteria();
         crit.setFullText("123");
-        List<Activity> results = activityHibDao.search(crit);
+        List<Activity> results = activityHibDto.search(crit);
         log.info(results.toString());
     }
 

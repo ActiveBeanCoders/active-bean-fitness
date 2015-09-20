@@ -1,58 +1,80 @@
 package com.activebeancoders.fitness.service;
 
-import com.activebeancoders.fitness.dao.IActivityDao;
-import com.activebeancoders.fitness.dao.es.ActivityEsDao;
+import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
-import com.activebeancoders.fitness.service.es.ActivityIndexManager;
 import com.google.common.collect.ImmutableMap;
 import net.pladform.random.IdAwareObjectGenerator;
-import net.pladform.elasticsearch.service.EsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 
+import javax.annotation.PostConstruct;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
-public class EsIndexer {
+public class AllDataLoaderWorker implements DataLoaderWorker {
 
-    private static final Logger log = LoggerFactory.getLogger(EsIndexer.class);
+    private static final Logger log = LoggerFactory.getLogger(AllDataLoaderWorker.class);
 
-    @Autowired
-    private EsService esService;
-
-    @Autowired
-    private IActivityDao activityEsDao;
+    private Map<String, DataLoader> dataLoaderMap;
 
     @Autowired
-    private DataLoader dataLoader;
-
-    @Autowired
-    private ActivityIndexManager activityIndexManager;
-
-    @Value("${elasticsearch.activity.refresh_interval}")
-    private String refreshInterval;
+    private IActivityDto activityDto;
 
     private String lastKnownStatus = "Inactive.";
 
+    public AllDataLoaderWorker(Map<String, DataLoader> dataLoaderMap) {
+        this.dataLoaderMap = dataLoaderMap;
+    }
+
+    @PostConstruct
+    protected void init() {
+        if (dataLoaderMap == null || dataLoaderMap.isEmpty()) {
+            throw new IllegalArgumentException("At least one data loaded must be present.");
+        }
+    }
+
+    @Override
     public String getLastKnownStatus() {
         return lastKnownStatus;
     }
 
+    @Override
     public void setLastKnownStatus(String lastKnownStatus) {
         this.lastKnownStatus = lastKnownStatus;
     }
 
+    @Override
+    public boolean beforeLoad() {
+        boolean allSucceeded = true;
+        for (Map.Entry<String, DataLoader> entry : dataLoaderMap.entrySet()) {
+            if (!entry.getValue().beforeLoad()) {
+                allSucceeded = false;
+            }
+        }
+        return allSucceeded;
+    }
+
+    @Override
+    public boolean afterLoad() {
+        boolean allSucceeded = true;
+        for (Map.Entry<String, DataLoader> entry : dataLoaderMap.entrySet()) {
+            if (!entry.getValue().afterLoad()) {
+                allSucceeded = false;
+            }
+        }
+        return allSucceeded;
+    }
+
+    @Override
     @Async
     public Future<Boolean> loadRandomRecords(long count) {
         try {
+            beforeLoad();
             lastKnownStatus = "Loading...";
-            esService.setVerbose(false);
-            activityIndexManager.rebuildIndex();
-            esService.setRefreshInterval(ActivityEsDao.INDEX_NAME, "-1");
             indexABunchOfRandomData(Long.valueOf(count));
             log.info("Data reload complete.");
             lastKnownStatus = "Data reload complete.  Loaded " + count + " records.";
@@ -62,13 +84,15 @@ public class EsIndexer {
             lastKnownStatus = "Failed to reload data";
             return new AsyncResult<>(false);
         } finally {
-            esService.setVerbose(true);
-            activityIndexManager.resetRefreshInterval();
+            afterLoad();
         }
     }
 
     protected void indexABunchOfRandomData(long count) {
         long tenPercent = (long) (count * 0.10);
+        if (tenPercent == 0) {
+            tenPercent = 1;
+        }
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
         for (long l = 0; l < count; l++) {
             Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
@@ -133,7 +157,7 @@ public class EsIndexer {
                         }
                     })
                     .build());
-            activityEsDao.save(activity);
+            activityDto.save(activity);
             if (l % tenPercent == 0) {
                 log.debug("Indexed {} objects so far.", l);
             }
@@ -157,7 +181,7 @@ public class EsIndexer {
 //                    .put("setDate", () -> generator.randomDate("2000-01-01 00:00:00"))
 //                    .put("setComment", () -> generator.words(generator.randomInt(10, 100)))
 //                    .build());
-//            activityEsDao.save(activity);
+//            activityEsDto.save(activity);
 //            if (l % tenPercent == 0) {
 //                log.debug("Indexed {} objects so far.", l);
 //            }

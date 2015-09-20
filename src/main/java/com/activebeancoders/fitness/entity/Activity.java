@@ -16,16 +16,20 @@ import java.util.Date;
         // see: https://dev.mysql.com/doc/refman/5.1/en/fulltext-fine-tuning.html
         @NamedNativeQuery(
                 name = Activity.QUERY_FULL_TEXT_SEARCH,
-                query = "select * from activity where match(`alltext`) against (:criteria);",
+                query = "SELECT * FROM activity WHERe MATCH(`alltext`) AGAINST (:criteria);",
                 resultClass = Activity.class
         ),
         @NamedNativeQuery(
                 name = Activity.QUERY_FIND_MAX_ID,
-                query = "select max(id) as id from activity;"
+                query = "SELECT MAX(id) AS id FROM activity;"
         ),
         @NamedNativeQuery(
                 name = Activity.EXEC_ADD_FULLTEXT_INDEX,
                 query = "ALTER TABLE `activity` ADD FULLTEXT INDEX `alltext` (`alltext`);"
+        ),
+        @NamedNativeQuery(
+                name = Activity.EXEC_DELETE_ALL,
+                query = "TRUNCATE TABLE activity;"
         )
 })
 @Entity
@@ -36,6 +40,7 @@ public class Activity implements IdAware<Long> {
     public static final String QUERY_FULL_TEXT_SEARCH = "activityFullTextSearch";
     public static final String QUERY_FIND_MAX_ID = "activityFindMaxId";
     public static final String EXEC_ADD_FULLTEXT_INDEX = "addFulltextIndexToActivity";
+    public static final String EXEC_DELETE_ALL = "deleteAllActivities";
 
     protected Long id;
     protected Long userId;

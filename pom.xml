@@ -216,7 +216,7 @@
                 <version>2.12.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/ActivityDaoTest.java</exclude>
+                        <exclude>**/ActivityDtoTest.java</exclude>
                         <exclude>**/EsIndexerTest.java</exclude>
                     </excludes>
                 </configuration>

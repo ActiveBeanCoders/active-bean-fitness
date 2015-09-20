@@ -1,6 +1,6 @@
-package com.activebeancoders.fitness.dao.hib;
+package com.activebeancoders.fitness.dto.hib;
 
-import com.activebeancoders.fitness.dao.IActivityDao;
+import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.hibernate.Query;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ActivityHibDao implements IActivityDao {
+public class ActivityHibDto implements IActivityDto {
 
-    private static final Logger log = LoggerFactory.getLogger(ActivityHibDao.class);
+    private static final Logger log = LoggerFactory.getLogger(ActivityHibDto.class);
 
     @Autowired
     SessionFactory sessionFactory;
