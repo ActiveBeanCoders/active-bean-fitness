@@ -1,6 +1,7 @@
 package com.activebeancoders.fitness.controller.es;
 
 import com.activebeancoders.fitness.controller.RestEndpoint;
+import com.activebeancoders.fitness.dto.ActivityDto;
 import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
@@ -43,6 +44,17 @@ public class ActivityController {
     @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
     public List<Activity> search(@RequestBody ActivitySearchCriteria activitySearchCriteria) {
         return activityDto.search(activitySearchCriteria);
+    }
+
+    @RequestMapping(value = RestEndpoint.ACTIVITY_GET_PRIMARY_DTO, method = RequestMethod.GET)
+    public String getPrimaryDtoName() {
+        return activityDto.getPrimaryActivityDtoName();
+    }
+
+    @RequestMapping(value = RestEndpoint.ACTIVITY_SET_PRIMARY_DTO, method = RequestMethod.GET)
+    public String setPrimaryDtoName(@PathVariable("name") String primaryDtoName) {
+        activityDto.setPrimaryActivityDtoName(primaryDtoName);
+        return activityDto.getPrimaryActivityDtoName();
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)

@@ -13,6 +13,8 @@ public interface IActivityDto {
     public List<Activity> search(ActivitySearchCriteria activitySearchCriteria);
     public List<Activity> findMostRecentActivities(int size);
     public Long findMaxId();
+    public String getPrimaryActivityDtoName();
+    public void setPrimaryActivityDtoName(String primaryActivityDtoName);
 
 }
 

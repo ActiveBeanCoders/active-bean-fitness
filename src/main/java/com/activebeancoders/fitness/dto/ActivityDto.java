@@ -9,16 +9,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ActivityDto implements IActivityDto {
 
-    public static String primaryActivityDtoName;
-
     private static final Logger log = LoggerFactory.getLogger(ActivityDto.class);
     private Map<String, IActivityDto> daos;
+
+    public String primaryActivityDtoName;
 
     @Autowired
     @Qualifier("activityEsDto")
@@ -34,20 +33,30 @@ public class ActivityDto implements IActivityDto {
 
     public ActivityDto(String primaryActivityDtoName, Map<String, IActivityDto> daos) {
         this.daos = daos;
-        ActivityDto.setPrimaryActivityDtoName(primaryActivityDtoName);
-    }
-
-    // static methods
-    // ````````````````````````````````````````````````````````````````````````
-
-    public static void setPrimaryActivityDtoName(String primaryActivityDtoName) {
-        ActivityDto.primaryActivityDtoName = primaryActivityDtoName;
+        setPrimaryActivityDtoName(primaryActivityDtoName);
     }
 
     // public methods
     // ````````````````````````````````````````````````````````````````````````
 
     // TODO: provide mechanism to change primary dto.
+
+    public IActivityDto getPrimaryActivityDto() {
+        return daos.get(primaryActivityDtoName);
+    }
+
+    @Override
+    public String getPrimaryActivityDtoName() {
+        return primaryActivityDtoName;
+    }
+
+    @Override
+    public void setPrimaryActivityDtoName(String primaryActivityDtoName) {
+        if (!daos.containsKey(primaryActivityDtoName)) {
+            throw new IllegalArgumentException("No DTO found by the name provided: " + primaryActivityDtoName);
+        }
+        this.primaryActivityDtoName = primaryActivityDtoName;
+    }
 
     @Override
     public Activity get(Object id) {
@@ -65,7 +74,7 @@ public class ActivityDto implements IActivityDto {
 
         boolean allSucceeded = getPrimaryActivityDto().save(activity);
         for (Map.Entry<String, IActivityDto> entry : daos.entrySet()) {
-            boolean thisDtoIsPrimary = entry.getKey().equals(ActivityDto.primaryActivityDtoName);
+            boolean thisDtoIsPrimary = entry.getKey().equals(primaryActivityDtoName);
             if (!thisDtoIsPrimary && !entry.getValue().save(activity)) {
                 allSucceeded = false;
             }
@@ -78,7 +87,7 @@ public class ActivityDto implements IActivityDto {
     public boolean update(Activity activity, Class<?> jsonView) {
         boolean allSucceeded = getPrimaryActivityDto().update(activity, jsonView);
         for (Map.Entry<String, IActivityDto> entry : daos.entrySet()) {
-            if (!entry.getKey().equals(ActivityDto.primaryActivityDtoName)
+            if (!entry.getKey().equals(primaryActivityDtoName)
                     && entry.getValue().update(activity, jsonView)) {
                 allSucceeded = false;
             }
@@ -116,18 +125,10 @@ public class ActivityDto implements IActivityDto {
         if (daos == null || daos.isEmpty()) {
             throw new IllegalArgumentException("ActivityDto must have at least one platform-specific DTO inside of it.");
         }
-        daos = new HashMap<>();
-        daos.put("es", activityEsDto);
-        daos.put("hib", activityHibDto);
-        ActivityDto.setPrimaryActivityDtoName("es");
     }
 
     // private methods
     // ````````````````````````````````````````````````````````````````````````
-
-    private IActivityDto getPrimaryActivityDto() {
-        return daos.get(ActivityDto.primaryActivityDtoName);
-    }
 
 }
 
