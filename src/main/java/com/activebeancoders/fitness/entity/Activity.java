@@ -53,11 +53,15 @@ public class Activity implements IdAware<Long> {
     protected Long distMin;
     protected Long distSec;
 
-    private static final String SPLIT_REGEX = "[ :;'\",.<>/\\?\\[\\]\\{\\}\\\\\\|\\-_=\\+]";
+    private static final String SPLIT_REGEX = "\\W"; // \W == non-word characters.
+
+    public Activity() {
+        userId = -1L;
+    }
 
     @Id
     @Column(name = "id")
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    // Do not auto-generate ID because we must share an ID with other storage mechanisms.
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
