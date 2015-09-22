@@ -10,6 +10,10 @@ import java.util.Date;
         @NamedQuery(
                 name = Activity.QUERY_FIND_BY_ID,
                 query = "select a from Activity a where a.id = :id"
+        ),
+        @NamedQuery(
+                name = Activity.QUERY_FIND_MOST_RECENT,
+                query = "select a from Activity a order by date desc"
         )
 })
 @NamedNativeQueries({
@@ -39,6 +43,7 @@ public class Activity implements IdAware<Long> {
     public static final String QUERY_FIND_BY_ID = "findActivityById";
     public static final String QUERY_FULL_TEXT_SEARCH = "activityFullTextSearch";
     public static final String QUERY_FIND_MAX_ID = "activityFindMaxId";
+    public static final String QUERY_FIND_MOST_RECENT = "findMostRecentActivities";
     public static final String EXEC_ADD_FULLTEXT_INDEX = "addFulltextIndexToActivity";
     public static final String EXEC_DELETE_ALL = "deleteAllActivities";
 
@@ -62,44 +67,94 @@ public class Activity implements IdAware<Long> {
     @Id
     @Column(name = "id")
     // Do not auto-generate ID because we must share an ID with other storage mechanisms.
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Column(name = "user_id", nullable = false)
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     @Column(name = "activity")
-    public String getActivity() { return activity; }
-    public void setActivity(String activity) { this.activity = activity; }
+    public String getActivity() {
+        return activity;
+    }
+
+    public void setActivity(String activity) {
+        this.activity = activity;
+    }
 
     @Column(name = "date")
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @Column(name = "unit")
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     @Column(name = "distance")
-    public Double getDistance() { return distance; }
-    public void setDistance(Double distance) { this.distance = distance; }
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
 
     @Column(name = "comment", length = 4000)
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     @Column(name = "dist_hour")
-    public Long getDistHour() { return distHour; }
-    public void setDistHour(Long distHour) { this.distHour = distHour; }
+    public Long getDistHour() {
+        return distHour;
+    }
+
+    public void setDistHour(Long distHour) {
+        this.distHour = distHour;
+    }
 
     @Column(name = "dist_min")
-    public Long getDistMin() { return distMin; }
-    public void setDistMin(Long distMin) { this.distMin = distMin; }
+    public Long getDistMin() {
+        return distMin;
+    }
+
+    public void setDistMin(Long distMin) {
+        this.distMin = distMin;
+    }
 
     @Column(name = "dist_sec")
-    public Long getDistSec() { return distSec; }
-    public void setDistSec(Long distSec) { this.distSec = distSec; }
+    public Long getDistSec() {
+        return distSec;
+    }
+
+    public void setDistSec(Long distSec) {
+        this.distSec = distSec;
+    }
 
     // MySQL provides a "FULLTEXT INDEX", but can be used only on string columns.
     // The following method provides a means to create a FULLTEXT index on a single column
@@ -155,6 +210,8 @@ public class Activity implements IdAware<Long> {
         }
         return fullText.toString().trim();
     }
-    public void setAllText(String allText) {}
+
+    public void setAllText(String allText) {
+    }
 
 }

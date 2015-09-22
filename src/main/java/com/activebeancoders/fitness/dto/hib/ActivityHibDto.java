@@ -25,8 +25,11 @@ public class ActivityHibDto implements IActivityDto {
     SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public List<Activity> findMostRecentActivities(int size) {
-        throw new NotImplementedException();
+        Query query = sessionFactory.getCurrentSession().getNamedQuery(Activity.QUERY_FIND_MOST_RECENT);
+        query.setMaxResults(size);
+        return query.list();
     }
 
     @Override

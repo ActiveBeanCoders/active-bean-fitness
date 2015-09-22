@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.List;
 
 public class ActivityDtoTest extends BaseTest {
 
@@ -34,6 +35,13 @@ public class ActivityDtoTest extends BaseTest {
         Assert.assertNotNull(activity);
         Assert.assertNotNull(activity.getId());
         log.info(activity.toString());
+    }
+
+    @Test
+    public void findMostRecentActivities() throws Exception {
+        List<Activity> list = activityDto.findMostRecentActivities(5);
+        Assert.assertNotNull(list);
+        Assert.assertEquals(5, list.size());
     }
 
 }
