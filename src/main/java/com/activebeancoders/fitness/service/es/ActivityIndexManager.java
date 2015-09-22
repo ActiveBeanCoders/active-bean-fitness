@@ -55,14 +55,46 @@ public class ActivityIndexManager extends AbstractIndexManager {
         Map<String, Object> type;
 
         type = new HashMap<>();
+        type.put("type", "string");
+        type.put("analyzer", "standard");
+        properties.put(ActivityMixin._comment, type);
+
+        type = new HashMap<>();
+        type.put("type", "string");
+        properties.put(ActivityMixin._activity, type);
+
+        type = new HashMap<>();
         type.put("type", "date");
         type.put("format", dateFormat);
         properties.put(ActivityMixin._date, type);
 
         type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._distance, type);
+
+        type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._distHour, type);
+
+        type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._distMin, type);
+
+        type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._distSec, type);
+
+        type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._userId, type);
+
+        type = new HashMap<>();
         type.put("type", "string");
-        type.put("analyzer", "standard");
-        properties.put(ActivityMixin._comment, type);
+        properties.put(ActivityMixin._unit, type);
+
+        type = new HashMap<>();
+        type.put("type", "long");
+        properties.put(ActivityMixin._id, type);
 
         mapping.put("properties", properties);
         return super.rebuildIndex(mapping);

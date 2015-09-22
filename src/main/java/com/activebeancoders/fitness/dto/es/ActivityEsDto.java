@@ -79,15 +79,5 @@ public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityD
         }
     }
 
-    @Override
-    public String getPrimaryActivityDtoName() {
-        return "es";
-    }
-
-    @Override
-    public void setPrimaryActivityDtoName(String primaryActivityDtoName) {
-        throw new UnsupportedOperationException();
-    }
-
 }
 

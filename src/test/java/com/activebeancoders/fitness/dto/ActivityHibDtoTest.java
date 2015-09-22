@@ -24,6 +24,9 @@ public class ActivityHibDtoTest extends BaseTest {
     @Qualifier("activityHibDto")
     public IActivityDto activityHibDto;
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Test
     public void save() throws Exception {
         Activity activity = new Activity();
@@ -41,9 +44,6 @@ public class ActivityHibDtoTest extends BaseTest {
         Assert.assertNotNull(activity.getId());
         log.info(activity.toString());
     }
-
-    @Autowired
-    SessionFactory sessionFactory;
 
     @Test
     @Transactional

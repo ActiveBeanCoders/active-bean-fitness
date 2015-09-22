@@ -15,26 +15,26 @@ import net.pladform.elasticsearch.service.EsService;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 @Configuration
 @Import({ FitnessDataConfig.class, ActivityController.class, DataLoadController.class })
 @PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
 public class FitnessConfig {
 
-    @Primary
     @Bean
-    public IActivityDto activityDto() {
-        Map<String, IActivityDto> dtos = new HashMap<>();
-        dtos.put("es", activityEsDto());
-        dtos.put("hib", activityHibDto());
-        return new ActivityDto("es", dtos);
+    public ActivityDto activityDto() {
+        List<IActivityDto> dtos = new ArrayList<>();
+        dtos.add(activityEsDto());
+        dtos.add(activityHibDto());
+        return new ActivityDto(dtos);
     }
 
     @Bean
     public DataLoaderWorker indexerWorker() {
-        Map<String, DataLoader> loaders = new HashMap<>();
+        LinkedHashMap<String, DataLoader> loaders = new LinkedHashMap<>();
         loaders.put("es", esDataLoader());
         loaders.put("hib", hibDataLoader());
         return new AllDataLoaderWorker(loaders);

@@ -2,7 +2,6 @@ package com.activebeancoders.fitness.controller.es;
 
 import com.activebeancoders.fitness.controller.RestEndpoint;
 import com.activebeancoders.fitness.dto.ActivityDto;
-import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ public class ActivityController {
     private static final Logger log = LoggerFactory.getLogger(ActivityController.class);
 
     @Autowired
-    private IActivityDto activityDto;
+    private ActivityDto activityDto;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
     public Activity get(@PathVariable("id") String id) {
@@ -47,14 +46,14 @@ public class ActivityController {
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_GET_PRIMARY_DTO, method = RequestMethod.GET)
-    public String getPrimaryDtoName() {
-        return activityDto.getPrimaryActivityDtoName();
+    public int getPrimaryDtoIndex() {
+        return activityDto.getPrimaryDtoIndex();
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_SET_PRIMARY_DTO, method = RequestMethod.GET)
-    public String setPrimaryDtoName(@PathVariable("name") String primaryDtoName) {
-        activityDto.setPrimaryActivityDtoName(primaryDtoName);
-        return activityDto.getPrimaryActivityDtoName();
+    public int setPrimaryDtoName(@PathVariable("name") int primaryDtoIndex) {
+        activityDto.setPrimaryDtoIndex(primaryDtoIndex);
+        return activityDto.getPrimaryDtoIndex();
     }
 
 //    @RequestMapping(value = "/activityUpdate", method = RequestMethod.POST)

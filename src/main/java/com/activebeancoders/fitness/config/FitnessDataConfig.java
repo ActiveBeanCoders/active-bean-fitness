@@ -1,14 +1,17 @@
 package com.activebeancoders.fitness.config;
 
 import com.activebeancoders.fitness.entity.Activity;
+import com.activebeancoders.fitness.util.Assert;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
@@ -16,8 +19,14 @@ import java.util.List;
 
 @Configuration
 @EnableTransactionManagement
-//@EnableJpaRepositories // TODO: not ready yet, need to generate metamodel
 public class FitnessDataConfig {
+
+    @Value("${hibernate.url}") private String url;
+    @Value("${hibernate.dialect}") private String dialect;
+    @Value("${hibernate.username}") private String username;
+    @Value("${hibernate.password}") private String password;
+    @Value("${hibernate.show_sql}") private String showSql;
+    @Value("${hibernate.format_sql}") private String formatSql;
 
     @Bean
     public HibernateTransactionManager transactionManager() {
@@ -74,7 +83,7 @@ public class FitnessDataConfig {
     }
 
     public String getHibernateDialect() {
-        return "org.hibernate.dialect.MySQLDialect";
+        return dialect;
     }
 
     public String getHibernateFormatSql() {
@@ -87,11 +96,11 @@ public class FitnessDataConfig {
     }
 
     public String getHibernateSchemaUpdate() {
-        return "false";
+        return formatSql;
     }
 
     public String getHibernateShowSql() {
-        return "true";
+        return showSql;
     }
 
     public List<Class<?>> getAnnotatedClasses() {
@@ -109,15 +118,29 @@ public class FitnessDataConfig {
     }
 
     public String getHibernateUrl() {
-        return "jdbc:mysql://localhost:3306/active_bean_fitness";
+        return url;
     }
 
     public String getHibernateUsername() {
-        return "root";
+        return username;
     }
 
     public String getHibernatePassword() {
-        return "";
+        return password;
     }
+
+    // protected methods
+    // ````````````````````````````````````````````````````````````````````````
+
+    @PostConstruct
+    protected void init() {
+        Assert.assertStringIsInitialized(url);
+        Assert.assertStringIsInitialized(dialect);
+        Assert.assertStringIsInitialized(username);
+        Assert.assertStringIsInitialized(password);
+        Assert.assertStringIsInitialized(showSql);
+        Assert.assertStringIsInitialized(formatSql);
+    }
+
 }
 

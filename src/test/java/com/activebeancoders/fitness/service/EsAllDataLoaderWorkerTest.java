@@ -21,11 +21,11 @@ public class EsAllDataLoaderWorkerTest extends BaseTest {
     /**
      * Run this to erase everything in your local index, then rebuild it with random data.
      */
-    @Ignore
+//    @Ignore
     @Test
     public void indexRandomData() throws Exception {
         activityIndexManager.rebuildIndex();
-        dataLoaderWorker.loadRandomRecords(1000L).get();
+        dataLoaderWorker.loadRandomRecords(10L).get();
     }
 
 }

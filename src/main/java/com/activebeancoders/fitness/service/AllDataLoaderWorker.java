@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.service;
 
-import com.activebeancoders.fitness.dto.IActivityDto;
+import com.activebeancoders.fitness.dto.ActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.google.common.collect.ImmutableMap;
 import net.pladform.random.IdAwareObjectGenerator;
@@ -22,7 +22,7 @@ public class AllDataLoaderWorker implements DataLoaderWorker {
     private Map<String, DataLoader> dataLoaderMap;
 
     @Autowired
-    private IActivityDto activityDto;
+    private ActivityDto activityDto;
 
     private String lastKnownStatus = "Inactive.";
 

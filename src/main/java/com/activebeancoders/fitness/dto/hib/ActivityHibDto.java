@@ -81,15 +81,5 @@ public class ActivityHibDto implements IActivityDto {
         }
     }
 
-    @Override
-    public String getPrimaryActivityDtoName() {
-        return "hib";
-    }
-
-    @Override
-    public void setPrimaryActivityDtoName(String primaryActivityDtoName) {
-        throw new UnsupportedOperationException();
-    }
-
 }
 

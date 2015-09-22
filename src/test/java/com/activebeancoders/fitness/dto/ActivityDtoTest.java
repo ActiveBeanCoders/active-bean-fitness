@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.dto;
 
 import com.activebeancoders.BaseTest;
-import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +15,7 @@ public class ActivityDtoTest extends BaseTest {
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    public IActivityDto activityDto;
+    public ActivityDto activityDto;
 
     @Test
     public void save() throws Exception {

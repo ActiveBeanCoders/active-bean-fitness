@@ -12,7 +12,7 @@ public class IdGenerator {
     private AtomicLong nextId;
 
     @Autowired
-    private IActivityDto activityDto;
+    private ActivityDto activityDto;
 
     // public methods
     // ````````````````````````````````````````````````````````````````````````
@@ -29,7 +29,7 @@ public class IdGenerator {
 
     @PostConstruct
     protected void init() {
-        Long maxId = activityDto.findMaxId();
+        Long maxId = activityDto.findMaxId(); // TODO: ignore failures as long as 1 succeeds?
         nextId = new AtomicLong(maxId + 1);
     }
 
