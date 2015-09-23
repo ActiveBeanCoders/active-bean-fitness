@@ -1,5 +1,6 @@
-package com.activebeancoders.fitness.entity;
+package com.activebeancoders.entity;
 
+import com.activebeancoders.fitness.entity.Activity;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

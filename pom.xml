@@ -216,8 +216,7 @@
                 <version>2.12.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/ActivityDtoTest.java</exclude>
-                        <exclude>**/EsIndexerTest.java</exclude>
+                        <exclude>**/java_integration/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

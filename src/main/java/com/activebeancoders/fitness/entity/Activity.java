@@ -160,7 +160,7 @@ public class Activity implements IdAware<Long> {
     // The following method provides a means to create a FULLTEXT index on a single column
     // which is a concatenation of all columns (with certain restrictions).
     @Column(name = "alltext", length = 4000)
-    protected String getAllText() {
+    public String getAllText() {
         StringBuilder fullText = new StringBuilder();
         if (activity != null) {
             fullText.append(activity);
