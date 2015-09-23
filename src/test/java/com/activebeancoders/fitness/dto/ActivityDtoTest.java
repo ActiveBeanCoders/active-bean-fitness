@@ -22,9 +22,9 @@ public class ActivityDtoTest extends BaseTest {
     public void save() throws Exception {
         Activity activity = new Activity();
         // do not set id
-        activity.setUserId(1L);
+        activity.setActivity("Running");
         activity.setComment("hello 1 12 123 1234");
-        activity.setDate(new Date());
+//        activity.setDate(new Date());
         boolean success = activityDto.save(activity);
         Assert.assertTrue(success);
     }

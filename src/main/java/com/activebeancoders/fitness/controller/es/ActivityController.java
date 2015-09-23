@@ -7,6 +7,7 @@ import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class ActivityController {
     }
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.OK)
     public void addActivity(@RequestBody Activity activity) {
         activityDto.save(activity);
     }
