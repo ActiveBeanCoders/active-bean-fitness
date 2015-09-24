@@ -8,4 +8,7 @@ workspace.xml
 *.iml
 data
 .name
+.classpath
+.project
+.settings
 
