@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.activebeancoders.fitness</groupId>
+        <artifactId>fitness-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>resource-service</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Fitness Resource Service</name>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+        <!-- A.B.C. dependencies -->
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>resource-api</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>elasticsearch-api</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>hibernate-api</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
+
+        <!-- Spring -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.session</groupId> <artifactId>spring-session</artifactId> <version>${spring-session.version}</version> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-redis</artifactId> </dependency>
+
+        <!-- Elasticsearch -->
+        <dependency> <groupId>net.pladform</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+
+        <!-- Logging -->
+        <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> <version>1.7.12</version> </dependency>
+
+        <!-- Hibernate -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> </dependency>
+        <dependency> <groupId>org.hsqldb</groupId> <artifactId>hsqldb</artifactId> <scope>runtime</scope> </dependency>
+        <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>5.1.36</version> </dependency>
+
+        <!-- for @GuardedBy -->
+        <dependency> <groupId>com.google.code.findbugs</groupId> <artifactId>jsr305</artifactId> <version>2.0.1</version> </dependency>
+
+        <!-- Test -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
+
+        <!-- misc. -->
+        <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> <version>0.9.1.2</version> </dependency>
+        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency>
+        <dependency> <groupId>net.pladform</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
+
+    </dependencies>
+
+</project>
