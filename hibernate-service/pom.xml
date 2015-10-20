@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.activebeancoders.fitness</groupId>
+        <artifactId>fitness-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>hibernate-service</artifactId>
+    <version>0.8.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Active Bean Fitness - Hibernate Service Module</name>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+
+        <!-- A.B.C. dependencies -->
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>resource-api</artifactId> <version>${resource-api.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>hibernate-api</artifactId> <version>${hibernate-api.version}</version> </dependency>
+
+        <!-- Spring -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
+
+        <!-- Hibernate -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> </dependency>
+        <dependency> <groupId>org.hsqldb</groupId> <artifactId>hsqldb</artifactId> <scope>runtime</scope> </dependency>
+        <dependency> <groupId>mysql</groupId> <artifactId>mysql-connector-java</artifactId> <version>5.1.36</version> </dependency>
+        <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> <version>0.9.1.2</version> </dependency>
+
+        <!-- Logging -->
+        <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> </dependency>
+
+        <!-- for @GuardedBy -->
+        <dependency> <groupId>com.google.code.findbugs</groupId> <artifactId>jsr305</artifactId> <version>2.0.1</version> </dependency>
+
+        <!-- Test -->
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
+
+        <!-- misc. -->
+        <dependency> <groupId>net.pladform</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>${guava.version}</version> </dependency>
+        <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.1</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/java_integration/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>${project.build.directory}/generated-resources</directory>
+            </resource>
+        </resources>
+
+    </build>
+
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.spring.io/libs-snapshot-local</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/libs-milestone-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-releases</id>
+            <name>Spring Releases</name>
+            <url>http://repo.spring.io/libs-release-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
