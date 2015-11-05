@@ -1,5 +1,8 @@
 package com.activebeancoders.fitness.service;
 
+/**
+ * @author Dan Barrese
+ */
 public interface DataLoader {
 
     /**

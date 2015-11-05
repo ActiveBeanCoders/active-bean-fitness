@@ -6,6 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration

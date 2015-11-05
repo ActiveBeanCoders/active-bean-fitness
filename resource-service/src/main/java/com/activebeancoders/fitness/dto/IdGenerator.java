@@ -6,6 +6,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.concurrent.GuardedBy;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * Responsible for generating IDs taking into account multiple data sources.
+ *
+ * @author Dan Barrese
+ */
 public class IdGenerator {
 
     @GuardedBy("idGeneratorLock")

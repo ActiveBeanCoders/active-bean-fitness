@@ -15,6 +15,9 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+/**
+ * @author Dan Barrese
+ */
 public class AllDataLoaderWorker implements DataLoaderWorker {
 
     private static final Logger log = LoggerFactory.getLogger(AllDataLoaderWorker.class);

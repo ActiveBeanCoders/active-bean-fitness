@@ -6,6 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+/**
+ * @author Dan Barrese
+ */
 public class AuthenticatedUserService extends AuthenticationWithToken {
 
     private UserServiceImpl userService;

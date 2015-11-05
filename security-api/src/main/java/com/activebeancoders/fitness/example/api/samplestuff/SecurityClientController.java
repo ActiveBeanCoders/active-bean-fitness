@@ -1,5 +1,8 @@
 package com.activebeancoders.fitness.example.api.samplestuff;
 
+/**
+ * @author Dan Barrese
+ */
 public abstract class SecurityClientController {
 
     protected static final String API_PATH = "/api/v1";

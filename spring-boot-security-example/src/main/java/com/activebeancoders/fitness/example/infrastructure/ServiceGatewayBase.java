@@ -1,6 +1,10 @@
 package com.activebeancoders.fitness.example.infrastructure;
 
+/**
+ * @author Dan Barrese
+ */
 public abstract class ServiceGatewayBase {
+
     private AuthenticatedExternalServiceProvider authenticatedExternalServiceProvider;
 
     public ServiceGatewayBase(AuthenticatedExternalServiceProvider authenticatedExternalServiceProvider) {
@@ -10,4 +14,6 @@ public abstract class ServiceGatewayBase {
     protected ExampleServiceImpl externalService() {
         return authenticatedExternalServiceProvider.provide().getExampleService();
     }
+
 }
+

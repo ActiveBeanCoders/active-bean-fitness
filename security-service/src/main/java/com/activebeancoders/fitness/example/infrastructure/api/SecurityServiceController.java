@@ -2,6 +2,9 @@ package com.activebeancoders.fitness.example.infrastructure.api;
 
 import com.activebeancoders.fitness.example.api.samplestuff.SecurityClientController;
 
+/**
+ * @author Dan Barrese
+ */
 public abstract class SecurityServiceController extends SecurityClientController {
 
     public static final String STUFF_URL = API_PATH + "/stuff";

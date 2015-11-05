@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 public class SecurityServiceRemotingConfig {
 

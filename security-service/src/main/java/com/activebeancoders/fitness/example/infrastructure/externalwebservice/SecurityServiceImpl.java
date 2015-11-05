@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public class SecurityServiceImpl implements SecurityService {
 
     @Autowired

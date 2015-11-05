@@ -6,6 +6,8 @@ import java.util.Map;
 
 /**
  * Represents search criteria.
+ *
+ * @author Dan Barrese
  */
 public class ActivitySearchCriteria implements Serializable {
 

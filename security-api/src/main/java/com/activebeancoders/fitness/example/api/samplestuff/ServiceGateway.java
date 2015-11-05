@@ -5,6 +5,9 @@ import com.activebeancoders.fitness.domain.Stuff;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public interface ServiceGateway {
 
     List<Stuff> getSomeStuff();

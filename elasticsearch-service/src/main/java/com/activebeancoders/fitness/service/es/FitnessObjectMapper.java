@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Jackson object mapper settings for this project.
+ *
+ * @author Dan Barrese
+ */
 @Component
 @Scope("singleton")
 public class FitnessObjectMapper extends EsObjectMapper {

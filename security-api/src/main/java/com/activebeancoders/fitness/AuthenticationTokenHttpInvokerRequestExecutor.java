@@ -9,6 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * Responsible for including the currently-logged-in user's authentication token in all remote service calls.
+ *
+ * @author Dan Barrese
+ */
 @Component
 public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponentsHttpInvokerRequestExecutor {
 

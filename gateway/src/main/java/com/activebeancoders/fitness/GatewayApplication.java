@@ -34,6 +34,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration

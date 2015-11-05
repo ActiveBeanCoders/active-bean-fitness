@@ -22,6 +22,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @EnableWebMvcSecurity
 @EnableScheduling

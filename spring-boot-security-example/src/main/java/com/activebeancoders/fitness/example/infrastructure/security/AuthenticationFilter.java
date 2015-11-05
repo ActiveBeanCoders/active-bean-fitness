@@ -1,28 +1,20 @@
 package com.activebeancoders.fitness.example.infrastructure.security;
 
-import com.activebeancoders.fitness.config.SecurityClientConfig;
 import com.activebeancoders.fitness.example.api.samplestuff.SecurityService;
-import com.activebeancoders.fitness.util.Assert;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -31,12 +23,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author Dan Barrese
+ */
 public class AuthenticationFilter extends GenericFilterBean {
 
     private final static Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
     public static final String TOKEN_SESSION_KEY = "token";
     public static final String USER_SESSION_KEY = "user";
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager; // TODO: remove
     private SecurityService securityService;
 
     public AuthenticationFilter(AuthenticationManager authenticationManager, SecurityService securityService) {
@@ -65,7 +60,8 @@ public class AuthenticationFilter extends GenericFilterBean {
             Authentication existingAuthentication = securityService.getAuthenticationByToken(token.get());
             if (!existingAuthentication.isAuthenticated()) {
                 throw new InternalAuthenticationServiceException("Invalid token.");
-            } else {
+            }
+            else {
                 System.out.println("The token is valid!!!!!!!!!!!! yay!  Telling this app you are authenticated!");
                 SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
             }
@@ -112,62 +108,6 @@ public class AuthenticationFilter extends GenericFilterBean {
     private HttpServletResponse asHttp(ServletResponse response) {
         return (HttpServletResponse) response;
     }
-
-        private void processTokenAuthentication(Optional<String> token) {
-            System.out.println(
-                    String.format("%s -> processTokenAuthentication with token=%s", getClass().getSimpleName(), token));
-            Authentication resultOfAuthentication = tryToAuthenticateWithToken(token);
-            SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
-        }
-
-        private Authentication tryToAuthenticateWithToken(Optional<String> token) {
-            System.out.println(
-                    String.format("%s -> tryToAuthenticateWithToken with token=%s", getClass().getSimpleName(), token));
-            PreAuthenticatedAuthenticationToken requestAuthentication = new PreAuthenticatedAuthenticationToken(token,
-                    null);
-            return tryToAuthenticate(requestAuthentication);
-        }
-
-        private Authentication tryToAuthenticate(Authentication requestAuthentication) {
-            Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
-            if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
-                throw new InternalAuthenticationServiceException(
-                        "Unable to authenticate Domain User for provided credentials");
-            }
-            log.debug("User successfully authenticated");
-            return responseAuthentication;
-        }
-
-    //    private void verifyTokenWithSecurityService(String token) {
-    //        HttpsURLConnection connection = null;
-    //        try {
-    //            URL url = new URL("https://localhost:9999/api/v1/token/verify");
-    //            connection = (HttpsURLConnection) url.openConnection();
-    //            connection.setRequestMethod("POST");
-    //            connection.setRequestProperty("X-Auth-Token", token);
-    //            connection.setUseCaches(false);
-    //            connection.setDoInput(true);
-    //            connection.setDoOutput(true);
-    //            connection.getInputStream().close();
-    //            connection.connect();
-    //
-    //            int responseCode = connection.getResponseCode();
-    //            switch (responseCode) {
-    //                case HttpsURLConnection.HTTP_OK:
-    //                    break;
-    //                default:
-    //                    throw new InternalAuthenticationServiceException("Invalid token.");
-    //            }
-    //        }
-    //        catch (IOException e) {
-    //            throw new InternalAuthenticationServiceException("Connecting to Security Service failed.");
-    //        }
-    //        finally {
-    //            if (connection != null) {
-    //                connection.disconnect();
-    //            }
-    //        }
-    //    }
 
 }
 

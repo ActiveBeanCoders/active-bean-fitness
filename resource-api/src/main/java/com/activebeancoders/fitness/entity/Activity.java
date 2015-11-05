@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author Dan Barrese
+ */
 // TODO: externalize annotations somehow?  Or maybe we don't care.
 @NamedQueries({
         @NamedQuery(

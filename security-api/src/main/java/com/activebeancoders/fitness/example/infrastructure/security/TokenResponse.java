@@ -2,6 +2,9 @@ package com.activebeancoders.fitness.example.infrastructure.security;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Dan Barrese
+ */
 public class TokenResponse {
 
     @JsonProperty

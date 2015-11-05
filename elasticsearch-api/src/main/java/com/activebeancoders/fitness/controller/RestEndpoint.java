@@ -1,5 +1,8 @@
 package com.activebeancoders.fitness.controller;
 
+/**
+ * @author Dan Barrese
+ */
 public class RestEndpoint {
 
     public static final String ACTIVITY_BY_ID = "/activity/{id}";

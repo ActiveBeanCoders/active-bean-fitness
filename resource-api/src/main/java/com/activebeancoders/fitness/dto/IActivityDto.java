@@ -5,6 +5,9 @@ import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public interface IActivityDto {
 
     public Activity get(Object id);

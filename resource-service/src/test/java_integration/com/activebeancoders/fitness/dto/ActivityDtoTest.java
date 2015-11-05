@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public class ActivityDtoTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());

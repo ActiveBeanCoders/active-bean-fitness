@@ -7,6 +7,11 @@ import net.pladform.elasticsearch.entity.util.RootEsJsonView;
 
 import java.util.Date;
 
+/**
+ * Annotations for Jackson to convert this object to/from JSON.
+ *
+ * @author Dan Barrese
+ */
 public abstract class ActivityMixin extends Activity {
 
     public static final String _id = "id";

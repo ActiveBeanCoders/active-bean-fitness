@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Lazy;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public class ActivityDto extends RotatableDto<IActivityDto> implements IActivityDto {
 
     private static final Logger log = LoggerFactory.getLogger(ActivityDto.class);

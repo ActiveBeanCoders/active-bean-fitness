@@ -2,6 +2,9 @@ package com.activebeancoders.fitness.example.infrastructure.externalwebservice;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Dan Barrese
+ */
 @Component
 public class UserServiceImpl {
 

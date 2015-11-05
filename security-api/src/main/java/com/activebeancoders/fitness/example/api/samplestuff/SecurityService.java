@@ -4,6 +4,9 @@ import com.activebeancoders.fitness.example.infrastructure.security.Authenticati
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 
+/**
+ * @author Dan Barrese
+ */
 public interface SecurityService {
 
     AuthenticationWithToken authenticate(String username, String password);

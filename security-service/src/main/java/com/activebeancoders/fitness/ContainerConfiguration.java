@@ -10,6 +10,11 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 
+/**
+ * Responsible for setting up HTTPS in Tomcat.
+ *
+ * @author Dan Barrese
+ */
 //@Configuration
 public class ContainerConfiguration {
 

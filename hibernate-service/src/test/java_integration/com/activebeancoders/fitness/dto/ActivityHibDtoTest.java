@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public class ActivityHibDtoTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());

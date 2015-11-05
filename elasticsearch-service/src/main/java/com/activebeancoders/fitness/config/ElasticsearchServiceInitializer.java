@@ -9,6 +9,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+/**
+ * Equivalent of web.xml.
+ *
+ * @author Dan Barrese
+ */
 public class ElasticsearchServiceInitializer implements ServletContextInitializer {
 
     @Override

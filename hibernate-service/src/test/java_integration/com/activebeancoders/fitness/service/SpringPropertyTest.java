@@ -7,6 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * @author Dan Barrese
+ */
 public class SpringPropertyTest extends BaseTest{
 
     private Logger log = LoggerFactory.getLogger(getClass());

@@ -1,5 +1,8 @@
 package com.activebeancoders.fitness.domain;
 
+/**
+ * @author Dan Barrese
+ */
 public class Stuff {
 
     private String description;

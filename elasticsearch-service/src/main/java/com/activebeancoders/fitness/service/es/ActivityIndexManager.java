@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Dan Barrese
+ */
 @Component
 public class ActivityIndexManager extends AbstractIndexManager {
 

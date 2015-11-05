@@ -10,6 +10,9 @@ import org.springframework.security.core.Authentication;
 
 import java.util.UUID;
 
+/**
+ * @author Dan Barrese
+ */
 public class TokenService {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenService.class);

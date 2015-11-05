@@ -3,6 +3,9 @@ package com.activebeancoders.fitness.util;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * @author Dan Barrese
+ */
 public class Assert {
 
     public static void assertTrue(boolean condition, String msg) {

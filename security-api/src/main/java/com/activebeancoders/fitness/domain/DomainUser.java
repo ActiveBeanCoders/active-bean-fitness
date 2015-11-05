@@ -2,6 +2,9 @@ package com.activebeancoders.fitness.domain;
 
 import java.io.Serializable;
 
+/**
+ * @author Dan Barrese
+ */
 public class DomainUser implements Serializable {
 
     private static final long serialVersionUID = 1L;

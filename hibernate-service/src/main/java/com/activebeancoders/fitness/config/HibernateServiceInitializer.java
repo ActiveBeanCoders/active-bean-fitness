@@ -9,6 +9,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+/**
+ * @author Dan Barrese
+ */
 public class HibernateServiceInitializer implements ServletContextInitializer {
 
     @Override

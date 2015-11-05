@@ -15,6 +15,11 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Responsible for moving Activity data in/out of Hibernate.
+ *
+ * @author Dan Barrese
+ */
 @Repository
 @Primary
 public class ActivityHibDto implements IActivityDto {

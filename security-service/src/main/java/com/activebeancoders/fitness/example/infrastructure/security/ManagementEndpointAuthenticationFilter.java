@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Dan Barrese
+ */
 public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     private final static Logger logger = LoggerFactory.getLogger(ManagementEndpointAuthenticationFilter.class);

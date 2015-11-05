@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 @RestController
 public class ActivityController {
 

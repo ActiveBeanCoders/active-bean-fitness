@@ -9,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
 
+/**
+ * @author Dan Barrese
+ */
 public class BackendAdminUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
     public static final String INVALID_BACKEND_ADMIN_CREDENTIALS = "Invalid Backend Admin Credentials";

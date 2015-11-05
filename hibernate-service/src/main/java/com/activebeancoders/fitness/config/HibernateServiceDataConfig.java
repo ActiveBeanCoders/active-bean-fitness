@@ -17,6 +17,9 @@ import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @EnableTransactionManagement
 public class HibernateServiceDataConfig {

@@ -8,6 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+/**
+ * @author Dan Barrese
+ */
 public class DomainUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
     private TokenService tokenService;

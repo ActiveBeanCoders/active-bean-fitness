@@ -14,44 +14,47 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * @author Dan Barrese
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = UiAngularApplication.class)
 @WebAppConfiguration
 @IntegrationTest({"server.port:0", "security.user.password:foo"})
 public class UiAngularApplicationTest {
 
-	@Value("${local.server.port}")
-	private int port;
+    @Value("${local.server.port}")
+    private int port;
 
-	private RestTemplate template = new TestRestTemplate();
+    private RestTemplate template = new TestRestTemplate();
 
-	@Test
-	public void homePageLoads() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/", String.class);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
+    @Test
+    public void homePageLoads() {
+        ResponseEntity<String> response = template.getForEntity("http://localhost:"
+                + port + "/", String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
-	@Test
-	public void userEndpointProtected() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/user", String.class);
-		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-	}
+    @Test
+    public void userEndpointProtected() {
+        ResponseEntity<String> response = template.getForEntity("http://localhost:"
+                + port + "/user", String.class);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
 
-	@Test
-	public void resourceEndpointProtected() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/resource", String.class);
-		assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-	}
+    @Test
+    public void resourceEndpointProtected() {
+        ResponseEntity<String> response = template.getForEntity("http://localhost:"
+                + port + "/resource", String.class);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+    }
 
-	@Test
-	public void loginSucceeds() {
-		RestTemplate template = new TestRestTemplate("user", "foo");
-		ResponseEntity<String> response = template.getForEntity("http://localhost:" + port
-				+ "/user", String.class);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
+    @Test
+    public void loginSucceeds() {
+        RestTemplate template = new TestRestTemplate("user", "foo");
+        ResponseEntity<String> response = template.getForEntity("http://localhost:" + port
+                + "/user", String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
 }

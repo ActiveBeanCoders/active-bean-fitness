@@ -8,6 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
 public class ElasticsearchServiceConfig {

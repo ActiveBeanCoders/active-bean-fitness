@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 public abstract class RotatableDto<T> {
 
     protected int primaryDtoIndex;

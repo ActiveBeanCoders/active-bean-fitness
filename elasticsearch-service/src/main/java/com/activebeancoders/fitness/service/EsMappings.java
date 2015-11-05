@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Responsible for defining the object mappings for the index.
+ *
+ * @author Dan Barrese
  */
 @Component
 public class EsMappings {

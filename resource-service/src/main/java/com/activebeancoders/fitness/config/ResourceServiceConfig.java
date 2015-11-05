@@ -16,6 +16,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Dan Barrese
+ */
 @Configuration
 @PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
 public class ResourceServiceConfig {

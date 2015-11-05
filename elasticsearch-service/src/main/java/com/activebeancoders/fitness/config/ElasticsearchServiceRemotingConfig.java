@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
+/**
+ * Defines beans which can be accessed from other services.
+ *
+ * @author Dan Barrese
+ */
 @Configuration
 public class ElasticsearchServiceRemotingConfig {
 

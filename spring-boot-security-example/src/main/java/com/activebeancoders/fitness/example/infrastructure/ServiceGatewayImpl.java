@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * @author Dan Barrese
+ */
 @Component
 public class ServiceGatewayImpl extends ServiceGatewayBase implements ServiceGateway {
 

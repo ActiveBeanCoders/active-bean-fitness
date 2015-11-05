@@ -17,6 +17,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * Moves Activity objects in/out of Elasticsearch.
+ *
+ * @author Dan Barrese
+ */
 @Component
 @Primary
 public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityDto {
@@ -43,12 +48,8 @@ public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityD
 
     @Override
     public List<Activity> findMostRecentActivities(int size) {
-        SearchResponse response = esClient.prepareSearch(getIndexName())
-                .setTypes(getIndexType())
-                .setFrom(0).setSize(size).setExplain(true)
-                .addSort(ActivityMixin._date, SortOrder.DESC)
-                .execute()
-                .actionGet();
+        SearchResponse response = esClient.prepareSearch(getIndexName()).setTypes(getIndexType()).setFrom(0)
+                .setSize(size).setExplain(true).addSort(ActivityMixin._date, SortOrder.DESC).execute().actionGet();
         return convertSearchResponse(response);
     }
 
@@ -78,7 +79,8 @@ public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityD
         List<Activity> results = convertSearchResponse(response);
         if (results == null || results.isEmpty()) {
             return 0L;
-        } else {
+        }
+        else {
             return results.get(0).getId();
         }
     }

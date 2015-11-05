@@ -2,6 +2,9 @@ package com.activebeancoders.fitness.example.infrastructure;
 
 import com.activebeancoders.fitness.example.infrastructure.externalwebservice.UserServiceImpl;
 
+/**
+ * @author Dan Barrese
+ */
 public abstract class ServiceGatewayBase {
 
     private AuthenticatedUserServiceProvider authenticatedUserServiceProvider;
