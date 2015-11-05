@@ -24,3 +24,7 @@ cd hibernate-api || die
 mvn clean install || die
 cd ..
 
+cd security-api || die
+mvn clean install || die
+cd ..
+
