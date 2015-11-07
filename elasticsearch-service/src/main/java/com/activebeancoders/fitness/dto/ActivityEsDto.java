@@ -79,8 +79,7 @@ public class ActivityEsDto extends AbstractEsDto<Activity> implements IActivityD
         List<Activity> results = convertSearchResponse(response);
         if (results == null || results.isEmpty()) {
             return 0L;
-        }
-        else {
+        } else {
             return results.get(0).getId();
         }
     }

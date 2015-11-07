@@ -14,7 +14,7 @@ public class AuthenticatedUserService extends AuthenticationWithToken {
     private UserServiceImpl userService;
 
     public AuthenticatedUserService(Object aPrincipal, Object aCredentials,
-            Collection<? extends GrantedAuthority> anAuthorities) {
+                                    Collection<? extends GrantedAuthority> anAuthorities) {
         super(aPrincipal, aCredentials, anAuthorities);
     }
 

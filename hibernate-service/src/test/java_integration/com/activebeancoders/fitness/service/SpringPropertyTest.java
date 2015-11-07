@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 /**
  * @author Dan Barrese
  */
-public class SpringPropertyTest extends BaseTest{
+public class SpringPropertyTest extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

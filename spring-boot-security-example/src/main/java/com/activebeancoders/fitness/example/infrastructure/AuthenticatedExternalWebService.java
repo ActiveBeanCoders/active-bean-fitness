@@ -13,7 +13,7 @@ public class AuthenticatedExternalWebService extends AuthenticationWithToken {
     private ExampleServiceImpl exampleService;
 
     public AuthenticatedExternalWebService(Object aPrincipal, Object aCredentials,
-            Collection<? extends GrantedAuthority> anAuthorities) {
+                                           Collection<? extends GrantedAuthority> anAuthorities) {
         super(aPrincipal, aCredentials, anAuthorities);
     }
 

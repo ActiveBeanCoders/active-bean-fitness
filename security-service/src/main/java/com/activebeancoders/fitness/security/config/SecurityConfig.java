@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness.config;
+package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.example.api.samplestuff.SecurityService;
 import com.activebeancoders.fitness.example.infrastructure.api.SecurityServiceController;
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
 //                anonymous().authenticationFilter(anonymousAuthenticationFilter());
-                exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
+        exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
         http.addFilterBefore(new AuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class).
                 addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager()),
@@ -60,10 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String[] actuatorEndpoints() {
-        return new String[] { SecurityServiceController.AUTOCONFIG_ENDPOINT, SecurityServiceController.BEANS_ENDPOINT,
+        return new String[]{SecurityServiceController.AUTOCONFIG_ENDPOINT, SecurityServiceController.BEANS_ENDPOINT,
                 SecurityServiceController.CONFIGPROPS_ENDPOINT, SecurityServiceController.ENV_ENDPOINT,
                 SecurityServiceController.MAPPINGS_ENDPOINT, SecurityServiceController.METRICS_ENDPOINT,
-                SecurityServiceController.SHUTDOWN_ENDPOINT };
+                SecurityServiceController.SHUTDOWN_ENDPOINT};
     }
 
     @Override

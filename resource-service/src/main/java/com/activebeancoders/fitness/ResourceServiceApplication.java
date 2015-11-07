@@ -44,10 +44,10 @@ public class ResourceServiceApplication {
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-        // We need this to prevent the browser from popping up a dialog on a 401
+    // We need this to prevent the browser from popping up a dialog on a 401
 //        http.httpBasic().disable();
 
-        // Allow "USER" role to change data.
+    // Allow "USER" role to change data.
 //        http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasRole("USER").anyRequest().authenticated();
 //    }
 

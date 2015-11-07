@@ -3,7 +3,13 @@
 
     <div ng-controller="MainCtrl" ng-cloak class="ng-cloak">
         <p>
+            stuff='{{stuff}}'
+        </p>
+
+        <p>
+
         <h3>Most recent activities...</h3>
+
         <div ng-repeat="recentActivity in recentActivities">
             <ul>
                 <li>date: {{recentActivity.date}}</li>

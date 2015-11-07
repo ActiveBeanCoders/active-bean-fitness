@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/menu.css" rel="stylesheet" >
+    <link href="css/menu.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
 
     <title>Active Bean Fitness App</title>
@@ -46,7 +46,7 @@
     <nav>
         <div id='cssmenu'>
             <ul>
-                <li class='active' ng-click="initHomePage()"><a><span>Home</span></a> </li>
+                <li class='active' ng-click="initHomePage()"><a><span>Home</span></a></li>
                 <li class='has-sub'><a><span>Fitness Log</span></a>
                     <ul>
                         <li ng-click="initActivityPage()"><a><span>Add Activity</span></a></li>
@@ -72,41 +72,41 @@
     </nav>
     <br>
 
-    <div  id="homeNav"
-          ng-include="'partials/home-page.html'"
-          ng-hide="homePage != activePage">
+    <div id="homeNav"
+         ng-include="'partials/home-page.html'"
+         ng-hide="homePage != activePage">
     </div>
-    <div  id="activityNav"
-          ng-include="'partials/activity-page.html'"
-          ng-hide="activityPage != activePage">
+    <div id="activityNav"
+         ng-include="'partials/activity-page.html'"
+         ng-hide="activityPage != activePage">
     </div>
-    <div  id="viewLogNav"
-          ng-include="'partials/view-log-page.html'"
-          ng-hide="logPage != activePage">
+    <div id="viewLogNav"
+         ng-include="'partials/view-log-page.html'"
+         ng-hide="logPage != activePage">
     </div>
-    <div  id="workoutsNav"
-          ng-include="'partials/workouts-page.html'"
-          ng-hide="workoutsPage != activePage">
+    <div id="workoutsNav"
+         ng-include="'partials/workouts-page.html'"
+         ng-hide="workoutsPage != activePage">
     </div>
-    <div  id="equipmentNav"
-          ng-include="'partials/equipment-page.html'"
-          ng-hide="equipmentPage != activePage">
+    <div id="equipmentNav"
+         ng-include="'partials/equipment-page.html'"
+         ng-hide="equipmentPage != activePage">
     </div>
-    <div  id="coursesNav"
-          ng-include="'partials/courses-page.html'"
-          ng-hide="coursesPage != activePage">
+    <div id="coursesNav"
+         ng-include="'partials/courses-page.html'"
+         ng-hide="coursesPage != activePage">
     </div>
-    <div  id="progressNav"
-          ng-include="'partials/progress-page.html'"
-          ng-hide="progressPage != activePage">
+    <div id="progressNav"
+         ng-include="'partials/progress-page.html'"
+         ng-hide="progressPage != activePage">
     </div>
-    <div  id="loginNav"
-          ng-include="'partials/login-page.html'"
-          ng-hide="loginPage != activePage">
+    <div id="loginNav"
+         ng-include="'partials/login-page.html'"
+         ng-hide="loginPage != activePage">
     </div>
-    <div  id="viewOthersNav"
-          ng-include="'partials/view-others-page.html'"
-          ng-hide="viewOthersPage != activePage">
+    <div id="viewOthersNav"
+         ng-include="'partials/view-others-page.html'"
+         ng-hide="viewOthersPage != activePage">
     </div>
 
     <footer>

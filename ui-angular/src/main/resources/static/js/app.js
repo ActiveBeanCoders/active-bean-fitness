@@ -94,6 +94,10 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
         $scope.recentActivities = data;
     });
 
+    $http.get('/examplehttps/stuff').success(function(data) {
+        $scope.stuff = data;
+    });
+
 	console.log('Loading')
 	$http.get('user').success(function(data) {
 		if (data.name) {

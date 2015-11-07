@@ -24,12 +24,18 @@ import java.util.List;
 @EnableTransactionManagement
 public class HibernateServiceDataConfig {
 
-    @Value("${hibernate.url}") private String url;
-    @Value("${hibernate.dialect}") private String dialect;
-    @Value("${hibernate.username}") private String username;
-    @Value("${hibernate.password}") private String password;
-    @Value("${hibernate.show_sql}") private String showSql;
-    @Value("${hibernate.format_sql}") private String formatSql;
+    @Value("${hibernate.url}")
+    private String url;
+    @Value("${hibernate.dialect}")
+    private String dialect;
+    @Value("${hibernate.username}")
+    private String username;
+    @Value("${hibernate.password}")
+    private String password;
+    @Value("${hibernate.show_sql}")
+    private String showSql;
+    @Value("${hibernate.format_sql}")
+    private String formatSql;
 
     @Bean
     public HibernateTransactionManager transactionManager() {

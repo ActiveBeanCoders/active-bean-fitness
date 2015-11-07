@@ -56,8 +56,7 @@ public class SecurityServiceImpl implements SecurityService {
             Authentication authentication = processTokenAuthentication(token);
             System.out.println(String.format("token %s authentication=%s", tokenString, authentication));
             return authentication;
-        }
-        catch (InternalAuthenticationServiceException e) {
+        } catch (InternalAuthenticationServiceException e) {
             System.out.println(String.format("token '%s' is invalid, returning null", tokenString));
             return null; // TODO: return authentication object that indicates NO authentication.
         }

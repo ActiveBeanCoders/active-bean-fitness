@@ -60,8 +60,7 @@ public class AuthenticationFilter extends GenericFilterBean {
             Authentication existingAuthentication = securityService.getAuthenticationByToken(token.get());
             if (!existingAuthentication.isAuthenticated()) {
                 throw new InternalAuthenticationServiceException("Invalid token.");
-            }
-            else {
+            } else {
                 System.out.println("The token is valid!!!!!!!!!!!! yay!  Telling this app you are authenticated!");
                 SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
             }
@@ -69,17 +68,14 @@ public class AuthenticationFilter extends GenericFilterBean {
             log.debug("AuthenticationFilter is passing request down the filter chain");
             addSessionContextToLogging();
             chain.doFilter(request, response);
-        }
-        catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
+        } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             SecurityContextHolder.clearContext();
             log.error("Internal authentication service exception", internalAuthenticationServiceException);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-        catch (AuthenticationException authenticationException) {
+        } catch (AuthenticationException authenticationException) {
             SecurityContextHolder.clearContext();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
-        }
-        finally {
+        } finally {
             MDC.remove(TOKEN_SESSION_KEY);
             MDC.remove(USER_SESSION_KEY);
         }

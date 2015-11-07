@@ -40,7 +40,7 @@ public class ExampleSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("aaaaaa "+securityService);
+        System.out.println("aaaaaa " + securityService);
         http.
                 csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).

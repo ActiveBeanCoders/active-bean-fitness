@@ -23,16 +23,16 @@ import org.springframework.web.client.RestTemplate;
 @IntegrationTest("server.port:0")
 public class GatewayApplicationTest {
 
-	@Value("${local.server.port}")
-	private int port;
+    @Value("${local.server.port}")
+    private int port;
 
-	private RestTemplate template = new TestRestTemplate();
+    private RestTemplate template = new TestRestTemplate();
 
-	@Test
-	public void homePageLoads() {
-		ResponseEntity<String> response = template.getForEntity("http://localhost:"
-				+ port + "/", String.class);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
+    @Test
+    public void homePageLoads() {
+        ResponseEntity<String> response = template.getForEntity("http://localhost:"
+                + port + "/", String.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
 }
