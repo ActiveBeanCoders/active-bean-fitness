@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness.security.infrastructure.security;
+package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.api.SecurityService;
 import com.google.common.base.Optional;
@@ -6,7 +6,6 @@ import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -24,55 +23,59 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * External services can use this filter to authenticate requests against the security service.
+ *
  * @author Dan Barrese
  */
-public class AuthenticationFilter extends GenericFilterBean {
+public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
-    private final static Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
     public static final String TOKEN_SESSION_KEY = "token";
     public static final String USER_SESSION_KEY = "user";
-    private AuthenticationManager authenticationManager; // TODO: remove
+
+    private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
+    private UrlPathHelper urlPathHelper;
     private SecurityService securityService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, SecurityService securityService) {
-        this.authenticationManager = authenticationManager;
+    public SecuredServiceAuthenticationFilter(SecurityService securityService) {
         this.securityService = securityService;
+        urlPathHelper = new UrlPathHelper();
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        System.out.println(String.format("%s -> doFilter", getClass().getSimpleName()));
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = asHttp(request);
         HttpServletResponse httpResponse = asHttp(response);
 
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
-        System.out.println(String.format("%s -> doFilter with token=%s", getClass().getSimpleName(), token));
+        String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
 
-        String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
-        System.out.println(String.format("%s -> getting resource path '%s'", getClass().getSimpleName(), resourcePath));
-
+        AuthenticationWithToken existingAuthentication = null;
         try {
-            if (!token.isPresent()) {
-                throw new InternalAuthenticationServiceException("ServletRequest is missing authentication token.");
+            if (token.isPresent()) {
+                existingAuthentication = securityService.getAuthenticationByToken(token.get());
+                if (!existingAuthentication.isAuthenticated()) {
+                    throw new InternalAuthenticationServiceException("Invalid token.");
+                } else {
+                    // This is done so that the authentication data may be forwarded to remote method calls if needed.
+                    logSuccessfulAccess(existingAuthentication, resourcePath);
+                    SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
+                }
             }
 
-            Authentication existingAuthentication = securityService.getAuthenticationByToken(token.get());
-            if (!existingAuthentication.isAuthenticated()) {
-                throw new InternalAuthenticationServiceException("Invalid token.");
-            } else {
-                System.out.println("The token is valid!!!!!!!!!!!! yay!  Telling this app you are authenticated!");
-                SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
+            if (log.isDebugEnabled()) {
+                log.debug("AuthenticationFilter is passing request down the filter chain");
             }
-
-            log.debug("AuthenticationFilter is passing request down the filter chain");
             addSessionContextToLogging();
+
+            // Continue processing.
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
+            logFailedAccess(existingAuthentication, resourcePath);
             SecurityContextHolder.clearContext();
             log.error("Internal authentication service exception", internalAuthenticationServiceException);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (AuthenticationException authenticationException) {
+            logFailedAccess(existingAuthentication, resourcePath);
             SecurityContextHolder.clearContext();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         } finally {
@@ -81,7 +84,23 @@ public class AuthenticationFilter extends GenericFilterBean {
         }
     }
 
-    private void addSessionContextToLogging() {
+    // protected methods
+    // ```````````````````````````````````````````````````````````````````````
+
+    protected void logFailedAccess(Authentication authentication, String resourcePath) {
+        if (log.isInfoEnabled()) {
+            String username = authentication == null ? "<unauthorized>" : authentication.getPrincipal().toString();
+            log.info("User '{}' --access-denied--> '{}'", username, resourcePath);
+        }
+    }
+
+    protected void logSuccessfulAccess(Authentication authentication, String resourcePath) {
+        if (log.isInfoEnabled()) {
+            log.info("User '{}' --access-granted--> '{}'", authentication.getPrincipal(), resourcePath);
+        }
+    }
+
+    protected void addSessionContextToLogging() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
@@ -97,11 +116,11 @@ public class AuthenticationFilter extends GenericFilterBean {
         MDC.put(USER_SESSION_KEY, userValue);
     }
 
-    private HttpServletRequest asHttp(ServletRequest request) {
+    protected HttpServletRequest asHttp(ServletRequest request) {
         return (HttpServletRequest) request;
     }
 
-    private HttpServletResponse asHttp(ServletResponse response) {
+    protected HttpServletResponse asHttp(ServletResponse response) {
         return (HttpServletResponse) response;
     }
 

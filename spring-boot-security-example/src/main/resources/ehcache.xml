@@ -8,7 +8,7 @@
          by default run every 30 minutes
      -->
     <cache name="restApiAuthTokenCache" eternal="false" maxElementsInMemory="0" overflowToDisk="false"
-           timeToLiveSeconds="300" memoryStoreEvictionPolicy="LRU">
+           timeToLiveSeconds="10" memoryStoreEvictionPolicy="LRU">
         <persistence strategy="none"/>
     </cache>
 </ehcache>

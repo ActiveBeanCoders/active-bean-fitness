@@ -15,9 +15,5 @@ zuul:
       url: http://localhost:9000
     example:
       url: http://localhost:8443
-    examplehttps:
-      url: https://localhost:8443
     security:
       url: http://localhost:9999
-    securityhttps:
-      url: https://localhost:9999

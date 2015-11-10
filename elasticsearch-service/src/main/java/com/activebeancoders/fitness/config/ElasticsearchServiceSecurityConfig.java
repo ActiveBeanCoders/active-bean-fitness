@@ -1,12 +1,13 @@
-package com.activebeancoders.fitness.security.config;
+package com.activebeancoders.fitness.config;
 
 import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,10 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebMvcSecurity
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ExampleSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Value("${backend.admin.role}")
-    private String backendAdminRole;
+@Import(SecurityClientConfig.class)
+public class ElasticsearchServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Qualifier("remoteSecurityService")
@@ -41,7 +40,7 @@ public class ExampleSecurityConfig extends WebSecurityConfigurerAdapter {
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 authorizeRequests().
-                antMatchers("/blah").hasRole(backendAdminRole).
+                antMatchers("/blah").hasRole("jalsdkfj").
                 anyRequest().authenticated().
                 and().
                 anonymous().disable().

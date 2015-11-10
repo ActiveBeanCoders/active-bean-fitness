@@ -65,11 +65,15 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
         try {
             if (postToManagementEndpoints(resourcePath)) {
                 System.out.println(String.format("%s -> posting to management endpoint", getClass().getSimpleName()));
-                logger.debug("Trying to authenticate user {} for management endpoint by X-Auth-Username method", username);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Trying to authenticate user {} for management endpoint by X-Auth-Username method", username);
+                }
                 processManagementEndpointUsernamePasswordAuthentication(username, password);
             }
 
-            logger.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
+            if (logger.isDebugEnabled()) {
+                logger.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
+            }
             chain.doFilter(request, response);
         } catch (AuthenticationException authenticationException) {
             SecurityContextHolder.clearContext();
@@ -106,7 +110,9 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Backend Admin for provided credentials");
         }
-        logger.debug("Backend Admin successfully authenticated");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Backend Admin successfully authenticated");
+        }
         return responseAuthentication;
     }
 }

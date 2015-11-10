@@ -23,24 +23,17 @@ public class SampleController {
     @Qualifier("remoteSecurityService")
     private SecurityService securityService;
 
-    private final com.activebeancoders.fitness.security.api.ServiceGateway serviceGateway;
-
-    @Autowired
-    public SampleController(com.activebeancoders.fitness.security.api.ServiceGateway serviceGateway) {
-        this.serviceGateway = serviceGateway;
+    public SampleController() {
     }
 
     @RequestMapping(value = "/safe", method = RequestMethod.GET)
     public String getSomeStuff() {
-        System.out.println(String.format("getting some stuff!!!"));
-//        return "hi there, here's some stuff!";
-        return securityService.sayHello();
-        //        return serviceGateway.getSomeStuff();
+        return "hi there, here's some stuff!";
     }
 
     @RequestMapping(value = "/safe", method = RequestMethod.POST)
     public void createStuff(@RequestBody Stuff newStuff, @CurrentlyLoggedUser DomainUser domainUser) {
-        serviceGateway.createStuff(newStuff, domainUser);
+        System.out.println("creating some stuff!!");
     }
 
 }

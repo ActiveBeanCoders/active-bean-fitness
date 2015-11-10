@@ -106,11 +106,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new TokenAuthenticationProvider(tokenService());
     }
 
-//    @Bean
-//    public AnonymousAuthenticationFilter anonymousAuthenticationFilter() {
-//        return new AnonymousAuthenticationFilter();
-//    }
-
     @Bean
     public AuthenticationEntryPoint unauthorizedEntryPoint() {
         return (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

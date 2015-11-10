@@ -16,6 +16,7 @@
     <name>Fitness Resource Service</name>
 
     <properties>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -24,18 +25,17 @@
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>elasticsearch-api</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>hibernate-api</artifactId> <version>0.0.1-SNAPSHOT</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
 
         <!-- Spring -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> </dependency>
-        <dependency> <groupId>org.springframework.session</groupId> <artifactId>spring-session</artifactId> <version>${spring-session.version}</version> </dependency>
-        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-redis</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-aop</artifactId> </dependency>
 
         <!-- Elasticsearch -->
         <dependency> <groupId>net.pladform</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
-
-        <!-- Logging -->
-        <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> <version>1.7.12</version> </dependency>
 
         <!-- Hibernate -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> </dependency>

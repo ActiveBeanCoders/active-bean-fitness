@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 public class UserServiceImpl {
 
     public String getName() {
-        System.out.println(String.format("%s -> getSomeStuff called", getClass().getSimpleName()));
-        return "From external WebService";
+        return "From security-service -> user service";
     }
 
     public String getOpen() {

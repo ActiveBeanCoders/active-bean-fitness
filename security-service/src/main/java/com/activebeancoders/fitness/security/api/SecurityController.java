@@ -26,4 +26,9 @@ public class SecurityController extends SecurityServiceController {
         return userService.getName();
     }
 
+    @RequestMapping(value = "/free/a", method = RequestMethod.GET)
+    public String a() {
+        return userService.getOpen();
+    }
+
 }

@@ -16,60 +16,25 @@
     <name>gateway</name>
 
     <properties>
-        <!-- why isn't this being pulled from parent? -->
         <wro4j.version>1.7.6</wro4j.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
 
         <!-- A.B.C. dependencies -->
-        <dependency>
-            <groupId>com.activebeancoders.fitness</groupId>
-            <artifactId>common</artifactId>
-            <version>${fitness-common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.activebeancoders.fitness</groupId>
-            <artifactId>resource-api</artifactId>
-            <version>${resource-api.version}</version>
-        </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>resource-api</artifactId> <version>${resource-api.version}</version> </dependency>
 
         <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zuul</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
-            <version>${spring-session.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-redis</artifactId>
-        </dependency>
+        <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-zuul</artifactId> </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
 
         <!-- Test -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
 
         <!-- misc -->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+        <dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpclient</artifactId> <scope>runtime</scope> </dependency>
 
     </dependencies>
 

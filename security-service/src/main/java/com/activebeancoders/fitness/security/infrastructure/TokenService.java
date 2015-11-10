@@ -19,8 +19,7 @@ public class TokenService {
     private static final Cache restApiAuthTokenCache = CacheManager.getInstance().getCache("restApiAuthTokenCache");
     public static final int HALF_AN_HOUR_IN_MILLISECONDS = 30 * 60 * 1000;
 
-//    @Scheduled(fixedRate = HALF_AN_HOUR_IN_MILLISECONDS)
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = HALF_AN_HOUR_IN_MILLISECONDS)
     public void evictExpiredTokens() {
         logger.info("Evicting expired tokens");
         restApiAuthTokenCache.evictExpiredElements();
