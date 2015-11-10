@@ -42,87 +42,18 @@ public class ResourceServiceApplication {
         SpringApplication.run(ResourceServiceApplication.class, args);
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-    // We need this to prevent the browser from popping up a dialog on a 401
-//        http.httpBasic().disable();
-
-    // Allow "USER" role to change data.
-//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasRole("USER").anyRequest().authenticated();
-//    }
-
     @Configuration
     @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-        @Autowired
-        public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-            // @formatter:off
-			auth.inMemoryAuthentication()
-				.withUser("user").password("password").roles("USER")
-			.and()
-				.withUser("admin").password("admin").roles("USER", "ADMIN", "READER", "WRITER")
-			.and()
-				.withUser("audit").password("audit").roles("USER", "ADMIN", "READER");
-            // @formatter:on
-        }
-
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
             http.httpBasic().disable();
-			http
-				.httpBasic()
-			.and()
-				.logout()
-			.and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/**")
-                    .hasRole("USER").anyRequest().authenticated()
-			.and()
-				.csrf().csrfTokenRepository(csrfTokenRepository())
-			.and()
-				.addFilterBefore(csrfHeaderFilter(), CsrfFilter.class);
-			// @formatter:on
+            http.authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/**")
+                    .hasRole("USER").anyRequest().authenticated();
         }
 
-        private Filter csrfHeaderFilter() {
-            return new OncePerRequestFilter() {
-                @Override
-                protected void doFilterInternal(HttpServletRequest request,
-                                                HttpServletResponse response, FilterChain filterChain)
-                        throws ServletException, IOException {
-                    CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-                    if (csrf != null) {
-                        Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
-                        String token = csrf.getToken();
-                        if (cookie == null || token != null && !token.equals(cookie.getValue())) {
-                            cookie = new Cookie("XSRF-TOKEN", token);
-                            cookie.setPath("/");
-                            System.out.println("ADDING COOKIE TO RESPONSE");
-                            response.addCookie(cookie);
-                        }
-                    }
-                    boolean cookieAlreadyExists = false;
-                    for (Cookie cookie : request.getCookies()) {
-                        if (cookie.getName().equals("XSRF-TOKEN")) {
-                            cookieAlreadyExists = true;
-                            break;
-                        }
-                    }
-                    if (!cookieAlreadyExists) {
-                        System.out.println("COOKIE DOES NOT EXIST ON REQUEST");
-                    }
-                    filterChain.doFilter(request, response);
-                }
-            };
-        }
-
-        private CsrfTokenRepository csrfTokenRepository() {
-            HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-            repository.setHeaderName("X-XSRF-TOKEN");
-            return repository;
-        }
     }
 
 }

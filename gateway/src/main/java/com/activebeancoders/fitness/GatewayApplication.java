@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.activebeancoders.fitness.gateway.filter.AlwaysFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -90,6 +91,7 @@ public class GatewayApplication {
 			.and()
 				.csrf().csrfTokenRepository(csrfTokenRepository())
 			.and()
+                .addFilterBefore(new AlwaysFilter(), CsrfFilter.class)
 				.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 			// @formatter:on
         }
@@ -101,27 +103,18 @@ public class GatewayApplication {
                                                 HttpServletResponse response, FilterChain filterChain)
                         throws ServletException, IOException {
                     CsrfToken csrf = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+                    System.out.println(String.format("@csrf=%s", csrf));
+                    Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
+                    System.out.println(String.format("@cookie=%s", cookie == null ? null : cookie.getValue()));
                     if (csrf != null) {
-                        Cookie cookie = WebUtils.getCookie(request, "XSRF-TOKEN");
                         String token = csrf.getToken();
+                        System.out.println(String.format("@token=%s", token));
                         if (cookie == null || token != null && !token.equals(cookie.getValue())) {
                             cookie = new Cookie("XSRF-TOKEN", token);
-                            cookie.setPath("/");
-                            System.out.println("ADDING COOKIE TO RESPONSE");
+                            cookie.setPath("/"); // TODO: set actual path
+                            System.out.println("@ADDING COOKIE TO RESPONSE");
                             response.addCookie(cookie);
                         }
-                    }
-                    boolean cookieAlreadyExists = false;
-                    if (request.getCookies() != null && request.getCookies().length > 0) {
-                        for (Cookie cookie : request.getCookies()) {
-                            if (cookie.getName().equals("XSRF-TOKEN")) {
-                                cookieAlreadyExists = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!cookieAlreadyExists) {
-                        System.out.println("COOKIE DOES NOT EXIST ON REQUEST");
                     }
                     filterChain.doFilter(request, response);
                 }

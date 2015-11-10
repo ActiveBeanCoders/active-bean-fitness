@@ -1,15 +1,14 @@
 package com.activebeancoders.fitness.security.config;
 
-import com.activebeancoders.fitness.example.api.samplestuff.SecurityService;
-import com.activebeancoders.fitness.example.infrastructure.api.SecurityServiceController;
-import com.activebeancoders.fitness.example.infrastructure.externalwebservice.SecurityServiceImpl;
-import com.activebeancoders.fitness.example.infrastructure.security.AnonymousAuthenticationFilter;
-import com.activebeancoders.fitness.example.infrastructure.security.AuthenticationFilter;
-import com.activebeancoders.fitness.example.infrastructure.security.BackendAdminUsernamePasswordAuthenticationProvider;
-import com.activebeancoders.fitness.example.infrastructure.security.DomainUsernamePasswordAuthenticationProvider;
-import com.activebeancoders.fitness.example.infrastructure.security.ManagementEndpointAuthenticationFilter;
-import com.activebeancoders.fitness.example.infrastructure.security.TokenAuthenticationProvider;
-import com.activebeancoders.fitness.example.infrastructure.security.TokenService;
+import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.SecurityServiceController;
+import com.activebeancoders.fitness.security.service.SecurityServiceImpl;
+import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
+import com.activebeancoders.fitness.security.infrastructure.BackendAdminUsernamePasswordAuthenticationProvider;
+import com.activebeancoders.fitness.security.infrastructure.DomainUsernamePasswordAuthenticationProvider;
+import com.activebeancoders.fitness.security.infrastructure.ManagementEndpointAuthenticationFilter;
+import com.activebeancoders.fitness.security.infrastructure.TokenAuthenticationProvider;
+import com.activebeancoders.fitness.security.infrastructure.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

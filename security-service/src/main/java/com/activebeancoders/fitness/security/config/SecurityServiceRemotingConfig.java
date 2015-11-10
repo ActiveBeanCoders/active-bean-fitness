@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.security.config;
 
-import com.activebeancoders.fitness.example.api.samplestuff.SecurityService;
+import com.activebeancoders.fitness.security.api.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
