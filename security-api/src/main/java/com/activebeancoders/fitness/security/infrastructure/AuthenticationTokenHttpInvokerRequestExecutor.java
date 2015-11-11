@@ -17,9 +17,15 @@ import java.io.IOException;
 @Component
 public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponentsHttpInvokerRequestExecutor {
 
+    // TODO: use logger
     @Override
     protected HttpPost createHttpPost(HttpInvokerClientConfiguration config) throws IOException {
+        System.out.println(String.format("@calling createHttpPost"));
         HttpPost httpPost = super.createHttpPost(config);
+        System.out.println(String.format("  getMethod=%s", httpPost.getMethod()));
+        System.out.println(String.format("  getEntity=%s", httpPost.getEntity()));
+        System.out.println(String.format("  getRequestLine=%s", httpPost.getRequestLine()));
+        System.out.println(String.format("  getURI=%s", httpPost.getURI()));
         AuthenticationWithToken authentication = (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             // authentication.getAuthorities() -> user's roles
@@ -29,12 +35,14 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
             // authentication.getCsrfToken() -> csrf token
 
             String sessionToken = authentication.getToken();
+            System.out.println(String.format("@sessionToken=%s", sessionToken));
             if (StringUtils.hasLength(sessionToken)) {
                 System.out.println(String.format("injecting X-Auth-Token '%s' into request for '%s'.", sessionToken, config.getServiceUrl()));
                 httpPost.addHeader("X-Auth-Token", sessionToken);
             }
 
             String csrfToken = authentication.getCsrfToken();
+            System.out.println(String.format("@csrfToken=%s", csrfToken));
             if (StringUtils.hasLength(csrfToken)) {
                 System.out.println(String.format("injecting X-XSRF-TOKEN '%s' into request for '%s'.", csrfToken, config.getServiceUrl()));
                 httpPost.addHeader("X-XSRF-TOKEN", csrfToken);

@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.config;
 
-import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ElasticsearchServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier("remoteSecurityService")
-    private SecurityService securityService;
+    @Qualifier("remoteTokenValidationService")
+    private TokenValidationService tokenValidationService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,7 +46,7 @@ public class ElasticsearchServiceSecurityConfig extends WebSecurityConfigurerAda
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(securityService), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService), BasicAuthenticationFilter.class);
     }
 
     @Bean

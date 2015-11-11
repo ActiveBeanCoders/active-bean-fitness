@@ -1,6 +1,7 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -34,25 +35,27 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
-    private SecurityService securityService;
+    private TokenValidationService tokenValidationService;
 
-    public SecuredServiceAuthenticationFilter(SecurityService securityService) {
-        this.securityService = securityService;
+    public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService) {
+        this.tokenValidationService = tokenValidationService;
         urlPathHelper = new UrlPathHelper();
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println(String.format("@doFilter"));
         HttpServletRequest httpRequest = asHttp(request);
         HttpServletResponse httpResponse = asHttp(response);
 
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
+        System.out.println(String.format("@token=%s", token));
         String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
 
         AuthenticationWithToken existingAuthentication = null;
         try {
             if (token.isPresent()) {
-                existingAuthentication = securityService.getAuthenticationByToken(token.get());
+                existingAuthentication = tokenValidationService.getAuthenticationByToken(token.get());
                 if (!existingAuthentication.isAuthenticated()) {
                     throw new InternalAuthenticationServiceException("Invalid token.");
                 } else {
