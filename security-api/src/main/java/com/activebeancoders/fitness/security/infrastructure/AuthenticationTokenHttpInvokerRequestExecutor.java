@@ -1,6 +1,8 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
 import org.apache.http.client.methods.HttpPost;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.remoting.httpinvoker.HttpComponentsHttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.HttpInvokerClientConfiguration;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,23 +13,20 @@ import java.io.IOException;
 
 /**
  * Responsible for including the currently-logged-in user's authentication token in all remote service calls.
+ * Handles only HTTP POST requests.
  *
  * @author Dan Barrese
  */
 @Component
 public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponentsHttpInvokerRequestExecutor {
 
-    // TODO: use logger
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Override
     protected HttpPost createHttpPost(HttpInvokerClientConfiguration config) throws IOException {
-        System.out.println(String.format("@calling createHttpPost"));
         HttpPost httpPost = super.createHttpPost(config);
-        System.out.println(String.format("  getMethod=%s", httpPost.getMethod()));
-        System.out.println(String.format("  getEntity=%s", httpPost.getEntity()));
-        System.out.println(String.format("  getRequestLine=%s", httpPost.getRequestLine()));
-        System.out.println(String.format("  getURI=%s", httpPost.getURI()));
-        AuthenticationWithToken authentication = (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
+        AuthenticationWithToken authentication = AuthenticationWithToken.createFrom(SecurityContextHolder.getContext().getAuthentication());
+        if (authentication.isAuthenticated()) {
             // authentication.getAuthorities() -> user's roles
             // authentication.getCredentials() -> ?
             // authentication.getDetails() -> session ID/token as String
@@ -35,16 +34,18 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
             // authentication.getCsrfToken() -> csrf token
 
             String sessionToken = authentication.getToken();
-            System.out.println(String.format("@sessionToken=%s", sessionToken));
             if (StringUtils.hasLength(sessionToken)) {
-                System.out.println(String.format("injecting X-Auth-Token '%s' into request for '%s'.", sessionToken, config.getServiceUrl()));
+                if (log.isDebugEnabled()) {
+                    log.debug("injecting X-Auth-Token '{}' into request for '{}'.", sessionToken, httpPost.getRequestLine());
+                }
                 httpPost.addHeader("X-Auth-Token", sessionToken);
             }
 
             String csrfToken = authentication.getCsrfToken();
-            System.out.println(String.format("@csrfToken=%s", csrfToken));
             if (StringUtils.hasLength(csrfToken)) {
-                System.out.println(String.format("injecting X-XSRF-TOKEN '%s' into request for '%s'.", csrfToken, config.getServiceUrl()));
+                if (log.isDebugEnabled()) {
+                    log.debug("injecting X-XSRF-TOKEN '{}' into request for '{}'.", csrfToken, httpPost.getRequestLine());
+                }
                 httpPost.addHeader("X-XSRF-TOKEN", csrfToken);
             }
         }

@@ -11,6 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Configuration
 @ComponentScan("com.activebeancoders.fitness")
 @EnableAutoConfiguration
-@EnableWebSecurity // TODO: needed in main?
+@EnableWebSecurity
 public class BaseResourceApplicationTest {
 }

@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.security.api;
 
-import com.activebeancoders.fitness.security.api.SecurityServiceController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,10 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @author Dan Barrese
  */
-@RestController
+// TODO: removal ok?
+//@RestController
 public class AuthenticationController extends SecurityServiceController {
 
-    @RequestMapping(value = AUTHENTICATE_URL, method = RequestMethod.POST)
+//    @RequestMapping(value = AUTHENTICATE_URL, method = RequestMethod.POST)
     public String authenticate() {
         return "This is just for in-code-documentation purposes and Rest API reference documentation." +
                 "Servlet will never get to this point as Http requests are processed by AuthenticationFilter." +

@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
@@ -37,9 +38,11 @@ public class AuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
     private AuthenticationManager authenticationManager;
+    private AuthenticationService authenticationService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
         this.authenticationManager = authenticationManager;
+        this.authenticationService = authenticationService;
         urlPathHelper = new UrlPathHelper();
     }
 
@@ -47,7 +50,6 @@ public class AuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = asHttp(request);
         HttpServletResponse httpResponse = asHttp(response);
-        System.out.println(toStringRequest(httpRequest));
 
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
         String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
@@ -60,6 +62,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         try {
             // Is another service trying to just verify a token is still valid?
             if (postToVerifyToken(httpRequest, resourcePath)) {
+                // TODO: use service call
                 authentication = processTokenAuthentication(token);
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
@@ -69,10 +72,14 @@ public class AuthenticationFilter extends GenericFilterBean {
 
             // Is a user trying to authenticate by username/password?
             if (postToAuthenticate(httpRequest, resourcePath)) {
-                // TODO: call authentication service
                 Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
                 Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
-                authentication = processUsernamePasswordAuthentication(httpResponse, username, password);
+                AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(),password.get());
+                httpResponse.setStatus(HttpServletResponse.SC_OK);
+                TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
+                String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
+                httpResponse.addHeader("Content-Type", "application/json");
+                httpResponse.getWriter().print(tokenJsonResponse);
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' authenticating...succeeded={}", extractUsername(authentication), authentication.isAuthenticated());
                 }
@@ -161,22 +168,6 @@ public class AuthenticationFilter extends GenericFilterBean {
         return SecurityClientController.getTokenValidationUri().equalsIgnoreCase(resourcePath) && httpRequest.getMethod().equals("POST");
     }
 
-    private Authentication processUsernamePasswordAuthentication(HttpServletResponse httpResponse, Optional<String> username, Optional<String> password) throws IOException {
-        Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
-        SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
-        httpResponse.setStatus(HttpServletResponse.SC_OK);
-        TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
-        String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
-        httpResponse.addHeader("Content-Type", "application/json");
-        httpResponse.getWriter().print(tokenJsonResponse);
-        return resultOfAuthentication;
-    }
-
-    private Authentication tryToAuthenticateWithUsernameAndPassword(Optional<String> username, Optional<String> password) {
-        UsernamePasswordAuthenticationToken requestAuthentication = new UsernamePasswordAuthenticationToken(username, password);
-        return tryToAuthenticate(requestAuthentication);
-    }
-
     private Authentication processTokenAuthentication(Optional<String> token) {
         Authentication resultOfAuthentication = tryToAuthenticateWithToken(token);
         SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
@@ -199,6 +190,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         return responseAuthentication;
     }
 
+    // TODO: move to common api
     private String toStringRequest(HttpServletRequest httpRequest) {
         StringBuilder sb = new StringBuilder();
         final String NEWLINE = System.lineSeparator();

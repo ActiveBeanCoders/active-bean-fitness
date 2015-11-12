@@ -15,10 +15,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-public class Application {
+public class SecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(SecurityApplication.class, args);
     }
 
 }

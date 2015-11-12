@@ -1,7 +1,5 @@
 package com.activebeancoders.fitness.security.api;
 
-import com.activebeancoders.fitness.security.api.SecurityClientController;
-
 /**
  * @author Dan Barrese
  */

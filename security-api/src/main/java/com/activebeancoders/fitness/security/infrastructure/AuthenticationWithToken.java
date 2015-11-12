@@ -1,20 +1,33 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.UUID;
 
 /**
  * @author Dan Barrese
  */
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken {
+public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String csrfToken;
 
     public static AuthenticationWithToken nonAuthenticatedInstance() {
         return new AuthenticationWithToken();
+    }
+
+    public static AuthenticationWithToken createFrom(Authentication authentication) {
+        if (authentication == null) {
+            return nonAuthenticatedInstance();
+        }
+        AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(authentication.getPrincipal(),
+                authentication.getCredentials(), authentication.getAuthorities());
+        authenticationWithToken.setDetails(authentication.getDetails());
+        return authenticationWithToken;
     }
 
     public AuthenticationWithToken(Object aPrincipal, Object aCredentials) {

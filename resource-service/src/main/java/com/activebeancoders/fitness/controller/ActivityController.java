@@ -1,11 +1,13 @@
 package com.activebeancoders.fitness.controller;
 
 import com.activebeancoders.fitness.dto.ActivityDto;
+import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,10 @@ public class ActivityController {
 
     @Autowired
     private ActivityDto activityDto;
+
+    @Autowired
+    @Qualifier("remoteActivityEsDto")
+    private IActivityDto activityEsDto;
 
     @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
     public Activity get(@PathVariable("id") String id) {

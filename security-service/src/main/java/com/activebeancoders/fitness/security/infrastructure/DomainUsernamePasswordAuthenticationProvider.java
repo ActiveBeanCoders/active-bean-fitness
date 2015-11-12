@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
-import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.google.common.base.Optional;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -8,22 +8,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+import java.util.UUID;
+
 /**
  * @author Dan Barrese
  */
 public class DomainUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
     private TokenService tokenService;
-    private SecurityService securityService;
+    private AuthenticationService authenticationService;
 
-    public DomainUsernamePasswordAuthenticationProvider(TokenService tokenService, SecurityService securityService) {
+    public DomainUsernamePasswordAuthenticationProvider(TokenService tokenService, AuthenticationService authenticationService) {
         this.tokenService = tokenService;
-        this.securityService = securityService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println(String.format("%s -> authenticate called", getClass().getSimpleName()));
         Optional<String> username = (Optional) authentication.getPrincipal();
         Optional<String> password = (Optional) authentication.getCredentials();
 
@@ -31,9 +32,12 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
             throw new BadCredentialsException("Invalid Domain User Credentials");
         }
 
-        AuthenticationWithToken resultOfAuthentication = securityService.authenticate(username.get(), password.get());
-        String newToken = tokenService.generateNewToken();
+        AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(), password.get());
+//        String newToken = tokenService.generateNewToken();
+        String newToken = UUID.randomUUID().toString();
         resultOfAuthentication.setToken(newToken);
+        System.out.println(String.format("storing token '%s'", newToken));
+        System.out.println(newToken);
         tokenService.store(newToken, resultOfAuthentication);
 
         return resultOfAuthentication;

@@ -21,11 +21,14 @@ public class TokenValidationServiceImpl implements TokenValidationService {
 
     @Override
     public AuthenticationWithToken getAuthenticationByToken(final String tokenString) {
+        System.out.println(String.format("validating token '%s'", tokenString));
         Optional<String> token = Optional.fromNullable(tokenString);
         try {
             AuthenticationWithToken authentication = processTokenAuthentication(token);
+            System.out.println(String.format("valid? %s", String.valueOf(authentication.isAuthenticated())));
             return authentication;
         } catch (InternalAuthenticationServiceException e) {
+            System.out.println(String.format("invalid"));
             return AuthenticationWithToken.nonAuthenticatedInstance();
         }
     }
@@ -47,8 +50,9 @@ public class TokenValidationServiceImpl implements TokenValidationService {
             throw new InternalAuthenticationServiceException(
                     "Unable to authenticate Domain User for provided credentials");
         }
-        // TODO: does this work?
         return (AuthenticationWithToken) responseAuthentication;
+
+//        return AuthenticationWithToken.createFrom(responseAuthentication);
     }
 
 }

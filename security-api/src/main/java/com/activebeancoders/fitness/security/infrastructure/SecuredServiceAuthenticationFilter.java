@@ -61,6 +61,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
                 } else {
                     // This is done so that the authentication data may be forwarded to remote method calls if needed.
                     logSuccessfulAccess(existingAuthentication, resourcePath);
+                    System.out.println(String.format("setting authentication in security context with token '%s'", existingAuthentication.getToken()));
                     SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
                 }
             }

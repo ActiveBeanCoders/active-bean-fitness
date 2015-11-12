@@ -1,14 +1,11 @@
 package com.activebeancoders.fitness.security.config;
 
-import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityServiceController;
-import com.activebeancoders.fitness.security.service.SecurityServiceImpl;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
-import com.activebeancoders.fitness.security.infrastructure.BackendAdminUsernamePasswordAuthenticationProvider;
-import com.activebeancoders.fitness.security.infrastructure.DomainUsernamePasswordAuthenticationProvider;
-import com.activebeancoders.fitness.security.infrastructure.ManagementEndpointAuthenticationFilter;
-import com.activebeancoders.fitness.security.infrastructure.TokenAuthenticationProvider;
-import com.activebeancoders.fitness.security.infrastructure.TokenService;
+import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.infrastructure.*;
+import com.activebeancoders.fitness.security.service.AuthenticationServiceImpl;
+import com.activebeancoders.fitness.security.service.TokenValidationServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,19 +38,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // TODO: clean up
         http.
                 csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 authorizeRequests().
-                antMatchers("/free/**").permitAll().
+                antMatchers("/public/**").permitAll().
                 antMatchers(actuatorEndpoints()).hasRole(backendAdminRole).
                 anyRequest().authenticated().
                 and().
 //                anonymous().authenticationFilter(anonymousAuthenticationFilter());
         exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
-        http.addFilterBefore(new AuthenticationFilter(authenticationManager()), BasicAuthenticationFilter.class).
+        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), someExternalServiceAuthenticator()), BasicAuthenticationFilter.class).
                 addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager()),
                         BasicAuthenticationFilter.class);
     }
@@ -87,8 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Primary
     @Bean
-    public SecurityService someExternalServiceAuthenticator() throws Exception {
-        return new SecurityServiceImpl();
+    public AuthenticationService someExternalServiceAuthenticator() throws Exception {
+        return new AuthenticationServiceImpl();
+    }
+
+    @Primary
+    @Bean
+    public TokenValidationService tokenValidationService() throws Exception {
+        return new TokenValidationServiceImpl();
     }
 
     @Bean
