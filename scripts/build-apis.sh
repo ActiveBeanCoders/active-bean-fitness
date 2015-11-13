@@ -8,6 +8,10 @@ cd common || die
 mvn clean install || die
 cd ..
 
+cd security-api || die
+mvn clean install || die
+cd ..
+
 cd fitness-parent || die
 mvn clean install || die
 cd ..
@@ -21,10 +25,6 @@ mvn clean install || die
 cd ..
 
 cd hibernate-api || die
-mvn clean install || die
-cd ..
-
-cd security-api || die
 mvn clean install || die
 cd ..
 

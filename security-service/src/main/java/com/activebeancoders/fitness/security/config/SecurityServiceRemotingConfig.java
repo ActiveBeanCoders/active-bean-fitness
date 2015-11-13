@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
-import com.activebeancoders.fitness.security.api.SecurityClientController;
 import com.activebeancoders.fitness.security.api.SecurityService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import org.springframework.beans.factory.annotation.Autowired;

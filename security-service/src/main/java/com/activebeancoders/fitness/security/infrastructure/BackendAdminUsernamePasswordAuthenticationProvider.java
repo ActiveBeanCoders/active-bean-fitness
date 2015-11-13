@@ -8,10 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dan Barrese
  */
+// TODO: uhhhh...delete this class?
+@Component
 public class BackendAdminUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
     public static final String INVALID_BACKEND_ADMIN_CREDENTIALS = "Invalid Backend Admin Credentials";

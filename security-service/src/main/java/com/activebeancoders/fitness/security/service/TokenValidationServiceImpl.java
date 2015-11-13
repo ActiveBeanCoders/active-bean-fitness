@@ -5,18 +5,23 @@ import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithTo
 import com.google.common.base.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dan Barrese
  */
+@Primary
+@Component
 public class TokenValidationServiceImpl implements TokenValidationService {
 
     @Autowired
     @Qualifier("myAuthenticationManager")
+    // TODO: no qualifier ok?
     private AuthenticationManager authenticationManager;
 
     @Override
@@ -51,8 +56,6 @@ public class TokenValidationServiceImpl implements TokenValidationService {
                     "Unable to authenticate Domain User for provided credentials");
         }
         return (AuthenticationWithToken) responseAuthentication;
-
-//        return AuthenticationWithToken.createFrom(responseAuthentication);
     }
 
 }

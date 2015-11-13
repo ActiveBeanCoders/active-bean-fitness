@@ -1,19 +1,23 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
 import com.google.common.base.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Dan Barrese
  */
+@Component
 public class TokenAuthenticationProvider implements AuthenticationProvider {
 
     private TokenService tokenService;
 
+    @Autowired
     public TokenAuthenticationProvider(TokenService tokenService) {
         this.tokenService = tokenService;
     }

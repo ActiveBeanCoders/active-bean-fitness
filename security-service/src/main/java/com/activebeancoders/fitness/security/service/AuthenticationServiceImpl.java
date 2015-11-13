@@ -3,15 +3,19 @@ package com.activebeancoders.fitness.security.service;
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * @author Dan Barrese
  */
+@Primary
+@Component
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override

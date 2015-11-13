@@ -19,6 +19,8 @@ public class SecurityClientConfig {
     @Autowired
     private AuthenticationTokenHttpInvokerRequestExecutor executor;
 
+    // TODO: externalize base urls
+
     @Bean
     public SecurityService remoteSecurityService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
