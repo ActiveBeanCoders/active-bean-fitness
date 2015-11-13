@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
-import com.activebeancoders.fitness.security.api.SecurityService;
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -36,33 +36,34 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
     private TokenValidationService tokenValidationService;
+    private AuthenticationService authenticationService;
 
-    public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService) {
+    public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService,
+                                              AuthenticationService authenticationService) {
         this.tokenValidationService = tokenValidationService;
+        this.authenticationService = authenticationService;
         urlPathHelper = new UrlPathHelper();
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println(String.format("@doFilter"));
         HttpServletRequest httpRequest = asHttp(request);
         HttpServletResponse httpResponse = asHttp(response);
 
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
-        System.out.println(String.format("@token=%s", token));
         String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
 
         AuthenticationWithToken existingAuthentication = null;
         try {
             if (token.isPresent()) {
-                existingAuthentication = tokenValidationService.getAuthenticationByToken(token.get());
+                existingAuthentication = tokenValidationService.getAuthenticationByToken(token);
                 if (!existingAuthentication.isAuthenticated()) {
                     throw new InternalAuthenticationServiceException("Invalid token.");
                 } else {
                     // This is done so that the authentication data may be forwarded to remote method calls if needed.
                     logSuccessfulAccess(existingAuthentication, resourcePath);
-                    System.out.println(String.format("setting authentication in security context with token '%s'", existingAuthentication.getToken()));
-                    SecurityContextHolder.getContext().setAuthentication(existingAuthentication);
+                    SecurityContextHolder.getContext().setAuthentication(existingAuthentication); // TODO: delete?
+                    authenticationService.storeValidAuthentication(existingAuthentication);
                 }
             }
 

@@ -4,7 +4,6 @@ import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
 import com.google.common.base.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -20,20 +19,14 @@ import org.springframework.stereotype.Component;
 public class TokenValidationServiceImpl implements TokenValidationService {
 
     @Autowired
-    @Qualifier("myAuthenticationManager")
-    // TODO: no qualifier ok?
     private AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationWithToken getAuthenticationByToken(final String tokenString) {
-        System.out.println(String.format("validating token '%s'", tokenString));
-        Optional<String> token = Optional.fromNullable(tokenString);
+    public AuthenticationWithToken getAuthenticationByToken(final Optional<String> token) {
         try {
             AuthenticationWithToken authentication = processTokenAuthentication(token);
-            System.out.println(String.format("valid? %s", String.valueOf(authentication.isAuthenticated())));
             return authentication;
         } catch (InternalAuthenticationServiceException e) {
-            System.out.println(String.format("invalid"));
             return AuthenticationWithToken.nonAuthenticatedInstance();
         }
     }

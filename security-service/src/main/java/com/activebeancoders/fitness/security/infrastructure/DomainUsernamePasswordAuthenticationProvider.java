@@ -37,11 +37,10 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
         }
 
         AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(), password.get());
+        // TODO: try token service
 //        String newToken = tokenService.generateNewToken();
         String newToken = UUID.randomUUID().toString();
         resultOfAuthentication.setToken(newToken);
-        System.out.println(String.format("storing token '%s'", newToken));
-        System.out.println(newToken);
         tokenService.store(newToken, resultOfAuthentication);
 
         return resultOfAuthentication;

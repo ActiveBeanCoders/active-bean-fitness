@@ -1,6 +1,7 @@
 package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
+import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
 import com.activebeancoders.fitness.security.infrastructure.ManagementEndpointAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("tokenAuthenticationProvider")
     private AuthenticationProvider tokenAuthenticationProvider;
 
+    @Autowired
+    private TokenValidationService tokenValidationService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
@@ -60,9 +64,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-
-        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), authenticationService), BasicAuthenticationFilter.class).
-                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager()),
+        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), authenticationService, tokenValidationService),
+                BasicAuthenticationFilter.class).
+                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager(), authenticationService),
                         BasicAuthenticationFilter.class);
     }
 
@@ -73,8 +77,7 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 authenticationProvider(tokenAuthenticationProvider);
     }
 
-    // TODO: rename
-    @Bean(name = "myAuthenticationManager")
+    @Bean(name = "fitnessAuthenticationManager")
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();

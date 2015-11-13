@@ -1,6 +1,8 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
 import com.google.common.base.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +21,8 @@ public class BackendAdminUsernamePasswordAuthenticationProvider implements Authe
 
     public static final String INVALID_BACKEND_ADMIN_CREDENTIALS = "Invalid Backend Admin Credentials";
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Value("${backend.admin.username}")
     private String backendAdminUsername;
 
@@ -27,7 +31,9 @@ public class BackendAdminUsernamePasswordAuthenticationProvider implements Authe
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println(String.format("%s -> authenticate called", getClass().getSimpleName()));
+        if (log.isDebugEnabled()) {
+            log.debug("'{}'#authenticate(...) called", getClass().getSimpleName());
+        }
         Optional<String> username = (Optional) authentication.getPrincipal();
         Optional<String> password = (Optional) authentication.getCredentials();
 

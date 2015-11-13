@@ -2,6 +2,7 @@ package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
+import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -40,10 +41,14 @@ public class AuthenticationFilter extends GenericFilterBean {
     private UrlPathHelper urlPathHelper;
     private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
+    private TokenValidationService tokenValidationService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationService authenticationService) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager,
+                                AuthenticationService authenticationService,
+                                TokenValidationService tokenValidationService) {
         this.authenticationManager = authenticationManager;
         this.authenticationService = authenticationService;
+        this.tokenValidationService = tokenValidationService;
         urlPathHelper = new UrlPathHelper();
     }
 
@@ -63,8 +68,8 @@ public class AuthenticationFilter extends GenericFilterBean {
         try {
             // Is another service trying to just verify a token is still valid?
             if (postToVerifyToken(httpRequest, resourcePath)) {
-                // TODO: use service call
-                authentication = processTokenAuthentication(token);
+                authentication = tokenValidationService.getAuthenticationByToken(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication); // TODO: delete?
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
                 }
@@ -76,6 +81,8 @@ public class AuthenticationFilter extends GenericFilterBean {
                 Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
                 Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
                 AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(),password.get());
+                SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
+                authenticationService.storeValidAuthentication(resultOfAuthentication);
                 httpResponse.setStatus(HttpServletResponse.SC_OK);
                 TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
                 String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
@@ -89,7 +96,8 @@ public class AuthenticationFilter extends GenericFilterBean {
 
             // Validate the token if one is present.
             if (token.isPresent()) {
-                authentication = processTokenAuthentication(token);
+                authentication = tokenValidationService.getAuthenticationByToken(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication); // TODO: delete?
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' is attempting to access '{}' without a token.", extractUsername(authentication), accessPath);
@@ -167,28 +175,6 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     private boolean postToVerifyToken(HttpServletRequest httpRequest, String resourcePath) {
         return SecurityClientController.getTokenValidationUri().equalsIgnoreCase(resourcePath) && httpRequest.getMethod().equals("POST");
-    }
-
-    private Authentication processTokenAuthentication(Optional<String> token) {
-        Authentication resultOfAuthentication = tryToAuthenticateWithToken(token);
-        SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
-        return resultOfAuthentication;
-    }
-
-    private Authentication tryToAuthenticateWithToken(Optional<String> token) {
-        PreAuthenticatedAuthenticationToken requestAuthentication = new PreAuthenticatedAuthenticationToken(token, null);
-        return tryToAuthenticate(requestAuthentication);
-    }
-
-    private Authentication tryToAuthenticate(Authentication requestAuthentication) {
-        Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
-        if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
-            throw new InternalAuthenticationServiceException("Unable to authenticate Domain User for provided credentials");
-        }
-        if (log.isDebugEnabled()) {
-            log.debug("User successfully authenticated");
-        }
-        return responseAuthentication;
     }
 
     // TODO: move to common api

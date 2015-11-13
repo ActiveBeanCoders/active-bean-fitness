@@ -1,6 +1,7 @@
 package com.activebeancoders.fitness.security.api;
 
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import com.google.common.base.Optional;
 
 /**
  * Validates an existing session token.
@@ -9,6 +10,6 @@ import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithTo
  */
 public interface TokenValidationService {
 
-    AuthenticationWithToken getAuthenticationByToken(String tokenString);
+    AuthenticationWithToken getAuthenticationByToken(Optional<String> tokenString);
 
 }

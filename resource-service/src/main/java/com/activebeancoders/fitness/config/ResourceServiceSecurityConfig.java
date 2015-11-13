@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.config;
 
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter;
@@ -33,6 +34,9 @@ public class ResourceServiceSecurityConfig extends WebSecurityConfigurerAdapter 
     @Qualifier("remoteTokenValidationService")
     private TokenValidationService tokenValidationService;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
@@ -46,7 +50,8 @@ public class ResourceServiceSecurityConfig extends WebSecurityConfigurerAdapter 
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationService),
+                BasicAuthenticationFilter.class);
     }
 
     @Bean

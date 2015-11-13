@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityServiceController;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
@@ -27,12 +28,15 @@ import java.util.Set;
  */
 public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
-    private final static Logger logger = LoggerFactory.getLogger(ManagementEndpointAuthenticationFilter.class);
+    private final static Logger log = LoggerFactory.getLogger(ManagementEndpointAuthenticationFilter.class);
     private AuthenticationManager authenticationManager;
+    private AuthenticationService authenticationService;
     private Set<String> managementEndpoints;
 
-    public ManagementEndpointAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public ManagementEndpointAuthenticationFilter(AuthenticationManager authenticationManager,
+                                                  AuthenticationService authenticationService) {
         this.authenticationManager = authenticationManager;
+        this.authenticationService = authenticationService;
         prepareManagementEndpointsSet();
     }
 
@@ -49,30 +53,24 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println(String.format("%s -> doFilter", getClass().getSimpleName()));
+        if (log.isDebugEnabled()) {
+            log.debug("'{}'#doFilter(...) called", getClass().getSimpleName());
+        }
         HttpServletRequest httpRequest = asHttp(request);
         HttpServletResponse httpResponse = asHttp(response);
 
         Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
         Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
-        System.out.println(
-                String.format("%s -> doFilter with username=%s password=%s", getClass().getSimpleName(), username,
-                        password));
 
         String resourcePath = new UrlPathHelper().getPathWithinApplication(httpRequest);
-        System.out.println(String.format("%s -> getting resource path '%s'", getClass().getSimpleName(), resourcePath));
 
         try {
             if (postToManagementEndpoints(resourcePath)) {
-                System.out.println(String.format("%s -> posting to management endpoint", getClass().getSimpleName()));
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Trying to authenticate user {} for management endpoint by X-Auth-Username method", username);
-                }
                 processManagementEndpointUsernamePasswordAuthentication(username, password);
             }
 
-            if (logger.isDebugEnabled()) {
-                logger.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
+            if (log.isDebugEnabled()) {
+                log.debug("ManagementEndpointAuthenticationFilter is passing request down the filter chain");
             }
             chain.doFilter(request, response);
         } catch (AuthenticationException authenticationException) {
@@ -95,7 +93,8 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     private void processManagementEndpointUsernamePasswordAuthentication(Optional<String> username, Optional<String> password) throws IOException {
         Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
-        SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
+        SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication); // TODO: delete?
+        authenticationService.storeValidAuthentication(resultOfAuthentication);
     }
 
     private Authentication tryToAuthenticateWithUsernameAndPassword(Optional<String> username, Optional<String> password) {
@@ -110,8 +109,8 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Backend Admin for provided credentials");
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("Backend Admin successfully authenticated");
+        if (log.isDebugEnabled()) {
+            log.debug("Backend Admin successfully authenticated");
         }
         return responseAuthentication;
     }

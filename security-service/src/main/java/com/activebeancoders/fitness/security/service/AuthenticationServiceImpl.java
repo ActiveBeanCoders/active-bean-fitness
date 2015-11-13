@@ -3,11 +3,16 @@ package com.activebeancoders.fitness.security.service;
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -17,6 +22,8 @@ import java.util.List;
 @Primary
 @Component
 public class AuthenticationServiceImpl implements AuthenticationService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
     public AuthenticationWithToken authenticate(String username, String password) {
@@ -32,6 +39,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_DOMAIN_USER");
         AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(domainUser, null, authorities);
         return authenticationWithToken;
+    }
+
+    @Override
+    public void storeValidAuthentication(Authentication authentication) {
+        Assert.isTrue(authentication.isAuthenticated());
+        if (log.isInfoEnabled()) {
+            log.info("Storing authentication in security context.");
+        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
 }
