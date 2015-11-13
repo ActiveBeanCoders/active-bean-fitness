@@ -22,7 +22,7 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     private AuthenticationManager authenticationManager;
 
     @Override
-    public AuthenticationWithToken getAuthenticationByToken(final Optional<String> token) {
+    public AuthenticationWithToken validateToken(final Optional<String> token) {
         try {
             AuthenticationWithToken authentication = processTokenAuthentication(token);
             return authentication;

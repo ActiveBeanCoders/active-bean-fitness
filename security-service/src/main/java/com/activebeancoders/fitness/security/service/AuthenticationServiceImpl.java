@@ -7,12 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -41,13 +38,5 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return authenticationWithToken;
     }
 
-    @Override
-    public void storeValidAuthentication(Authentication authentication) {
-        Assert.isTrue(authentication.isAuthenticated());
-        if (log.isInfoEnabled()) {
-            log.info("Storing authentication in security context.");
-        }
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
 }
+

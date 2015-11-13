@@ -12,6 +12,5 @@ public interface AuthenticationService {
 
     AuthenticationWithToken authenticate(String username, String password);
 
-    void storeValidAuthentication(Authentication authentication);
-
 }
+

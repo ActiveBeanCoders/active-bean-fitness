@@ -10,6 +10,6 @@ import com.google.common.base.Optional;
  */
 public interface TokenValidationService {
 
-    AuthenticationWithToken getAuthenticationByToken(Optional<String> tokenString);
+    AuthenticationWithToken validateToken(Optional<String> tokenString);
 
 }

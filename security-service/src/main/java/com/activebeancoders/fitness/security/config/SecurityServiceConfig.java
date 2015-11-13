@@ -2,6 +2,7 @@ package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
 import com.activebeancoders.fitness.security.infrastructure.ManagementEndpointAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenValidationService tokenValidationService;
 
+    @Autowired
+    private AuthenticationDao authenticationDao;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.
@@ -64,9 +68,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), authenticationService, tokenValidationService),
+        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), authenticationService, tokenValidationService, authenticationDao),
                 BasicAuthenticationFilter.class).
-                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager(), authenticationService),
+                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager(), authenticationService, authenticationDao),
                         BasicAuthenticationFilter.class);
     }
 

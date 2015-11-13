@@ -31,12 +31,15 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(ManagementEndpointAuthenticationFilter.class);
     private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
+    private AuthenticationDao authenticationDao;
     private Set<String> managementEndpoints;
 
     public ManagementEndpointAuthenticationFilter(AuthenticationManager authenticationManager,
-                                                  AuthenticationService authenticationService) {
+                                                  AuthenticationService authenticationService,
+                                                  AuthenticationDao authenticationDao) {
         this.authenticationManager = authenticationManager;
         this.authenticationService = authenticationService;
+        this.authenticationDao = authenticationDao;
         prepareManagementEndpointsSet();
     }
 
@@ -93,8 +96,7 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     private void processManagementEndpointUsernamePasswordAuthentication(Optional<String> username, Optional<String> password) throws IOException {
         Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
-        SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication); // TODO: delete?
-        authenticationService.storeValidAuthentication(resultOfAuthentication);
+        authenticationDao.save(resultOfAuthentication); // TODO: delete?
     }
 
     private Authentication tryToAuthenticateWithUsernameAndPassword(Optional<String> username, Optional<String> password) {
@@ -103,8 +105,6 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
     }
 
     private Authentication tryToAuthenticate(Authentication requestAuthentication) {
-        System.out.println(String.format("%s -> tryToAuthenticate requestAuthentication=%s", getClass().getSimpleName(),
-                requestAuthentication));
         Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Backend Admin for provided credentials");

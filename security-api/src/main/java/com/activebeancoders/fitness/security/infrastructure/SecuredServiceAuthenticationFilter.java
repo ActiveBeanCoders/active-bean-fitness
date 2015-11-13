@@ -37,11 +37,14 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     private UrlPathHelper urlPathHelper;
     private TokenValidationService tokenValidationService;
     private AuthenticationService authenticationService;
+    private AuthenticationDao authenticationDao;
 
     public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService,
-                                              AuthenticationService authenticationService) {
+                                              AuthenticationService authenticationService,
+                                              AuthenticationDao authenticationDao) {
         this.tokenValidationService = tokenValidationService;
         this.authenticationService = authenticationService;
+        this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }
 
@@ -56,14 +59,13 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         AuthenticationWithToken existingAuthentication = null;
         try {
             if (token.isPresent()) {
-                existingAuthentication = tokenValidationService.getAuthenticationByToken(token);
+                existingAuthentication = tokenValidationService.validateToken(token);
                 if (!existingAuthentication.isAuthenticated()) {
                     throw new InternalAuthenticationServiceException("Invalid token.");
                 } else {
                     // This is done so that the authentication data may be forwarded to remote method calls if needed.
                     logSuccessfulAccess(existingAuthentication, resourcePath);
-                    SecurityContextHolder.getContext().setAuthentication(existingAuthentication); // TODO: delete?
-                    authenticationService.storeValidAuthentication(existingAuthentication);
+                    authenticationDao.save(existingAuthentication);
                 }
             }
 

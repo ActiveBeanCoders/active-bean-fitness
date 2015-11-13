@@ -9,15 +9,12 @@ import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -42,13 +39,16 @@ public class AuthenticationFilter extends GenericFilterBean {
     private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
     private TokenValidationService tokenValidationService;
+    private AuthenticationDao authenticationDao;
 
     public AuthenticationFilter(AuthenticationManager authenticationManager,
                                 AuthenticationService authenticationService,
-                                TokenValidationService tokenValidationService) {
+                                TokenValidationService tokenValidationService,
+                                AuthenticationDao authenticationDao) {
         this.authenticationManager = authenticationManager;
         this.authenticationService = authenticationService;
         this.tokenValidationService = tokenValidationService;
+        this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }
 
@@ -68,8 +68,8 @@ public class AuthenticationFilter extends GenericFilterBean {
         try {
             // Is another service trying to just verify a token is still valid?
             if (postToVerifyToken(httpRequest, resourcePath)) {
-                authentication = tokenValidationService.getAuthenticationByToken(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication); // TODO: delete?
+                authentication = tokenValidationService.validateToken(token);
+                authenticationDao.save(authentication); // TODO: delete?
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
                 }
@@ -81,8 +81,7 @@ public class AuthenticationFilter extends GenericFilterBean {
                 Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
                 Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
                 AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(),password.get());
-                SecurityContextHolder.getContext().setAuthentication(resultOfAuthentication);
-                authenticationService.storeValidAuthentication(resultOfAuthentication);
+                authenticationDao.save(resultOfAuthentication);
                 httpResponse.setStatus(HttpServletResponse.SC_OK);
                 TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
                 String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
@@ -96,8 +95,8 @@ public class AuthenticationFilter extends GenericFilterBean {
 
             // Validate the token if one is present.
             if (token.isPresent()) {
-                authentication = tokenValidationService.getAuthenticationByToken(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication); // TODO: delete?
+                authentication = tokenValidationService.validateToken(token);
+                authenticationDao.save(authentication); // TODO: Delete?
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' is attempting to access '{}' without a token.", extractUsername(authentication), accessPath);
