@@ -77,7 +77,7 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
             }
             chain.doFilter(request, response);
         } catch (AuthenticationException authenticationException) {
-            SecurityContextHolder.clearContext();
+            authenticationDao.clearCurrentSessionAuthentication();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         }
     }

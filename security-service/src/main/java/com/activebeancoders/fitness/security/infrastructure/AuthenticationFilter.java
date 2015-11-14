@@ -34,7 +34,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     public static final String TOKEN_SESSION_KEY = "token";
     public static final String USER_SESSION_KEY = "user";
 
-    private final static Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private UrlPathHelper urlPathHelper;
     private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
@@ -115,12 +115,12 @@ public class AuthenticationFilter extends GenericFilterBean {
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             logFailedAccess(authentication, accessPath);
-            SecurityContextHolder.clearContext();
+            authenticationDao.clearCurrentSessionAuthentication();
             log.error("Internal authentication service exception", internalAuthenticationServiceException);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (AuthenticationException authenticationException) {
             logFailedAccess(authentication, accessPath);
-            SecurityContextHolder.clearContext();
+            authenticationDao.clearCurrentSessionAuthentication();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         } finally {
             MDC.remove(TOKEN_SESSION_KEY);
@@ -145,7 +145,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     // ```````````````````````````````````````````````````````````````````````
 
     private void addSessionContextToLogging() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");

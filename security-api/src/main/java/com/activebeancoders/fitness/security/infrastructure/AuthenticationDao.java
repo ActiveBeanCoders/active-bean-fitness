@@ -30,5 +30,9 @@ public class AuthenticationDao {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
+    public void clearCurrentSessionAuthentication() {
+        SecurityContextHolder.clearContext();
+    }
+
 }
 

@@ -63,8 +63,9 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
                 if (!existingAuthentication.isAuthenticated()) {
                     throw new InternalAuthenticationServiceException("Invalid token.");
                 } else {
-                    // This is done so that the authentication data may be forwarded to remote method calls if needed.
                     logSuccessfulAccess(existingAuthentication, resourcePath);
+
+                    // This is done so this service can forward authentication data to remote method calls.
                     authenticationDao.save(existingAuthentication);
                 }
             }
@@ -78,12 +79,12 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             logFailedAccess(existingAuthentication, resourcePath);
-            SecurityContextHolder.clearContext();
+            authenticationDao.clearCurrentSessionAuthentication();
             log.error("Internal authentication service exception", internalAuthenticationServiceException);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (AuthenticationException authenticationException) {
             logFailedAccess(existingAuthentication, resourcePath);
-            SecurityContextHolder.clearContext();
+            authenticationDao.clearCurrentSessionAuthentication();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         } finally {
             MDC.remove(TOKEN_SESSION_KEY);
@@ -108,7 +109,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     }
 
     protected void addSessionContextToLogging() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
