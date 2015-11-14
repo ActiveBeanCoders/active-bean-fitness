@@ -48,12 +48,10 @@ public class ResourceServiceSecurityConfig extends WebSecurityConfigurerAdapter 
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 authorizeRequests().
-                antMatchers("/blah").hasRole("jalsdkfj").
                 anyRequest().authenticated().
                 and().
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-
         http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationService, authenticationDao),
                 BasicAuthenticationFilter.class);
     }

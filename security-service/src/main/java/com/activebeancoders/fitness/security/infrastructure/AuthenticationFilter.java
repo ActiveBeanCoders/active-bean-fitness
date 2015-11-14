@@ -9,12 +9,9 @@ import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -36,16 +33,13 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private UrlPathHelper urlPathHelper;
-    private AuthenticationManager authenticationManager;
     private AuthenticationService authenticationService;
     private TokenValidationService tokenValidationService;
     private AuthenticationDao authenticationDao;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager,
-                                AuthenticationService authenticationService,
+    public AuthenticationFilter(AuthenticationService authenticationService,
                                 TokenValidationService tokenValidationService,
                                 AuthenticationDao authenticationDao) {
-        this.authenticationManager = authenticationManager;
         this.authenticationService = authenticationService;
         this.tokenValidationService = tokenValidationService;
         this.authenticationDao = authenticationDao;
