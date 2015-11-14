@@ -18,7 +18,7 @@ public class AuthenticationDao {
     public AuthenticationDao() {
     }
 
-    public void save(Authentication authentication) {
+    public void save(AuthenticationWithToken authentication) {
         Assert.isTrue(authentication.isAuthenticated());
         if (log.isInfoEnabled()) {
             log.info("Storing authentication in security context.");
@@ -26,8 +26,8 @@ public class AuthenticationDao {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public Authentication getCurrentSessionAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+    public AuthenticationWithToken getCurrentSessionAuthentication() {
+        return (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
     }
 
     public void clearCurrentSessionAuthentication() {

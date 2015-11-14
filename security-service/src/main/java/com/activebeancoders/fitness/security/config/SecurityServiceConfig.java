@@ -68,9 +68,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new AuthenticationFilter(authenticationManager(), authenticationService, tokenValidationService, authenticationDao),
+        http.addFilterBefore(new AuthenticationFilter(authenticationManagerBean(), authenticationService, tokenValidationService, authenticationDao),
                 BasicAuthenticationFilter.class).
-                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManager(), authenticationService, authenticationDao),
+                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManagerBean(), authenticationService, authenticationDao),
                         BasicAuthenticationFilter.class);
     }
 
@@ -81,10 +81,11 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 authenticationProvider(tokenAuthenticationProvider);
     }
 
+    // TODO: remove bean name
     @Bean(name = "fitnessAuthenticationManager")
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public AuthenticationWithTokenManager authenticationManagerBean() throws Exception {
+        return new AuthenticationWithTokenManager(super.authenticationManagerBean());
     }
 
     @Bean

@@ -95,21 +95,21 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     // protected methods
     // ```````````````````````````````````````````````````````````````````````
 
-    protected void logFailedAccess(Authentication authentication, String resourcePath) {
+    protected void logFailedAccess(AuthenticationWithToken authentication, String resourcePath) {
         if (log.isInfoEnabled()) {
             String username = authentication == null ? "<unauthorized>" : authentication.getPrincipal().toString();
             log.info("User '{}' --access-denied--> '{}'", username, resourcePath);
         }
     }
 
-    protected void logSuccessfulAccess(Authentication authentication, String resourcePath) {
+    protected void logSuccessfulAccess(AuthenticationWithToken authentication, String resourcePath) {
         if (log.isInfoEnabled()) {
             log.info("User '{}' --access-granted--> '{}'", authentication.getPrincipal(), resourcePath);
         }
     }
 
     protected void addSessionContextToLogging() {
-        Authentication authentication = authenticationDao.getCurrentSessionAuthentication();
+        AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");

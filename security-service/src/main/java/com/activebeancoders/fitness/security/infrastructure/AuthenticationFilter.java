@@ -64,7 +64,7 @@ public class AuthenticationFilter extends GenericFilterBean {
             log.info("resource '{}' requested via '{}'", accessPath, httpRequest.getMethod());
         }
 
-        Authentication authentication = null;
+        AuthenticationWithToken authentication = null;
         try {
             // Is another service trying to just verify a token is still valid?
             if (postToVerifyToken(httpRequest, resourcePath)) {
@@ -131,13 +131,13 @@ public class AuthenticationFilter extends GenericFilterBean {
     // protected methods
     // ```````````````````````````````````````````````````````````````````````
 
-    protected void logFailedAccess(Authentication authentication, String accessPath) {
+    protected void logFailedAccess(AuthenticationWithToken authentication, String accessPath) {
         if (log.isInfoEnabled()) {
             log.info("User '{}' --access-denied--> '{}'", extractUsername(authentication), accessPath);
         }
     }
 
-    protected String extractUsername(Authentication authentication) {
+    protected String extractUsername(AuthenticationWithToken authentication) {
         return authentication == null ? "<unauthorized>" : authentication.getPrincipal().toString();
     }
 
@@ -145,7 +145,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     // ```````````````````````````````````````````````````````````````````````
 
     private void addSessionContextToLogging() {
-        Authentication authentication = authenticationDao.getCurrentSessionAuthentication();
+        AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");

@@ -2,6 +2,7 @@ package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityServiceController;
+import com.activebeancoders.fitness.security.config.AuthenticationWithTokenManager;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +30,12 @@ import java.util.Set;
 public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
 
     private final static Logger log = LoggerFactory.getLogger(ManagementEndpointAuthenticationFilter.class);
-    private AuthenticationManager authenticationManager;
+    private AuthenticationWithTokenManager authenticationManager;
     private AuthenticationService authenticationService;
     private AuthenticationDao authenticationDao;
     private Set<String> managementEndpoints;
 
-    public ManagementEndpointAuthenticationFilter(AuthenticationManager authenticationManager,
+    public ManagementEndpointAuthenticationFilter(AuthenticationWithTokenManager authenticationManager,
                                                   AuthenticationService authenticationService,
                                                   AuthenticationDao authenticationDao) {
         this.authenticationManager = authenticationManager;
@@ -95,17 +96,17 @@ public class ManagementEndpointAuthenticationFilter extends GenericFilterBean {
     }
 
     private void processManagementEndpointUsernamePasswordAuthentication(Optional<String> username, Optional<String> password) throws IOException {
-        Authentication resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
+        AuthenticationWithToken resultOfAuthentication = tryToAuthenticateWithUsernameAndPassword(username, password);
         authenticationDao.save(resultOfAuthentication); // TODO: delete?
     }
 
-    private Authentication tryToAuthenticateWithUsernameAndPassword(Optional<String> username, Optional<String> password) {
+    private AuthenticationWithToken tryToAuthenticateWithUsernameAndPassword(Optional<String> username, Optional<String> password) {
         BackendAdminUsernamePasswordAuthenticationToken requestAuthentication = new BackendAdminUsernamePasswordAuthenticationToken(username, password);
         return tryToAuthenticate(requestAuthentication);
     }
 
-    private Authentication tryToAuthenticate(Authentication requestAuthentication) {
-        Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
+    private AuthenticationWithToken tryToAuthenticate(Authentication requestAuthentication) {
+        AuthenticationWithToken responseAuthentication = authenticationManager.authenticate(requestAuthentication);
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Backend Admin for provided credentials");
         }

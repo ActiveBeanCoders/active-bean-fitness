@@ -1,21 +1,14 @@
 package com.activebeancoders.fitness.security.api;
 
+import com.activebeancoders.fitness.security.config.AuthenticationWithTokenManager;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
-import com.activebeancoders.fitness.security.infrastructure.TokenResponse;
 import com.activebeancoders.fitness.security.service.UserServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author Dan Barrese
@@ -25,10 +18,10 @@ public class SecurityController extends SecurityServiceController {
 
     private UserServiceImpl userService;
     private AuthenticationService authenticationService;
-    private AuthenticationManager authenticationManager;
+    private AuthenticationWithTokenManager authenticationManager;
 
     @Autowired
-    public SecurityController(UserServiceImpl userService, AuthenticationService authenticationService, AuthenticationManager authenticationManager) {
+    public SecurityController(UserServiceImpl userService, AuthenticationService authenticationService, AuthenticationWithTokenManager authenticationManager) {
         this.userService = userService;
         this.authenticationService = authenticationService;
         this.authenticationManager = authenticationManager;
@@ -47,7 +40,7 @@ public class SecurityController extends SecurityServiceController {
         Optional<String> optionalPassword = Optional.fromNullable(password);
 
         UsernamePasswordAuthenticationToken requestAuthentication = new UsernamePasswordAuthenticationToken(optionalUsername, optionalPassword);
-        Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
+        AuthenticationWithToken responseAuthentication = authenticationManager.authenticate(requestAuthentication);
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Domain User for provided credentials");
         }

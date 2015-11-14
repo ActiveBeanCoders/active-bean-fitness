@@ -28,7 +28,7 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public AuthenticationWithToken authenticate(Authentication authentication) throws AuthenticationException {
         Optional<String> username = (Optional) authentication.getPrincipal();
         Optional<String> password = (Optional) authentication.getCredentials();
 
@@ -37,9 +37,7 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
         }
 
         AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(), password.get());
-        // TODO: try token service
-//        String newToken = tokenService.generateNewToken();
-        String newToken = UUID.randomUUID().toString();
+        String newToken = tokenService.generateNewToken();
         resultOfAuthentication.setToken(newToken);
         tokenService.store(newToken, resultOfAuthentication);
 

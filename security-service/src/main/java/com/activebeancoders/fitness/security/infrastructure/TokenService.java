@@ -34,7 +34,7 @@ public class TokenService {
         return UUID.randomUUID().toString();
     }
 
-    public void store(String token, Authentication authentication) {
+    public void store(String token, AuthenticationWithToken authentication) {
         restApiAuthTokenCache.put(new Element(token, authentication));
     }
 
@@ -42,7 +42,7 @@ public class TokenService {
         return restApiAuthTokenCache.get(token) != null;
     }
 
-    public Authentication retrieve(String token) {
-        return (Authentication) restApiAuthTokenCache.get(token).getObjectValue();
+    public AuthenticationWithToken retrieve(String token) {
+        return (AuthenticationWithToken) restApiAuthTokenCache.get(token).getObjectValue();
     }
 }

@@ -1,6 +1,7 @@
 package com.activebeancoders.fitness.security.service;
 
 import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.config.AuthenticationWithTokenManager;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
 import com.google.common.base.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 public class TokenValidationServiceImpl implements TokenValidationService {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationWithTokenManager authenticationManager;
 
     @Override
     public AuthenticationWithToken validateToken(final Optional<String> token) {
@@ -43,12 +44,12 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     }
 
     private AuthenticationWithToken tryToAuthenticate(Authentication requestAuthentication) {
-        Authentication responseAuthentication = authenticationManager.authenticate(requestAuthentication);
+        AuthenticationWithToken responseAuthentication = authenticationManager.authenticate(requestAuthentication);
         if (responseAuthentication == null || !responseAuthentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException(
                     "Unable to authenticate Domain User for provided credentials");
         }
-        return (AuthenticationWithToken) responseAuthentication;
+        return responseAuthentication;
     }
 
 }
