@@ -35,7 +35,7 @@
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-aop</artifactId> </dependency>
 
         <!-- Elasticsearch -->
-        <dependency> <groupId>net.pladform</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
 
         <!-- Logging -->
         <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> </dependency>
@@ -47,7 +47,7 @@
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
 
         <!-- misc. -->
-        <dependency> <groupId>net.pladform</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
         <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>${guava.version}</version> </dependency>
         <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
 

@@ -36,7 +36,7 @@
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-aop</artifactId> </dependency>
 
         <!-- Elasticsearch -->
-        <dependency> <groupId>net.pladform</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
 
         <!-- Hibernate -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> </dependency>
@@ -51,7 +51,8 @@
 
         <!-- misc. -->
         <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> <version>0.9.1.2</version> </dependency>
-        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency> <dependency> <groupId>net.pladform</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency>
+        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
         <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
 
     </dependencies>

@@ -44,7 +44,8 @@
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
 
         <!-- misc. -->
-        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency> <dependency> <groupId>net.pladform</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency>
+        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
 
     </dependencies>
 

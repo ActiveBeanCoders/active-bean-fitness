@@ -32,12 +32,16 @@
         <spring-session.version>1.0.0.RELEASE</spring-session.version>
         <wro4j.version>1.7.6</wro4j.version>
 
+        <!-- https://jitpack.io/#danbarrese/elasticsearch-utils -->
+        <elasticsearch-utils.version>0.2.1</elasticsearch-utils.version>
+
+        <!-- https://jitpack.io/#danbarrese/random-object-generator/ -->
+        <random-object-generator.version>0.1</random-object-generator.version>
+
         <elasticsearch-api.version>0.8.0-SNAPSHOT</elasticsearch-api.version>
-        <elasticsearch-utils.version>0.2-SNAPSHOT</elasticsearch-utils.version>
         <fitness-common.version>0.8.0-SNAPSHOT</fitness-common.version>
         <gateway.version>0.8.0-SNAPSHOT</gateway.version>
         <hibernate-api.version>0.8.0-SNAPSHOT</hibernate-api.version>
-        <random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>
         <data-access-api.version>0.8.0-SNAPSHOT</data-access-api.version>
         <ui-angular.version>0.8.0-SNAPSHOT</ui-angular.version>
         <security-api.version>0.0.1-SNAPSHOT</security-api.version>
@@ -90,7 +94,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
         </plugins>
 
         <resources>
@@ -105,6 +109,10 @@
     </build>
 
     <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
         <repository>
             <id>spring-snapshots</id>
             <name>Spring Snapshots</name>
