@@ -16,7 +16,7 @@ cd fitness-parent || die
 mvn clean install || die
 cd ..
 
-cd resource-api || die
+cd data-access-api || die
 mvn clean install || die
 cd ..
 

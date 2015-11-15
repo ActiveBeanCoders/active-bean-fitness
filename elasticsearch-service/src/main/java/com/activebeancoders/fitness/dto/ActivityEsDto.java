@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.dto;
 
-import com.activebeancoders.fitness.dto.IActivityDto;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.entity.es.mixin.ActivityMixin;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;

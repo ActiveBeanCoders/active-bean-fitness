@@ -23,7 +23,7 @@
 
         <!-- A.B.C. dependencies -->
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version> </dependency>
-        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>resource-api</artifactId> <version>${resource-api.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>data-access-api</artifactId> <version>${data-access-api.version}</version> </dependency>
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
 
         <!-- Spring -->

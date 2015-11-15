@@ -15,7 +15,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -63,7 +67,6 @@ public class AuthenticationFilter extends GenericFilterBean {
             // Is another service trying to just verify a token is still valid?
             if (postToVerifyToken(httpRequest, resourcePath)) {
                 authentication = tokenValidationService.validateToken(token);
-                authenticationDao.save(authentication); // TODO: delete?
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
                 }
@@ -90,7 +93,6 @@ public class AuthenticationFilter extends GenericFilterBean {
             // Validate the token if one is present.
             if (token.isPresent()) {
                 authentication = tokenValidationService.validateToken(token);
-                authenticationDao.save(authentication); // TODO: Delete?
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' is attempting to access '{}' without a token.", extractUsername(authentication), accessPath);

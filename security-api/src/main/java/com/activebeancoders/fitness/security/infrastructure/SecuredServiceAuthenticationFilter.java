@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
-import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -9,9 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
@@ -36,14 +33,11 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
     private TokenValidationService tokenValidationService;
-    private AuthenticationService authenticationService;
     private AuthenticationDao authenticationDao;
 
     public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService,
-                                              AuthenticationService authenticationService,
                                               AuthenticationDao authenticationDao) {
         this.tokenValidationService = tokenValidationService;
-        this.authenticationService = authenticationService;
         this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }

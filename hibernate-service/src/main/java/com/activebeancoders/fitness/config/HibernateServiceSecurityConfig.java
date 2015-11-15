@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.config;
 
-import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
@@ -36,9 +35,6 @@ public class HibernateServiceSecurityConfig extends WebSecurityConfigurerAdapter
     private TokenValidationService tokenValidationService;
 
     @Autowired
-    private AuthenticationService authenticationService;
-
-    @Autowired
     private AuthenticationDao authenticationDao;
 
     @Override
@@ -54,7 +50,7 @@ public class HibernateServiceSecurityConfig extends WebSecurityConfigurerAdapter
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
 
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationService, authenticationDao),
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationDao),
                 BasicAuthenticationFilter.class);
     }
 

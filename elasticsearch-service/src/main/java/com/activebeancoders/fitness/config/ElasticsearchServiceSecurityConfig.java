@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.config;
 
-import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
@@ -36,9 +35,6 @@ public class ElasticsearchServiceSecurityConfig extends WebSecurityConfigurerAda
     private TokenValidationService tokenValidationService;
 
     @Autowired
-    private AuthenticationService authenticationService;
-
-    @Autowired
     private AuthenticationDao authenticationDao;
 
     @Override
@@ -52,7 +48,7 @@ public class ElasticsearchServiceSecurityConfig extends WebSecurityConfigurerAda
                 and().
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationService, authenticationDao),
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationDao),
                 BasicAuthenticationFilter.class);
     }
 

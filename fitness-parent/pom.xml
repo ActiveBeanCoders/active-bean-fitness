@@ -33,12 +33,12 @@
         <wro4j.version>1.7.6</wro4j.version>
 
         <elasticsearch-api.version>0.8.0-SNAPSHOT</elasticsearch-api.version>
-        <elasticsearch-utils.version>0.1-SNAPSHOT</elasticsearch-utils.version>
+        <elasticsearch-utils.version>0.2-SNAPSHOT</elasticsearch-utils.version>
         <fitness-common.version>0.8.0-SNAPSHOT</fitness-common.version>
         <gateway.version>0.8.0-SNAPSHOT</gateway.version>
         <hibernate-api.version>0.8.0-SNAPSHOT</hibernate-api.version>
         <random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>
-        <resource-api.version>0.8.0-SNAPSHOT</resource-api.version>
+        <data-access-api.version>0.8.0-SNAPSHOT</data-access-api.version>
         <ui-angular.version>0.8.0-SNAPSHOT</ui-angular.version>
         <security-api.version>0.0.1-SNAPSHOT</security-api.version>
     </properties>

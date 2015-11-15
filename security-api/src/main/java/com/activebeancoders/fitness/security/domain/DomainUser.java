@@ -22,4 +22,6 @@ public class DomainUser implements Serializable {
     public String toString() {
         return username;
     }
+
 }
+

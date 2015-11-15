@@ -4,7 +4,6 @@ import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
-import com.activebeancoders.fitness.security.infrastructure.ManagementEndpointAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,10 +42,6 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationProvider domainUsernamePasswordAuthenticationProvider;
 
     @Autowired
-    @Qualifier("backendAdminUsernamePasswordAuthenticationProvider")
-    private AuthenticationProvider backendAdminUsernamePasswordAuthenticationProvider;
-
-    @Autowired
     @Qualifier("tokenAuthenticationProvider")
     private AuthenticationProvider tokenAuthenticationProvider;
 
@@ -68,15 +63,12 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
         http.addFilterBefore(new AuthenticationFilter(authenticationService, tokenValidationService, authenticationDao),
-                BasicAuthenticationFilter.class).
-                addFilterBefore(new ManagementEndpointAuthenticationFilter(authenticationManagerBean(), authenticationService, authenticationDao),
-                        BasicAuthenticationFilter.class);
+                BasicAuthenticationFilter.class);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(domainUsernamePasswordAuthenticationProvider).
-                authenticationProvider(backendAdminUsernamePasswordAuthenticationProvider).
                 authenticationProvider(tokenAuthenticationProvider);
     }
 
