@@ -32,6 +32,7 @@
     problem logging in. Please try again.
 </div>
 <div class="container" ng-show="!authenticated">
+    You are NOT authenticated.
     <form role="form" ng-submit="login()">
         <div class="form-group">
             <label for="username">Username:</label> <input type="text"
@@ -47,8 +48,10 @@
     </form>
 </div>
 <div class="container" ng-show="authenticated">
+    You ARE authenticated.
     <a class="btn btn-primary" href="/ui/">Go To User Interface</a>
 </div>
+<script src="js/angular-cookies.js" type="text/javascript"></script>
 <script src="js/gateway-assets.js" type="text/javascript"></script>
 <script src="js/gateway.js" type="text/javascript"></script>
 </body>

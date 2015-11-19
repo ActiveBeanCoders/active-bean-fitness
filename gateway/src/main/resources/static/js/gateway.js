@@ -1,13 +1,14 @@
-angular.module('gateway', []).config(function($httpProvider) {
-
+var app = angular.module('gateway', ['ngCookies']).config(function($httpProvider) {
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+});
 
-}).controller('navigation',
-
-function($scope, $http) {
+app.controller('navigation', ['$http', '$scope', '$cookies'], function($scope, $http, $cookies) {
+    alert('in controller');
 
 	var authenticate = function(credentials, callback) {
 
+//        $cookies.put('X-Auth-Token', '5ff12051-5bd4-4fb2-8e0b-2f26009cc311');
+        alert(credentials.username + ' ' + credentials.password);
 		var headers = credentials ? {
 			authorization : "Basic "
 					+ btoa(credentials.username + ":"
@@ -36,6 +37,7 @@ function($scope, $http) {
 
 	$scope.credentials = {};
 	$scope.login = function() {
+	    alert('login called');
 		authenticate($scope.credentials, function(authenticated) {
 			$scope.authenticated = authenticated;
 			$scope.error = !authenticated;
@@ -43,6 +45,7 @@ function($scope, $http) {
 	};
 
 	$scope.logout = function() {
+        alert('logOUT called');
 		$http.post('logout', {}).success(function() {
 			$scope.authenticated = false;
 		}).error(function(data) {
