@@ -31,12 +31,6 @@ import javax.servlet.http.HttpServletResponse;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${backend.admin.role}")
-    private String backendAdminRole;
-
-    @Autowired
-    private AuthenticationService authenticationService;
-
     @Autowired
     @Qualifier("domainUsernamePasswordAuthenticationProvider")
     private AuthenticationProvider domainUsernamePasswordAuthenticationProvider;
@@ -44,6 +38,9 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("tokenAuthenticationProvider")
     private AuthenticationProvider tokenAuthenticationProvider;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     @Autowired
     private TokenValidationService tokenValidationService;

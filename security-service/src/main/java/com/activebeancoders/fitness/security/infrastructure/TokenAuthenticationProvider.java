@@ -10,6 +10,11 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 /**
+ * Responsible for validating a session token.  Do not use this class directly.  Instead,
+ * use it through the {@link com.activebeancoders.fitness.security.config.AuthenticationWithTokenManager}
+ * or the {@link com.activebeancoders.fitness.security.api.AuthenticationService} or the
+ * {@link com.activebeancoders.fitness.security.api.TokenValidationService}.
+ *
  * @author Dan Barrese
  */
 @Component

@@ -7,14 +7,19 @@ public abstract class SecurityClientController {
 
     protected static final String API_PATH = "/api/v1";
 
-    public static final String AUTHENTICATE_URL = API_PATH + "/authenticate";
-    public static final String VERIFY_TOKEN_URL = API_PATH + "/token/verify";
+    public static String getAuthenticateEndpointFromRESTCall() {
+        return "/public/authenticate";
+    }
 
-    public static String getAuthenticateUri() {
+    public static String getAuthenticateEndpointFromRemoteMethodCall() {
         return "authenticationService.http";
     }
 
-    public static String getTokenValidationUri() {
+    public static String getTokenValidationEndpointFromRESTCall() {
+        return "public/token/verify";
+    }
+
+    public static String getTokenValidationEndpointFromRemoteMethodCall() {
         return "tokenValidationService.http";
     }
 

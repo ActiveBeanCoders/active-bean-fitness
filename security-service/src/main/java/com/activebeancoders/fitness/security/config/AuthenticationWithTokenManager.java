@@ -6,6 +6,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 /**
+ * "AuthenticationWithToken" manager.
+ * <p>
+ * Wrapper class for {@link org.springframework.security.authentication.AuthenticationManager}
+ * so I can use my own {@link com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken}
+ * class instead of the default {@link org.springframework.security.core.Authentication}.
+ *
  * @author Dan Barrese
  */
 public class AuthenticationWithTokenManager implements AuthenticationManager {

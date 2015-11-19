@@ -27,7 +27,11 @@ public class AuthenticationDao {
     }
 
     public AuthenticationWithToken getCurrentSessionAuthentication() {
-        return (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return AuthenticationWithToken.nonAuthenticatedInstance();
+        }
+        return (AuthenticationWithToken) authentication;
     }
 
     public void clearCurrentSessionAuthentication() {

@@ -21,7 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * External services can use this filter to authenticate requests against the security service.
+ * Responsible for authenticating requests by verifying them against the security-service.
+ * All services, except the security-service, should use this filter.  This will allow
+ * services to authenticate a session token against the security-service to allow requests
+ * to secured resources.
  *
  * @author Dan Barrese
  */
@@ -42,6 +45,21 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         urlPathHelper = new UrlPathHelper();
     }
 
+    /**
+     * This filter will retrieve the session token (X-Auth-Token) from the request header
+     * if it exists and verify it is a valid token.  If the token is invalid, the request
+     * is not processed and an exception is thrown.
+     * <p>
+     * If no token is present on the request, this filter will pass the request to the
+     * next filter in the chain.  This is because the requested resource may not be
+     * secured and may not require a valid session at all.
+     *
+     * @param request The HTTP request.
+     * @param response The HTTP response.
+     * @param chain The filter chain.
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = asHttp(request);
@@ -54,14 +72,10 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         try {
             if (token.isPresent()) {
                 existingAuthentication = tokenValidationService.validateToken(token);
-                if (!existingAuthentication.isAuthenticated()) {
-                    throw new InternalAuthenticationServiceException("Invalid token.");
-                } else {
-                    logSuccessfulAccess(existingAuthentication, resourcePath);
+                logSuccessfulAccess(existingAuthentication, resourcePath);
 
-                    // This is done so this service can forward authentication data to remote method calls.
-                    authenticationDao.save(existingAuthentication);
-                }
+                // This is done so this service can forward authentication data to remote method calls.
+                authenticationDao.save(existingAuthentication);
             }
 
             if (log.isDebugEnabled()) {
@@ -91,29 +105,29 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
     protected void logFailedAccess(AuthenticationWithToken authentication, String resourcePath) {
         if (log.isInfoEnabled()) {
-            String username = authentication == null ? "<unauthorized>" : authentication.getPrincipal().toString();
+            String username = authentication == null ? "<unauthorized>" : authentication.getUsername();
             log.info("User '{}' --access-denied--> '{}'", username, resourcePath);
         }
     }
 
     protected void logSuccessfulAccess(AuthenticationWithToken authentication, String resourcePath) {
         if (log.isInfoEnabled()) {
-            log.info("User '{}' --access-granted--> '{}'", authentication.getPrincipal(), resourcePath);
+            log.info("User '{}' --access-granted--> '{}'", authentication.getUsername(), resourcePath);
         }
     }
 
     protected void addSessionContextToLogging() {
         AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
+        if (authentication != null && !Strings.isNullOrEmpty(authentication.getToken())) {
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            tokenValue = encoder.encodePassword(authentication.getDetails().toString(), "not_so_random_salt");
+            tokenValue = encoder.encodePassword(authentication.getToken(), "not_so_random_salt");
         }
         MDC.put(TOKEN_SESSION_KEY, tokenValue);
 
         String userValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getPrincipal().toString())) {
-            userValue = authentication.getPrincipal().toString();
+        if (authentication != null && !Strings.isNullOrEmpty(authentication.getUsername())) {
+            userValue = authentication.getUsername();
         }
         MDC.put(USER_SESSION_KEY, userValue);
     }

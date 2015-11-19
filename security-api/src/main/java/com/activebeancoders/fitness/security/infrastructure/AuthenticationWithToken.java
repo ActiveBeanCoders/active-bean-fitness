@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.google.common.base.Objects;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -14,10 +15,11 @@ import java.util.UUID;
 public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final AuthenticationWithToken NON_AUTHENTICATED_INSTANCE = new AuthenticationWithToken();
     private String csrfToken;
 
     public static AuthenticationWithToken nonAuthenticatedInstance() {
-        return new AuthenticationWithToken();
+        return NON_AUTHENTICATED_INSTANCE;
     }
 
     public static AuthenticationWithToken createFrom(Authentication authentication) {
@@ -30,14 +32,13 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
         return authenticationWithToken;
     }
 
-    public AuthenticationWithToken(Object aPrincipal, Object aCredentials) {
-        super(aPrincipal, aCredentials);
+    public AuthenticationWithToken(Object principal, Object credentials) {
+        super(principal == null ? null : principal.toString(), credentials);
         csrfToken = UUID.randomUUID().toString();
     }
 
-    public AuthenticationWithToken(Object aPrincipal, Object aCredentials,
-                                   Collection<? extends GrantedAuthority> anAuthorities) {
-        super(aPrincipal, aCredentials, anAuthorities);
+    public AuthenticationWithToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
+        super(principal == null ? null : principal.toString(), credentials, grantedAuthorities);
         csrfToken = UUID.randomUUID().toString();
     }
 
@@ -46,13 +47,32 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
     }
 
     public String getToken() {
-        return (String) getDetails();
+        return String.valueOf(getDetails());
     }
 
     public String getCsrfToken() {
         return csrfToken;
     }
 
+    public String getUsername() {
+        return getPrincipal();
+    }
+
+    @Override
+    public String getPrincipal() {
+        Object principal = super.getPrincipal();
+        return principal == null ? null : principal.toString();
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("username", getUsername())
+                .add("isAuthenticated", isAuthenticated())
+                .add("sessionToken", getToken())
+                .add("csrfToken", getCsrfToken())
+                .toString();
+    }
     // private methods
     // ```````````````````````````````````````````````````````````````````````
 

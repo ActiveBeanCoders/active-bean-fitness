@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableConfigurationProperties
+// TODO: rename to DataAccessServiceApplication
 public class ResourceServiceApplication {
 
     public static void main(String[] args) {

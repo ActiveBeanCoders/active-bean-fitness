@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.remoting.httpinvoker.HttpComponentsHttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.HttpInvokerClientConfiguration;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -23,13 +22,17 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
     private AuthenticationDao authenticationDao;
+
+    @Autowired
+    public AuthenticationTokenHttpInvokerRequestExecutor(AuthenticationDao authenticationDao) {
+        this.authenticationDao = authenticationDao;
+    }
 
     @Override
     protected HttpPost createHttpPost(HttpInvokerClientConfiguration config) throws IOException {
         HttpPost httpPost = super.createHttpPost(config);
-        AuthenticationWithToken authentication = AuthenticationWithToken.createFrom(authenticationDao.getCurrentSessionAuthentication());
+        AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
         if (authentication.isAuthenticated()) {
             // authentication.getAuthorities() -> user's roles
             // authentication.getCredentials() -> ?
@@ -39,17 +42,11 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
 
             String sessionToken = authentication.getToken();
             if (StringUtils.hasLength(sessionToken)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("injecting X-Auth-Token '{}' into request for '{}'.", sessionToken, httpPost.getRequestLine());
-                }
                 httpPost.addHeader("X-Auth-Token", sessionToken);
             }
 
             String csrfToken = authentication.getCsrfToken();
             if (StringUtils.hasLength(csrfToken)) {
-                if (log.isDebugEnabled()) {
-                    log.debug("injecting X-XSRF-TOKEN '{}' into request for '{}'.", csrfToken, httpPost.getRequestLine());
-                }
                 httpPost.addHeader("X-XSRF-TOKEN", csrfToken);
             }
         }

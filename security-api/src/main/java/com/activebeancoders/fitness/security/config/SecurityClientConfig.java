@@ -36,7 +36,7 @@ public class SecurityClientConfig {
     public AuthenticationService remoteAuthenticationService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
         // TODO: use https
-        proxy.setServiceUrl("http://localhost:9999/public/" + SecurityClientController.getAuthenticateUri());
+        proxy.setServiceUrl("http://localhost:9999/public/" + SecurityClientController.getAuthenticateEndpointFromRemoteMethodCall());
         proxy.setServiceInterface(AuthenticationService.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();
@@ -47,7 +47,7 @@ public class SecurityClientConfig {
     public TokenValidationService remoteTokenValidationService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
         // TODO: use https
-        proxy.setServiceUrl("http://localhost:9999/public/" + SecurityClientController.getTokenValidationUri());
+        proxy.setServiceUrl("http://localhost:9999/public/" + SecurityClientController.getTokenValidationEndpointFromRemoteMethodCall());
         proxy.setServiceInterface(TokenValidationService.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();

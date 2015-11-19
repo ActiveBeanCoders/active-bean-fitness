@@ -15,11 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,6 +36,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     private AuthenticationService authenticationService;
     private TokenValidationService tokenValidationService;
     private AuthenticationDao authenticationDao;
+    private ObjectMapper jsonMapper;
 
     public AuthenticationFilter(AuthenticationService authenticationService,
                                 TokenValidationService tokenValidationService,
@@ -48,6 +45,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         this.tokenValidationService = tokenValidationService;
         this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
+        jsonMapper = new ObjectMapper();
     }
 
     @Override
@@ -65,43 +63,38 @@ public class AuthenticationFilter extends GenericFilterBean {
         AuthenticationWithToken authentication = null;
         try {
             // Is another service trying to just verify a token is still valid?
-            if (postToVerifyToken(httpRequest, resourcePath)) {
-                authentication = tokenValidationService.validateToken(token);
-                if (log.isInfoEnabled()) {
-                    log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
-                }
-                return;
-            }
+            // TODO: I don't think the verify token should be exposed as REST endpoint.
+//            if (postToVerifyTokenRestEndpoint(httpRequest, resourcePath)) {
+//                authentication = tokenValidationService.validateToken(token);
+//                if (log.isInfoEnabled()) {
+//                    log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
+//                }
+//                return;
+//            }
 
             // Is a user trying to authenticate by username/password?
-            if (postToAuthenticate(httpRequest, resourcePath)) {
-                Optional<String> username = Optional.fromNullable(httpRequest.getHeader("X-Auth-Username"));
-                Optional<String> password = Optional.fromNullable(httpRequest.getHeader("X-Auth-Password"));
-                AuthenticationWithToken resultOfAuthentication = authenticationService.authenticate(username.get(),password.get());
-                authenticationDao.save(resultOfAuthentication);
+            if (postToAuthenticateRestEndpoint(httpRequest, resourcePath)) {
+                authentication = authenticationService.authenticate(httpRequest.getHeader("X-Auth-Username"), httpRequest.getHeader("X-Auth-Password"));
                 httpResponse.setStatus(HttpServletResponse.SC_OK);
-                TokenResponse tokenResponse = new TokenResponse(resultOfAuthentication.getDetails().toString());
-                String tokenJsonResponse = new ObjectMapper().writeValueAsString(tokenResponse);
+                TokenResponse tokenResponse = new TokenResponse(authentication.getToken());
+                String tokenJsonResponse = jsonMapper.writeValueAsString(tokenResponse);
                 httpResponse.addHeader("Content-Type", "application/json");
                 httpResponse.getWriter().print(tokenJsonResponse);
-                if (log.isInfoEnabled()) {
-                    log.info("User '{}' authenticating...succeeded={}", extractUsername(authentication), authentication.isAuthenticated());
-                }
                 return;
             }
 
             // Validate the token if one is present.
             if (token.isPresent()) {
                 authentication = tokenValidationService.validateToken(token);
+                if (!authentication.isAuthenticated()) {
+                    throw new InternalAuthenticationServiceException("Invalid session token.");
+                }
             } else {
                 if (log.isInfoEnabled()) {
                     log.info("User '{}' is attempting to access '{}' without a token.", extractUsername(authentication), accessPath);
                 }
             }
 
-            if (log.isInfoEnabled() && authentication != null && authentication.isAuthenticated()) {
-                log.info("User '{}' --access-granted--> '{}'", extractUsername(authentication), accessPath);
-            }
             if (log.isDebugEnabled()) {
                 log.debug("AuthenticationFilter is passing request down the filter chain");
             }
@@ -134,7 +127,7 @@ public class AuthenticationFilter extends GenericFilterBean {
     }
 
     protected String extractUsername(AuthenticationWithToken authentication) {
-        return authentication == null ? "<unauthorized>" : authentication.getPrincipal().toString();
+        return authentication == null ? "<unauthorized>" : authentication.getUsername();
     }
 
     // private methods
@@ -143,15 +136,17 @@ public class AuthenticationFilter extends GenericFilterBean {
     private void addSessionContextToLogging() {
         AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
         String tokenValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getDetails().toString())) {
+        if (authentication != null && !Strings.isNullOrEmpty(authentication.getToken())) {
+            // TODO: SHA-1 ok?
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            tokenValue = encoder.encodePassword(authentication.getDetails().toString(), "not_so_random_salt");
+            // TODO: redo salt
+            tokenValue = encoder.encodePassword(authentication.getToken(), "not_so_random_salt");
         }
         MDC.put(TOKEN_SESSION_KEY, tokenValue);
 
         String userValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getPrincipal().toString())) {
-            userValue = authentication.getPrincipal().toString();
+        if (authentication != null && !Strings.isNullOrEmpty(authentication.getUsername())) {
+            userValue = authentication.getUsername();
         }
         MDC.put(USER_SESSION_KEY, userValue);
     }
@@ -164,13 +159,16 @@ public class AuthenticationFilter extends GenericFilterBean {
         return (HttpServletResponse) response;
     }
 
-    private boolean postToAuthenticate(HttpServletRequest httpRequest, String resourcePath) {
-        return SecurityClientController.getAuthenticateUri().equalsIgnoreCase(resourcePath) && httpRequest.getMethod().equals("POST");
+    private boolean postToAuthenticateRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
+        return httpRequest.getMethod().equals("POST") &&
+                SecurityClientController.getAuthenticateEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
+
     }
 
-    private boolean postToVerifyToken(HttpServletRequest httpRequest, String resourcePath) {
-        return SecurityClientController.getTokenValidationUri().equalsIgnoreCase(resourcePath) && httpRequest.getMethod().equals("POST");
-    }
+//    private boolean postToVerifyTokenRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
+//        return httpRequest.getMethod().equals("POST") &&
+//                SecurityClientController.getTokenValidationEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
+//    }
 
     // TODO: move to common api
     private String toStringRequest(HttpServletRequest httpRequest) {
