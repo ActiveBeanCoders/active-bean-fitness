@@ -1,0 +1,37 @@
+# Active Bean Fitness Architecture
+
+## Project Descriptions
+
+### gateway
+All requests for anything should come through here.  This project will route
+any request to the proper location.  This project contains the log-in page.
+
+### ui-angular
+Contains all the code for the web UI in Angular except the log-in page, which
+is in the gateway project.
+
+### elasticsearch-service
+Used to move data in/out of Elasticsearch.
+
+### hibernate-service
+Used to move data in/out of MySQL.
+
+### resource
+Abstraction layer for storage mechanisms.  Also serves as a generic resource
+server for misc stuff.
+
+## Project Locations
+
+PROJECT                 PORT
+---------------------   ----
+ui-angular              8082
+elasticsearch-service   8083
+hibernate-service       8086
+resource                9000
+gateway                 8080
+|   ROUTE         URL
+|   -----------   --------------------------------
+`-- /ui           http://localhost:8082
+`-- /es           http://localhost:8083
+`-- /admin        http://localhost:8084
+`-- /resource     http://localhost:9000

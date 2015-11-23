@@ -1,0 +1,17 @@
+<section>
+    <h2>Welcome to the View Log Page!</h2>
+
+    <div ng-controller="MainCtrl" ng-cloak class="ng-cloak">
+        <h3>Most recent activities...</h3>
+
+        <div ng-repeat="recentActivity in recentActivities">
+            <ul>
+                <li>date: {{recentActivity.date}}</li>
+                <li>activity: {{recentActivity.activity}}</li>
+                <li>distance: {{recentActivity.distance}} {{recentActivity.unit}}</li>
+                <li>duration: {{recentActivity.distHour}}h {{recentActivity.distMin}}m {{recentActivity.distSec}}s</li>
+                <li>comment: {{recentActivity.comment}}</li>
+            </ul>
+        </div>
+    </div>
+</section>

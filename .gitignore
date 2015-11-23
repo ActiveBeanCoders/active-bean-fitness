@@ -1,17 +1,18 @@
 *~
 *.swp
-tags
-target
-bin
+tags/
+target/
+bin/
 workspace.xml
 .idea
 *.iml
-data
+data/
 .name
 .classpath
 .project
-.settings
+.settings/
 .gradle
-build
+build/
 gradle
+**/*.log
 
