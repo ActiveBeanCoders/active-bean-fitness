@@ -1,16 +1,104 @@
 var app = angular.module('app', ['ngTouch', 'ngCookies']);
 
-//app.config(function($httpProvider, $cookies) {
-//    $httpProvider.defaults.headers.common['X-Auth-Token'] = '5ff12051-5bd4-4fb2-8e0b-2f26009cc311';
-//    $cookies.put('X-Auth-Token', '5ff12051-5bd4-4fb2-8e0b-2f26009cc311');
-//    $httpProvider.defaults.headers.common['X-Auth-Token'] = $cookies.get('X-Auth-Token');
-//});
-
 app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', '$rootScope', '$window', '$cookies',
     function ($scope, $http, $log, $interval, $filter, $rootScope, $window, $cookies) {
 
-//    $http.defaults.headers.common['X-Auth-Token'] = '5ff12051-5bd4-4fb2-8e0b-2f26009cc311';
-    $http.defaults.headers.common['X-Auth-Token'] = $cookies.get('X-Auth-Token');
+    // authentication stuff
+    // -----------------------------------------------------------------------
+
+    // holds username, password
+	$scope.credentials = {};
+
+	// Indicates if user is authenticated.
+    $scope.authenticated = false;
+
+    // Default username.
+    $scope.username = "guest";
+
+    // authenticates the given credentials
+	var verifyToken = function(token) {
+        $http({
+            method: 'POST',
+            url: '/security/public/token/verify',
+            headers: {
+                'X-Auth-Token': token
+            }
+        }).
+        success(function(data, status, headers, config) {
+            return true;
+        }).
+        error(function(data, status, headers, config) {
+            return false;
+        });
+    }
+
+	// If the session token exists as a cookie, set it to be used for every HTTP(S) request.
+	var useSessionTokenForEachRequest = function() {
+	    sessionTokenCookie = $cookies.get('X-Auth-Token');
+	    if (sessionTokenCookie) {
+            $scope.authenticated = true;
+            $http.defaults.headers.common['X-Auth-Token'] = sessionTokenCookie;
+	    }
+	    username = $cookies.get('username');
+	    if (username) {
+            $scope.username = $cookies.get('username');
+	    }
+	}
+
+    // Clears all user data held locally as JS variables or browser cookies.
+	var clearLocalUserData = function() {
+        $cookies.remove('X-Auth-Token');
+        $cookies.remove('username');
+        $scope.authenticated = false;
+        $scope.username = "guest";
+	}
+
+    // authenticates the given credentials
+	var authenticate = function(credentials) {
+        $http({
+            method: 'POST',
+            url: '/security/public/authenticate',
+            headers: {
+                'X-Auth-Username': credentials.username,
+                'X-Auth-Password': credentials.password
+            }
+        }).
+        success(function(data, status, headers, config) {
+            $scope.authenticated = true;
+            cookieOptions = {}
+//            cookieOptions.domain = "localhost";
+//            cookieOptions.secure = true; // restricts to HTTPS only
+            $cookies.put('X-Auth-Token', data.token, cookieOptions);
+            $cookies.put('username', credentials.username, cookieOptions);
+            useSessionTokenForEachRequest();
+            $window.location.reload();
+        }).
+        error(function(data, status, headers, config) {
+            clearLocalUserData();
+        });
+    }
+
+    useSessionTokenForEachRequest(); // if it exists.
+
+    // Log-in function
+	$scope.login = function() {
+		authenticate($scope.credentials);
+	};
+
+    // Log-out function
+	$scope.logout = function() {
+		$http.post('/security/public/logout', {})
+		.success(function() {
+            clearLocalUserData();
+			$window.location.reload();
+		}).error(function(data) {
+		    // TODO: do something useful here instead of alert.
+            alert('log-out failed');
+		});
+	}
+
+    // other stuff
+    // -----------------------------------------------------------------------
 
     $scope.messages = [];
 
@@ -102,85 +190,6 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     $http.get('/resource/activityLog').success(function(data) {
         $scope.recentActivities = data;
     });
-
-	console.log('Loading')
-	$http.get('user').success(function(data) {
-		if (data.name) {
-			$scope.authenticated = true;
-			$scope.user = data.name
-		} else {
-			$scope.authenticated = false;
-		}
-	}).error(function() {
-		$scope.authenticated = false;
-	});
-
-	var authenticate = function(credentials, callback) {
-//        $cookies.put('X-Auth-Token', '5ff12051-5bd4-4fb2-8e0b-2f26009cc311');
-//        alert(credentials.username + ' ' + credentials.password);
-        alert('authenticating...');
-        $http({
-            method: 'POST',
-            url: '/security/public/authenticate',
-            headers: {
-                'X-Auth-Username': 'user',
-                'X-Auth-Password': 'password'
-            }
-        }).
-        success(function(data, status, headers, config) {
-            alert('AUTHENTIACTED!! with data:' + data);
-//            $scope.authenticated = true;
-//            $cookies.put('X-Auth-Token', data);
-//            $http.defaults.headers.common['X-Auth-Token'] = data;
-        }).
-        error(function(data, status, headers, config) {
-            alert('failed to authenticate...');
-//            $scope.authenticated = false;
-        });
-    }
-//		var headers = credentials ? {
-//			authorization : "Basic "
-//					+ btoa(credentials.username + ":"
-//							+ credentials.password)
-//		} : {};
-//
-//		$scope.user = ''
-//		$http.get('user', {
-//			headers : headers
-//		}).success(function(data) {
-//			if (data.name) {
-//				$scope.authenticated = true;
-//				$scope.user = data.name
-//			} else {
-//				$scope.authenticated = false;
-//			}
-//			callback && callback(true);
-//		}).error(function() {
-//			$scope.authenticated = false;
-//			callback && callback(false);
-//		});
-//
-//	}
-//
-//	authenticate();
-
-	$scope.credentials = {};
-	$scope.login = function() {
-		authenticate($scope.credentials, function(authenticated) {
-			$scope.authenticated = authenticated;
-			$scope.error = !authenticated;
-		})
-	};
-
-//	$scope.logout = function() {
-//        alert('logOUT called');
-//		$http.post('logout', {}).success(function() {
-//			$scope.authenticated = false;
-//		}).error(function(data) {
-//			console.log("Logout failed")
-//			$scope.authenticated = false;
-//		});
-//	}
 
 }]);
 

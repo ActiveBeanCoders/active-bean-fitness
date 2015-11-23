@@ -20,8 +20,8 @@ import java.util.Map;
  * @author Dan Barrese
  */
 @Configuration
-@PropertySource(value = "classpath:/application.properties", ignoreResourceNotFound = false)
-public class ResourceServiceConfig {
+@PropertySource(value = "classpath:/data-access-service.properties", ignoreResourceNotFound = false)
+public class DataAccessServiceConfig {
 
     @Autowired
     @Qualifier("remoteActivityEsDto")

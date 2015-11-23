@@ -5,7 +5,6 @@
         problem logging in. Please try again.
     </div>
     <div class="container" ng-show="!authenticated">
-        You are NOT authenticated.
         <form role="form" ng-submit="login()">
             <div class="form-group">
                 <label for="username">Username:</label> <input type="text"
@@ -21,6 +20,6 @@
         </form>
     </div>
     <div class="container" ng-show="authenticated">
-        You ARE authenticated.
+        Hi {{username}}!
     </div>
 </section>

@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
  *
  * @author Dan Barrese
  */
+// TODO: this class is in the wrong package.
 public class AuthenticationWithTokenManager implements AuthenticationManager {
 
     AuthenticationManager authenticationManager;

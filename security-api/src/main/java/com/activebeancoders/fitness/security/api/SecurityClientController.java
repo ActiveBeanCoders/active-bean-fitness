@@ -7,6 +7,10 @@ public abstract class SecurityClientController {
 
     protected static final String API_PATH = "/api/v1";
 
+    public static String getLogoutEndpointFromRESTCall() {
+        return "/public/logout";
+    }
+
     public static String getAuthenticateEndpointFromRESTCall() {
         return "/public/authenticate";
     }

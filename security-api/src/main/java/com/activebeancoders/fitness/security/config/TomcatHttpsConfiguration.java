@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness;
+package com.activebeancoders.fitness.security.config;
 
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.io.File;
  * @author Dan Barrese
  */
 //@Configuration
-public class ContainerConfiguration {
+public class TomcatHttpsConfiguration {
 
     @Bean
     EmbeddedServletContainerCustomizer containerCustomizer(
@@ -53,3 +53,4 @@ public class ContainerConfiguration {
         };
     }
 }
+

@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * @author Dan Barrese
  */
+// TODO: rename DTO to DAO.
 public class ActivityDto extends RotatableDto<IActivityDto> implements IActivityDto {
 
     private static final Logger log = LoggerFactory.getLogger(ActivityDto.class);

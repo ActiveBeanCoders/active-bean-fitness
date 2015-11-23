@@ -41,6 +41,10 @@ public class TokenService {
         return restApiAuthTokenCache.get(token) != null;
     }
 
+    public boolean remove(String token) {
+        return restApiAuthTokenCache.remove(token);
+    }
+
     public AuthenticationWithToken retrieve(String token) {
         return (AuthenticationWithToken) restApiAuthTokenCache.get(token).getObjectValue();
     }

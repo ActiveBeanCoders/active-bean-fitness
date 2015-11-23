@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * @author Dan Barrese
  */
-public class DataLoadControllerTest extends BaseTest {
+public class DataLoadControllerIT extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

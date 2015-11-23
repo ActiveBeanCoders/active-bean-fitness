@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @author Dan Barrese
  */
-public class ActivityControllerTest extends BaseTest {
+public class ActivityControllerIT extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

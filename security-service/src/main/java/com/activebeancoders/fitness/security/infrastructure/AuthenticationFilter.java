@@ -62,24 +62,28 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         AuthenticationWithToken authentication = null;
         try {
-            // Is another service trying to just verify a token is still valid?
-            // TODO: I don't think the verify token should be exposed as REST endpoint.
-//            if (postToVerifyTokenRestEndpoint(httpRequest, resourcePath)) {
-//                authentication = tokenValidationService.validateToken(token);
-//                if (log.isInfoEnabled()) {
-//                    log.info("User '{}' verifying token...authenticated={}", extractUsername(authentication), authentication.isAuthenticated());
-//                }
-//                return;
-//            }
+            // Is a user trying to validate token?
+            if (postToValidateTokenRestEndpoint(httpRequest, resourcePath)) {
+                Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
+                tokenValidationService.validateToken(sessionToken);
+                return;
+            }
 
             // Is a user trying to authenticate by username/password?
             if (postToAuthenticateRestEndpoint(httpRequest, resourcePath)) {
+                // TODO: set cookie on response?  Is that more secure?
                 authentication = authenticationService.authenticate(httpRequest.getHeader("X-Auth-Username"), httpRequest.getHeader("X-Auth-Password"));
-                httpResponse.setStatus(HttpServletResponse.SC_OK);
                 TokenResponse tokenResponse = new TokenResponse(authentication.getToken());
                 String tokenJsonResponse = jsonMapper.writeValueAsString(tokenResponse);
                 httpResponse.addHeader("Content-Type", "application/json");
                 httpResponse.getWriter().print(tokenJsonResponse);
+                return;
+            }
+
+            // Is a user trying to log-out?
+            if (postToLogoutRestEndpoint(httpRequest, resourcePath)) {
+                Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
+                tokenValidationService.invalidateToken(sessionToken);
                 return;
             }
 
@@ -139,7 +143,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getToken())) {
             // TODO: SHA-1 ok?
             MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            // TODO: redo salt
+            // TODO: redo salt?
             tokenValue = encoder.encodePassword(authentication.getToken(), "not_so_random_salt");
         }
         MDC.put(TOKEN_SESSION_KEY, tokenValue);
@@ -159,16 +163,20 @@ public class AuthenticationFilter extends GenericFilterBean {
         return (HttpServletResponse) response;
     }
 
+    private boolean postToValidateTokenRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
+        return httpRequest.getMethod().equals("POST") &&
+                SecurityClientController.getTokenValidationEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
+    }
+
     private boolean postToAuthenticateRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
         return httpRequest.getMethod().equals("POST") &&
                 SecurityClientController.getAuthenticateEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
-
     }
 
-//    private boolean postToVerifyTokenRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
-//        return httpRequest.getMethod().equals("POST") &&
-//                SecurityClientController.getTokenValidationEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
-//    }
+    private boolean postToLogoutRestEndpoint(HttpServletRequest httpRequest, String resourcePath) {
+        return httpRequest.getMethod().equals("POST") &&
+                SecurityClientController.getLogoutEndpointFromRESTCall().equalsIgnoreCase(resourcePath);
+    }
 
     // TODO: move to common api
     private String toStringRequest(HttpServletRequest httpRequest) {

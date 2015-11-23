@@ -20,8 +20,8 @@ public class AuthenticationDao {
 
     public void save(AuthenticationWithToken authentication) {
         Assert.isTrue(authentication.isAuthenticated());
-        if (log.isInfoEnabled()) {
-            log.info("Storing authentication in security context.");
+        if (log.isDebugEnabled()) {
+            log.debug("Storing authentication in security context.");
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

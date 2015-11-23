@@ -2,12 +2,6 @@
     <h2>Welcome to the View Log Page!</h2>
 
     <div ng-controller="MainCtrl" ng-cloak class="ng-cloak">
-        <p>
-            stuff='{{stuff}}'
-        </p>
-
-        <p>
-
         <h3>Most recent activities...</h3>
 
         <div ng-repeat="recentActivity in recentActivities">
@@ -19,6 +13,5 @@
                 <li>comment: {{recentActivity.comment}}</li>
             </ul>
         </div>
-        </p>
     </div>
 </section>

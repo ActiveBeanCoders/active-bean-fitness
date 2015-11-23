@@ -35,11 +35,15 @@ public class TokenValidationServiceImpl implements TokenValidationService {
         PreAuthenticatedAuthenticationToken requestAuthentication = new PreAuthenticatedAuthenticationToken(token, null);
         AuthenticationWithToken authentication = tokenAuthenticationProvider.authenticate(requestAuthentication);
         if (authentication == null || !authentication.isAuthenticated()) {
-            // TODO: which one?
-//            AuthenticationWithToken.nonAuthenticatedInstance();
             throw new InternalAuthenticationServiceException("Unable to authenticate Domain User for provided credentials");
         }
         return authentication;
     }
 
+    @Override
+    public void invalidateToken(@Nonnull final Optional<String> token) {
+        tokenAuthenticationProvider.invalidate(token);
+    }
+
 }
+

@@ -44,5 +44,12 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(PreAuthenticatedAuthenticationToken.class);
     }
 
+    public boolean invalidate(final Optional<String> token) throws AuthenticationException {
+        if (!token.isPresent() || token.get().isEmpty()) {
+            return false;
+        }
+        return tokenService.remove(token.get());
+    }
+
 }
 

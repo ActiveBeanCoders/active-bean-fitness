@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import(SecurityClientConfig.class)
-public class ResourceServiceSecurityConfig extends WebSecurityConfigurerAdapter {
+public class DataAccessServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Qualifier("remoteTokenValidationService")
@@ -39,6 +39,7 @@ public class ResourceServiceSecurityConfig extends WebSecurityConfigurerAdapter 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic().disable();
         http.
                 csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).

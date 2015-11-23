@@ -104,15 +104,15 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     // ```````````````````````````````````````````````````````````````````````
 
     protected void logFailedAccess(AuthenticationWithToken authentication, String resourcePath) {
-        if (log.isInfoEnabled()) {
+        if (log.isDebugEnabled()) {
             String username = authentication == null ? "<unauthorized>" : authentication.getUsername();
-            log.info("User '{}' --access-denied--> '{}'", username, resourcePath);
+            log.debug("User '{}' --access-denied--> '{}'", username, resourcePath);
         }
     }
 
     protected void logSuccessfulAccess(AuthenticationWithToken authentication, String resourcePath) {
-        if (log.isInfoEnabled()) {
-            log.info("User '{}' --access-granted--> '{}'", authentication.getUsername(), resourcePath);
+        if (log.isDebugEnabled()) {
+            log.debug("User '{}' --access-granted--> '{}'", authentication.getUsername(), resourcePath);
         }
     }
 

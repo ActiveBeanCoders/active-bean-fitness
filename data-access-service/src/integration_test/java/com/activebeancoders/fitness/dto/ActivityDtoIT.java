@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Dan Barrese
  */
-public class ActivityDtoTest extends BaseTest {
+public class ActivityDtoIT extends BaseTest {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

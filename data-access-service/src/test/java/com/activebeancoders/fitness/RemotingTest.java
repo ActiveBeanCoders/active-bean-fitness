@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Dan Barrese
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ResourceServiceApplication.class})
+@ContextConfiguration(classes = {DataAccessServiceApplication.class})
 public class RemotingTest {
 
     @Autowired
