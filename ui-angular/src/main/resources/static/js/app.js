@@ -71,7 +71,6 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
             $cookies.put('X-Auth-Token', data.token, cookieOptions);
             $cookies.put('username', credentials.username, cookieOptions);
             useSessionTokenForEachRequest();
-            $window.location.reload();
         }).
         error(function(data, status, headers, config) {
             clearLocalUserData();
@@ -97,7 +96,17 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 		});
 	}
 
-    // other stuff
+    // "private" functions (not accessible from the UI).
+    // -----------------------------------------------------------------------
+
+    var loadActivityLog = function() {
+        $http.get('/resource/activityLog').success(function(data) {
+            $scope.recentActivities = data;
+        });
+    }
+
+
+    // variables accessible in the UI
     // -----------------------------------------------------------------------
 
     $scope.messages = [];
@@ -120,7 +129,9 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     $scope.logPage = "Log_Page";
     $scope.workoutsPage = "Workouts_Page";
     $scope.viewOthersPage = "View_Others_Page";
-	$scope.danObject = {};
+
+    // functions accessible in the UI
+    // -----------------------------------------------------------------------
 
 	$scope.initHomePage = function() {
 		$scope.activePage = $scope.homePage;
@@ -131,6 +142,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 	}
 
 	$scope.initLogPage = function(){
+	    loadActivityLog();
 		$scope.activePage = $scope.logPage;
 	}
 
@@ -187,9 +199,29 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
         });
     };
 
-    $http.get('/resource/activityLog').success(function(data) {
-        $scope.recentActivities = data;
-    });
+    $scope.reloadCount = 0;
+    $scope.reloadResult = "";
+	$scope.reloadActivities = function() {
+        $scope.reloadResult = "";
+	    params = null;
+	    if ($scope.reloadCount && $scope.reloadCount > 0) {
+	        params = "?count=" + $scope.reloadCount;
+	    } else {
+	        params = "?count=11";
+	    }
+        $http({
+            method: 'POST',
+            url: '/resource/reload' + params
+        }).
+        success(function(data, status, headers, config) {
+            $scope.reloadResult = "Success! " + data.value;
+        }).
+        error(function(data, status, headers, config) {
+            $scope.reloadResult = "Failed to reload records.";
+        });
+    };
+
+    $scope.initHomePage();
 
 }]);
 
