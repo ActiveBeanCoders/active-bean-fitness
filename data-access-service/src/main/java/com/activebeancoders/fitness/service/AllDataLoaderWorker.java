@@ -73,7 +73,7 @@ public class AllDataLoaderWorker implements DataLoaderWorker {
     }
 
     @Override
-//    @Async // SecurityContext is not propagated to ThreadLocal.
+    @Async
     public Future<Boolean> loadRandomRecords(long count) {
         try {
             beforeLoad();
