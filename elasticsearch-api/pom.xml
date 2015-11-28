@@ -31,6 +31,7 @@
 
         <!-- Elasticsearch -->
         <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+        <!--<dependency> <groupId>net.pladform</groupId> <artifactId>elasticsearch-utils</artifactId> <version>1.2-SNAPSHOT</version> </dependency>-->
 
         <!-- Logging -->
         <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> </dependency>

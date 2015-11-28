@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +36,8 @@ public class FitnessObjectMapper extends EsObjectMapper {
     }
 
     @Override
-    public String getDateFormat() {
-        return dateFormat;
+    public DateFormat getDateFormat() {
+        return new SimpleDateFormat(dateFormat);
     }
 
 }
