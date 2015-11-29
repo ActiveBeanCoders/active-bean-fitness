@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
  */
 public interface SecurityService {
 
-    @PreAuthorize("hasAuthority('ROLE_DOMAIN_USER')")
-    String sayHello();
+//    @PreAuthorize("hasAuthority('ROLE_DOMAIN_USER')")
+//    String sayHello();
 
 }

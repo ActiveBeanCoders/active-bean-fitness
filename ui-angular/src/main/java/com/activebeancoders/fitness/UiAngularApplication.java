@@ -1,10 +1,5 @@
 package com.activebeancoders.fitness;
 
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Map;
-
-import com.activebeancoders.fitness.security.domain.CurrentlyLoggedUser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -13,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,11 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @PropertySource(value = "classpath:/ui-angular.properties", ignoreResourceNotFound = false)
 public class UiAngularApplication {
-
-    @RequestMapping("/user")
-    public Map<String, String> user(@CurrentlyLoggedUser Principal user) {
-        return Collections.singletonMap("name", user.getName());
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(UiAngularApplication.class, args);

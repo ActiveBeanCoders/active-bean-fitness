@@ -62,8 +62,8 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
      */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = asHttp(request);
-        HttpServletResponse httpResponse = asHttp(response);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
         String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
@@ -81,7 +81,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
             if (log.isDebugEnabled()) {
                 log.debug("AuthenticationFilter is passing request down the filter chain");
             }
-            addSessionContextToLogging();
+            ThreadLocalContext.addSessionContextToLogging(existingAuthentication);
 
             // Continue processing.
             chain.doFilter(request, response);
@@ -95,8 +95,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
             authenticationDao.clearCurrentSessionAuthentication();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         } finally {
-            MDC.remove(TOKEN_SESSION_KEY);
-            MDC.remove(USER_SESSION_KEY);
+            ThreadLocalContext.removeSessionContextFromLogging(existingAuthentication);
         }
     }
 
@@ -114,30 +113,6 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         if (log.isDebugEnabled()) {
             log.debug("User '{}' --access-granted--> '{}'", authentication.getUsername(), resourcePath);
         }
-    }
-
-    protected void addSessionContextToLogging() {
-        AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
-        String tokenValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getToken())) {
-            MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            tokenValue = encoder.encodePassword(authentication.getToken(), "not_so_random_salt");
-        }
-        MDC.put(TOKEN_SESSION_KEY, tokenValue);
-
-        String userValue = "EMPTY";
-        if (authentication != null && !Strings.isNullOrEmpty(authentication.getUsername())) {
-            userValue = authentication.getUsername();
-        }
-        MDC.put(USER_SESSION_KEY, userValue);
-    }
-
-    protected HttpServletRequest asHttp(ServletRequest request) {
-        return (HttpServletRequest) request;
-    }
-
-    protected HttpServletResponse asHttp(ServletResponse response) {
-        return (HttpServletResponse) response;
     }
 
 }

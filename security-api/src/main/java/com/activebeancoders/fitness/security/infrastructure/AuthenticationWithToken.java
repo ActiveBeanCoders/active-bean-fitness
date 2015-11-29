@@ -1,5 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.google.common.base.Objects;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,7 +39,7 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
     }
 
     public AuthenticationWithToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
-        super(principal == null ? null : principal.toString(), credentials, grantedAuthorities);
+        super(principal, credentials, grantedAuthorities);
         csrfToken = UUID.randomUUID().toString();
     }
 
@@ -55,13 +56,13 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
     }
 
     public String getUsername() {
-        return getPrincipal();
+        return getPrincipal() == null ? null : getPrincipal().getUsername();
     }
 
     @Override
-    public String getPrincipal() {
+    public DomainUser getPrincipal() {
         Object principal = super.getPrincipal();
-        return principal == null ? null : principal.toString();
+        return principal == null ? null : (DomainUser) principal;
     }
 
     @Override

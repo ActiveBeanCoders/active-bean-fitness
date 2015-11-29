@@ -30,7 +30,6 @@ public class HibernateClientConfig {
     @PostConstruct
     protected void init() {
         Assert.assertStringIsInitialized(hibernateServiceUrl);
-        System.out.println(hibernateServiceUrl);
     }
 
     @Bean

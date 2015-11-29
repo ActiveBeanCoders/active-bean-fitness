@@ -6,7 +6,7 @@ import com.google.common.base.Optional;
 import javax.annotation.Nonnull;
 
 /**
- * Validates an existing session token.
+ * Validates and invalidates session tokens.
  *
  * @author Dan Barrese
  */

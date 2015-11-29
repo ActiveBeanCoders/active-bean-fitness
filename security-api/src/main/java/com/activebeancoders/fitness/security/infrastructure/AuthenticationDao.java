@@ -18,6 +18,14 @@ public class AuthenticationDao {
     public AuthenticationDao() {
     }
 
+    /**
+     * Save the authentication object into the ThreadLocal context, so if the method being
+     * invoked is in "this" service (the calling service), that method can retrieve the
+     * currently logged-in user. And also if this service makes a remote call to another
+     * service, it can pass along the authentication to the remote call.
+     *
+     * @param authentication
+     */
     public void save(AuthenticationWithToken authentication) {
         Assert.isTrue(authentication.isAuthenticated());
         if (log.isDebugEnabled()) {

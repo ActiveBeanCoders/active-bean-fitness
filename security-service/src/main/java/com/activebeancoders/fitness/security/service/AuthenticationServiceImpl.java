@@ -12,12 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-/**
- * Responsible for authenticating user credentials against a database. This is the class
- * that is exposed to external services for validating credentials.
- *
- * @author Dan Barrese
- */
 @Primary
 @Component
 public class AuthenticationServiceImpl implements AuthenticationService {
