@@ -33,6 +33,15 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
         this.tokenService = tokenService;
     }
 
+    /**
+     * Verifies that the provided authentication information contains valid credentials
+     * (username, password).
+     *
+     * @param authentication Must be a {@link org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken}.
+     * @return The authentication info associated with the provided username/password (NOT
+     * the authentication info passed into this method).
+     * @throws AuthenticationException if username/password are invalid.
+     */
     @Override
     public AuthenticationWithToken authenticate(Authentication authentication) throws AuthenticationException {
         Optional<String> username = (Optional) authentication.getPrincipal();
@@ -64,4 +73,6 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+
 }
+

@@ -44,6 +44,15 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(PreAuthenticatedAuthenticationToken.class);
     }
 
+    /**
+     * Invalidates the given session ID token so that all subsequent requests using that
+     * token will be rejected.
+     *
+     * @param token Session ID.
+     * @return true if the token was invalidated, false otherwise.  This may return false
+     * if the given token was never validated.
+     * @throws AuthenticationException
+     */
     public boolean invalidate(final Optional<String> token) throws AuthenticationException {
         if (!token.isPresent() || token.get().isEmpty()) {
             return false;

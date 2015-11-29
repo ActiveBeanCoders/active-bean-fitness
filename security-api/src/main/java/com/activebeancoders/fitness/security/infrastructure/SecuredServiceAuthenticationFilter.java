@@ -30,9 +30,6 @@ import java.io.IOException;
  */
 public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
-    public static final String TOKEN_SESSION_KEY = "token";
-    public static final String USER_SESSION_KEY = "user";
-
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
     private TokenValidationService tokenValidationService;

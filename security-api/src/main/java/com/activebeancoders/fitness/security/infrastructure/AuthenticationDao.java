@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
+ * Responsible for saving/retrieving/removing authentication information.  This class
+ * exists to help abstract away the details of how the session information is stored.  See
+ * Issue #29 "Store session tokens in external storage".
+ *
  * @author Dan Barrese
  */
 @Component
@@ -24,7 +28,7 @@ public class AuthenticationDao {
      * currently logged-in user. And also if this service makes a remote call to another
      * service, it can pass along the authentication to the remote call.
      *
-     * @param authentication
+     * @param authentication The auth info to save.
      */
     public void save(AuthenticationWithToken authentication) {
         Assert.isTrue(authentication.isAuthenticated());
@@ -34,6 +38,9 @@ public class AuthenticationDao {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
+    /**
+     * @return the authentication object from the ThreadLocal context.
+     */
     public AuthenticationWithToken getCurrentSessionAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
@@ -42,7 +49,11 @@ public class AuthenticationDao {
         return (AuthenticationWithToken) authentication;
     }
 
+    /**
+     * Removes the authentication information from the ThreadLocal context.
+     */
     public void clearCurrentSessionAuthentication() {
+        // TODO: how does this know WHICH authentication information to remove?  Or does it just remove ALL authentication objects from the context??
         SecurityContextHolder.clearContext();
     }
 

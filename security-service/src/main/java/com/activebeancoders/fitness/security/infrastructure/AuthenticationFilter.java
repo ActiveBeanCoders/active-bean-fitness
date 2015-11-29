@@ -19,7 +19,9 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 /**
- * The security service uses this filter to authenticate requests.
+ * The security service uses this filter to authenticate requests.  Other services should
+ * use the {@link com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter}
+ * to authenticate requests.
  *
  * @author Dan Barrese
  */

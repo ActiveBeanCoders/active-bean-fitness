@@ -37,6 +37,7 @@ public class SecurityApplication {
         SpringApplication.run(SecurityApplication.class, args);
     }
 
+    // Sample method showing off @CurrentlyLoggedInUser
     @RequestMapping("/user")
     public Map<String, String> user(@CurrentlyLoggedInUser DomainUser domainUser) {
         return Collections.singletonMap("username", domainUser.getUsername());

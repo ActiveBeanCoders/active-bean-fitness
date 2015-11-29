@@ -37,7 +37,7 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
             // authentication.getAuthorities() -> user's roles
             // authentication.getCredentials() -> ?
             // authentication.getDetails() -> session ID/token as String
-            // authentication.getPrincipal() -> username
+            // authentication.getPrincipal() -> DomainUser
             // authentication.getCsrfToken() -> csrf token
 
             String sessionToken = authentication.getToken();

@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+/**
+ * Responsible for authenticated user credentials.  This is the class that is exposed to
+ * external services for authentication.
+ *
+ * @author Dan Barrese
+ */
 @Primary
 @Component
 public class AuthenticationServiceImpl implements AuthenticationService {

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 /**
+ * Repository for all active session ID tokens.
+ *
  * @author Dan Barrese
  */
 @Component

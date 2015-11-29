@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
+ * Wrapper for {@link org.springframework.security.core.Authentication} with helper
+ * methods.
+ *
  * @author Dan Barrese
  */
 public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken implements Serializable {
@@ -74,6 +77,7 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
                 .add("csrfToken", getCsrfToken())
                 .toString();
     }
+
     // private methods
     // ```````````````````````````````````````````````````````````````````````
 

@@ -8,6 +8,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation that injects the DomainUser that invoked the method.  This works by
+ * retrieving the {@link com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken}
+ * object from the ThreadLocal {@link org.springframework.security.core.context.SecurityContextHolder}.
+ *  So the service in which this annotation is used must have a request filter that stores
+ * that authentication information into the context, such as {@link
+ * com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter}.
+ *
  * @author Dan Barrese
  */
 @Target({ElementType.PARAMETER, ElementType.TYPE})

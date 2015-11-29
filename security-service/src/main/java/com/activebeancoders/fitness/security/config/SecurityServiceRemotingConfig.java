@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter;
 
 /**
+ * Contains bean definitions which can be remoted to from other services.
+ *
  * @author Dan Barrese
  */
 @Configuration

@@ -3,6 +3,8 @@ package com.activebeancoders.fitness.security.domain;
 import java.io.Serializable;
 
 /**
+ * Represents a person using our application/service.
+ *
  * @author Dan Barrese
  */
 public class DomainUser implements Serializable {

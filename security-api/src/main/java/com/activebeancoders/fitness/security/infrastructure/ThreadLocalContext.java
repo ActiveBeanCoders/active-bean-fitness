@@ -8,6 +8,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
+ * Helper methods for get/set/clear auth info in ThreadLocal context.  Kind of does the
+ * same work as {@link com.activebeancoders.fitness.security.infrastructure.AuthenticationDao}.
+ * This should be resolved once the session information is stored in an external data
+ * store such as Redis.
+ *
  * @author Dan Barrese
  */
 public class ThreadLocalContext {
