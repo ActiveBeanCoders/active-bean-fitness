@@ -1,11 +1,14 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.activebeancoders.fitness.security.dao.DomainUserCredentialsDao;
+import com.activebeancoders.fitness.security.dao.DomainUserDao;
 import com.activebeancoders.fitness.security.domain.DomainUser;
+import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
+import com.activebeancoders.fitness.security.exception.MissingDomainUserException;
 import com.google.common.base.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,10 +30,15 @@ import java.util.List;
 public class DomainUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
     private TokenService tokenService;
+    private DomainUserDao domainUserDao;
+    private DomainUserCredentialsDao domainUserCredentialsDao;
+
 
     @Autowired
-    public DomainUsernamePasswordAuthenticationProvider(TokenService tokenService) {
+    public DomainUsernamePasswordAuthenticationProvider(TokenService tokenService, DomainUserDao domainUserDao, DomainUserCredentialsDao domainUserCredentialsDao) {
         this.tokenService = tokenService;
+        this.domainUserDao = domainUserDao;
+        this.domainUserCredentialsDao = domainUserCredentialsDao;
     }
 
     /**
@@ -45,20 +53,31 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
     @Override
     public AuthenticationWithToken authenticate(Authentication authentication) throws AuthenticationException {
         Optional<String> username = (Optional) authentication.getPrincipal();
-        Optional<String> password = (Optional) authentication.getCredentials();
+        Optional<String> plaintextPassword = (Optional) authentication.getCredentials();
 
-        if (!username.isPresent() || !password.isPresent()) {
-            throw new BadCredentialsException("Invalid credentials");
+        if (!username.isPresent() || !plaintextPassword.isPresent()) {
+            throw new BadCredentialsException("Invalid credentials.");
         }
 
-        // TODO: make call to database to authenticate username/password
-        // Throw descendant of Spring AuthenticationException in case of unsucessful authentication. For example BadCredentialsException
-        if (!username.get().equalsIgnoreCase("user") || !password.get().equalsIgnoreCase("password")) {
-            throw new InternalAuthenticationServiceException("Invalid authentication credentials.");
+        // Get user's salt and hashed password.
+        DomainUserCredentials databaseCredentials = domainUserCredentialsDao.findByUsername(username.get());
+        if (databaseCredentials == null) {
+            // User is not in the database, so it cannot be authenticated.
+            throw new BadCredentialsException("Username/password authentication failed.");
         }
 
-        DomainUser domainUser = new DomainUser(username.get());
-        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_DOMAIN_USER");
+        // Compare provided hashed password with hashed password in database.
+        DomainUserCredentials providedCredentials = new DomainUserCredentials(username.get(), plaintextPassword.get(), databaseCredentials.getSalt());
+        if (!providedCredentials.getPasswordHash().equals(databaseCredentials.getPasswordHash())) {
+            throw new BadCredentialsException("Username/password authentication failed.");
+        }
+
+        // Retrieve DomainUser.
+        DomainUser domainUser = domainUserDao.findByUsername(username.get());
+        if (domainUser == null) {
+            throw new MissingDomainUserException("DomainUser with username " + username.get() + " is missing from the database!");
+        }
+        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(domainUser.getCommaSeparatedRoles());
         AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(domainUser, null, authorities);
 
         // Create session token.

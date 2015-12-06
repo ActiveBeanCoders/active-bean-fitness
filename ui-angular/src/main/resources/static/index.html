@@ -65,6 +65,7 @@
                 </li>
                 <li ng-click="initLoginPage()" ng-hide="authenticated" class='last'><a><span>Login</span></a></li>
                 <li ng-click="logout()" ng-hide="!authenticated" class='last'><a><span>Logout</span></a></li>
+                <li ng-click="initSignUpPage()" ng-hide="authenticated" class='last'><a><span>Sign-Up</span></a></li>
             </ul>
         </div>
     </nav>
@@ -101,6 +102,10 @@
     <div id="loginNav"
          ng-include="'partials/login-page.html'"
          ng-hide="loginPage != activePage">
+    </div>
+    <div id="signUpNav"
+         ng-include="'partials/sign-up.html'"
+         ng-hide="signUpPage != activePage">
     </div>
     <div id="viewOthersNav"
          ng-include="'partials/view-others-page.html'"

@@ -31,8 +31,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private AuthenticationDao authenticationDao;
 
     @Override
-    public AuthenticationWithToken authenticate(final String username, final String password) {
-        UsernamePasswordAuthenticationToken authenticationWithToken = AuthenticationUtils.createAuthToken(username, password);
+    public AuthenticationWithToken authenticate(final String username, final String plainTextPassword) {
+        UsernamePasswordAuthenticationToken authenticationWithToken = AuthenticationUtils.createAuthToken(username, plainTextPassword);
         AuthenticationWithToken resultOfAuthentication = domainUsernamePasswordAuthenticationProvider.authenticate(authenticationWithToken);
         if (log.isInfoEnabled()) {
             log.info("User '{}' authenticating...succeeded={}", extractUsername(resultOfAuthentication), resultOfAuthentication.isAuthenticated());

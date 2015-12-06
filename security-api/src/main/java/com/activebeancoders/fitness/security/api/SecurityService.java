@@ -1,13 +1,13 @@
 package com.activebeancoders.fitness.security.api;
 
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.activebeancoders.fitness.security.domain.DomainUser;
+import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
 
 /**
  * @author Dan Barrese
  */
 public interface SecurityService {
 
-//    @PreAuthorize("hasAuthority('ROLE_DOMAIN_USER')")
-//    String sayHello();
+    DomainUser createUserAccount(DomainUserCredentials domainUser);
 
 }

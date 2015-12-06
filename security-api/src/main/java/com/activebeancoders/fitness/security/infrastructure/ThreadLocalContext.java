@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.UUID;
+
 /**
  * Helper methods for get/set/clear auth info in ThreadLocal context.  Kind of does the
  * same work as {@link com.activebeancoders.fitness.security.infrastructure.AuthenticationDao}.
@@ -68,9 +70,8 @@ public class ThreadLocalContext {
     public static void addSessionContextToLogging(AuthenticationWithToken authentication) {
         String tokenValue = "EMPTY";
         if (authentication != null && !Strings.isNullOrEmpty(authentication.getToken())) {
-            // TODO: SHA-1 ok?
-            MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-1");
-            // TODO: redo salt?
+            MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("SHA-512");
+            // TODO: need to user user-specific salt.
             tokenValue = encoder.encodePassword(authentication.getToken(), "not_so_random_salt");
         }
         MDC.put(TOKEN_SESSION_KEY, tokenValue);

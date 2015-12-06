@@ -23,6 +23,7 @@
 
         <!-- A.B.C. dependencies -->
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
 
         <!-- Elasticsearch -->
         <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>

@@ -20,6 +20,7 @@ import java.util.Map;
  * @author Dan Barrese
  */
 @Configuration
+@ComponentScan(basePackages = "com.activebeancoders.fitness")
 @PropertySource(value = "classpath:/data-access-service.properties", ignoreResourceNotFound = false)
 public class DataAccessServiceConfig {
 

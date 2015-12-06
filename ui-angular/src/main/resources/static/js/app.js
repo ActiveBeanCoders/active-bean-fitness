@@ -73,6 +73,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
             useSessionTokenForEachRequest();
         }).
         error(function(data, status, headers, config) {
+            alert(JSON.stringify(data));
             clearLocalUserData();
         });
     }
@@ -95,6 +96,31 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
             alert('log-out failed');
 		});
 	}
+
+    // user sign-up stuff
+    // -----------------------------------------------------------------------
+
+	$scope.createUserAccount = function() {
+		createUserAccount($scope.credentials);
+	};
+
+	var createUserAccount = function(credentials) {
+        $http({
+            method: 'POST',
+            url: '/security/public/user/create',
+            headers: {
+                'username': credentials.username,
+                'plaintextPassword': credentials.password
+            }
+        }).
+        success(function(data, status, headers, config) {
+            authenticate(credentials);
+        }).
+        error(function(data, status, headers, config) {
+            alert(JSON.stringify(data));
+            clearLocalUserData();
+        });
+    }
 
     // "private" functions (not accessible from the UI).
     // -----------------------------------------------------------------------
@@ -125,6 +151,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     $scope.equipmentPage = "Equipment_Page";
     $scope.homePage = "Home_Page";
     $scope.loginPage = "Login_Page";
+    $scope.signUpPage = "Sign_Up_Page";
     $scope.progressPage = "Progress_Page";
     $scope.logPage = "Log_Page";
     $scope.workoutsPage = "Workouts_Page";
@@ -160,6 +187,10 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 
 	$scope.initLoginPage = function(){
 		$scope.activePage = $scope.loginPage;
+	}
+
+	$scope.initSignUpPage = function(){
+		$scope.activePage = $scope.signUpPage;
 	}
 
 	$scope.initMyProgress = function(){

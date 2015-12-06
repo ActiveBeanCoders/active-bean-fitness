@@ -6,8 +6,12 @@ import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,9 +31,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author Dan Barrese
  */
 @Configuration
-@EnableWebMvcSecurity
 @EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@ComponentScan
+@EnableAutoConfiguration
+@EnableConfigurationProperties
+@PropertySource(value = "classpath:/security-service.properties", ignoreResourceNotFound = false)
 public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

@@ -48,6 +48,7 @@
 
         <!-- Test -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> <scope>test</scope> </dependency>
+        <dependency> <groupId>javax.servlet</groupId> <artifactId>javax.servlet-api</artifactId> </dependency>
 
         <!-- misc. -->
         <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> <version>0.9.1.2</version> </dependency>
