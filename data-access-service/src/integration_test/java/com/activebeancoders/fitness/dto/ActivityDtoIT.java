@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.dto;
 
-import com.activebeancoders.fitness.BaseTest;
+import com.activebeancoders.fitness.BaseTestIT;
 import com.activebeancoders.fitness.entity.Activity;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Dan Barrese
  */
-public class ActivityDtoIT extends BaseTest {
+public class ActivityDtoIT extends BaseTestIT {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

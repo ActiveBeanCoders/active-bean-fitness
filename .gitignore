@@ -15,4 +15,5 @@ data/
 build/
 gradle
 **/*.log
+jars/
 

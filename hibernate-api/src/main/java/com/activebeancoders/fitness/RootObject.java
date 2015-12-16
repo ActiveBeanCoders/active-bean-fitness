@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness;
+package com.activebeancoders.fitness.activebeancoders.fitness;
 
 public class RootObject {
 }

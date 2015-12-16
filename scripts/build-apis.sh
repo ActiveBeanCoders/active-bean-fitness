@@ -5,33 +5,21 @@ function die {
     exit 1
 }
 
-cd common || die
-printf '%s\n' "Installing common"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
+apis=(
+    "common"
+    "security-api"
+    "fitness-parent"
+    "data-access-api"
+    "elasticsearch-api"
+    "hibernate-api"
+)
+printf '%s\n' "Building APIs (${apis[*]})"
 
-cd security-api || die
-printf '%s\n' "Installing security-api"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
-
-cd fitness-parent || die
-printf '%s\n' "Installing fitness-parent"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
-
-cd data-access-api || die
-printf '%s\n' "Installing data-access-api"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
-
-cd elasticsearch-api || die
-printf '%s\n' "Installing elasticsearch-api"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
-
-cd hibernate-api || die
-printf '%s\n' "Installing hibernate-api"
-mvn clean install > ../scripts/most-recent-maven-build.log || die
-cd ..
+> scripts/most-recent-maven-build.log || die
+for api in ${apis[@]}; do
+    cd ${api} || die
+    printf '%s\n' "Installing ${api} API"
+    mvn clean install > ../scripts/most-recent-maven-build.log || die
+    cd ..
+done
 

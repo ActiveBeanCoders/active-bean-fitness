@@ -60,6 +60,7 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         AuthenticationWithToken authentication = null;
         try {
+            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
             // Is a user trying to validate token?
             if (postToValidateTokenRestEndpoint(httpRequest, resourcePath)) {
                 Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
@@ -67,6 +68,7 @@ public class AuthenticationFilter extends GenericFilterBean {
                 return;
             }
 
+            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
             // Is a user trying to authenticate by username/password?
             if (postToAuthenticateRestEndpoint(httpRequest, resourcePath)) {
                 // TODO: set cookie on response?  Is that more secure?
@@ -78,6 +80,7 @@ public class AuthenticationFilter extends GenericFilterBean {
                 return;
             }
 
+            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
             // Is a user trying to log-out?
             if (postToLogoutRestEndpoint(httpRequest, resourcePath)) {
                 Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));

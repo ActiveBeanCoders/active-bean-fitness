@@ -70,7 +70,8 @@
                 <version>2.12.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/integration_test/**</exclude>
+                        <exclude>src/integration_test/**/*.java</exclude>
+                        <exclude>**IT.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.security.domain;
 
 import com.activebeancoders.fitness.security.infrastructure.PasswordHasher;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

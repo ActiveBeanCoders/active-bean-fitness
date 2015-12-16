@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.config;
 
 import com.activebeancoders.fitness.dto.IActivityDto;
-import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationTokenHttpInvokerRequestExecutor;
 import com.activebeancoders.fitness.service.DataLoader;
 import com.activebeancoders.fitness.util.Assert;

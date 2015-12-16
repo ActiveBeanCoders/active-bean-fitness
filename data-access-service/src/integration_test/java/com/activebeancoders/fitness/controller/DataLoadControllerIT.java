@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.controller;
 
-import com.activebeancoders.fitness.BaseTest;
+import com.activebeancoders.fitness.BaseTestIT;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * @author Dan Barrese
  */
-public class DataLoadControllerIT extends BaseTest {
+public class DataLoadControllerIT extends BaseTestIT {
 
     private Logger log = LoggerFactory.getLogger(getClass());
 

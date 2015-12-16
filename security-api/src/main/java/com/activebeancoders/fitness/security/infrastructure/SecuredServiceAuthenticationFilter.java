@@ -2,12 +2,9 @@ package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.google.common.base.Optional;
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;

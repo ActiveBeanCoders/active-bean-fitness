@@ -7,8 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.UUID;
-
 /**
  * Helper methods for get/set/clear auth info in ThreadLocal context.  Kind of does the
  * same work as {@link com.activebeancoders.fitness.security.infrastructure.AuthenticationDao}.

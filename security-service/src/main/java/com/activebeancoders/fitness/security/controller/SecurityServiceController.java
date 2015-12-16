@@ -4,11 +4,8 @@ import com.activebeancoders.fitness.security.api.SecurityService;
 import com.activebeancoders.fitness.security.domain.CurrentlyLoggedInUser;
 import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
