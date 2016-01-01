@@ -73,7 +73,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
             useSessionTokenForEachRequest();
         }).
         error(function(data, status, headers, config) {
-            alert(JSON.stringify(data));
+//            alert(JSON.stringify(data));
             clearLocalUserData();
         });
     }
@@ -117,7 +117,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
             authenticate(credentials);
         }).
         error(function(data, status, headers, config) {
-            alert(JSON.stringify(data));
+//            alert(JSON.stringify(data));
             clearLocalUserData();
         });
     }

@@ -1,9 +1,7 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
-import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
 import com.activebeancoders.fitness.security.api.TokenValidationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,19 +29,14 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private UrlPathHelper urlPathHelper;
-    private AuthenticationService authenticationService;
     private TokenValidationService tokenValidationService;
     private AuthenticationDao authenticationDao;
-    private ObjectMapper jsonMapper;
 
-    public AuthenticationFilter(AuthenticationService authenticationService,
-                                TokenValidationService tokenValidationService,
+    public AuthenticationFilter(TokenValidationService tokenValidationService,
                                 AuthenticationDao authenticationDao) {
-        this.authenticationService = authenticationService;
         this.tokenValidationService = tokenValidationService;
         this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
-        jsonMapper = new ObjectMapper();
     }
 
     @Override
@@ -60,34 +53,6 @@ public class AuthenticationFilter extends GenericFilterBean {
 
         AuthenticationWithToken authentication = null;
         try {
-            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
-            // Is a user trying to validate token?
-            if (postToValidateTokenRestEndpoint(httpRequest, resourcePath)) {
-                Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
-                tokenValidationService.validateToken(sessionToken);
-                return;
-            }
-
-            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
-            // Is a user trying to authenticate by username/password?
-            if (postToAuthenticateRestEndpoint(httpRequest, resourcePath)) {
-                // TODO: set cookie on response?  Is that more secure?
-                authentication = authenticationService.authenticate(httpRequest.getHeader("X-Auth-Username"), httpRequest.getHeader("X-Auth-Password"));
-                TokenResponse tokenResponse = new TokenResponse(authentication.getToken());
-                String tokenJsonResponse = jsonMapper.writeValueAsString(tokenResponse);
-                httpResponse.addHeader("Content-Type", "application/json");
-                httpResponse.getWriter().print(tokenJsonResponse);
-                return;
-            }
-
-            // TODO: if this is a public endpoint, why is this logic in the filter instead of the controller?
-            // Is a user trying to log-out?
-            if (postToLogoutRestEndpoint(httpRequest, resourcePath)) {
-                Optional<String> sessionToken = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
-                tokenValidationService.invalidateToken(sessionToken);
-                return;
-            }
-
             // Validate the token if one is present.
             if (token.isPresent()) {
                 authentication = tokenValidationService.validateToken(token);
@@ -95,6 +60,7 @@ public class AuthenticationFilter extends GenericFilterBean {
                     throw new InternalAuthenticationServiceException("Invalid session token.");
                 } else {
                     authenticationDao.save(authentication);
+                    ThreadLocalContext.addSessionContextToLogging(authentication);
                 }
             } else {
                 if (log.isInfoEnabled()) {
@@ -105,7 +71,6 @@ public class AuthenticationFilter extends GenericFilterBean {
             if (log.isDebugEnabled()) {
                 log.debug("AuthenticationFilter is passing request down the filter chain");
             }
-            ThreadLocalContext.addSessionContextToLogging(authentication);
 
             // Continue processing.
             chain.doFilter(request, response);
