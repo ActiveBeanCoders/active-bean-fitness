@@ -6,6 +6,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @author Dan Barrese
+ */
 public class DomainUserDaoImplTestIT extends BaseTestIT {
 
     @Autowired
