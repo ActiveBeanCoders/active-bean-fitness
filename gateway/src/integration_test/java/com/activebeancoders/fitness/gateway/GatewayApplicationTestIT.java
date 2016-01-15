@@ -1,29 +1,23 @@
 package com.activebeancoders.fitness.gateway;
 
-import static org.junit.Assert.assertEquals;
-
 import com.activebeancoders.fitness.GatewayApplication;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
+import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * @author spring.io
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = GatewayApplication.class)
-@WebAppConfiguration
-@IntegrationTest("server.port:0")
 public class GatewayApplicationTestIT {
 
     @Value("${local.server.port}")
@@ -35,7 +29,8 @@ public class GatewayApplicationTestIT {
     public void homePageLoads() {
         ResponseEntity<String> response = template.getForEntity("http://localhost:"
                 + port + "/", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
 }
+

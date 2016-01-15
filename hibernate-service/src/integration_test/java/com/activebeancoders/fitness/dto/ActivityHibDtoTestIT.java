@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.dto;
 
-import com.activebeancoders.fitness.activebeancoders.BaseTestIT;
+import com.activebeancoders.fitness.BaseTestIT;
 import com.activebeancoders.fitness.entity.Activity;
 import com.activebeancoders.fitness.search.ActivitySearchCriteria;
 import org.hibernate.SessionFactory;
