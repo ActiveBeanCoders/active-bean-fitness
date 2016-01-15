@@ -32,7 +32,8 @@
         <spring-session.version>1.0.0.RELEASE</spring-session.version>
         <wro4j.version>1.7.6</wro4j.version>
 
-        <external-project.location>net.pladform</external-project.location>
+        <!--<external-project.location>net.pladform</external-project.location>-->
+        <external-project.location>com.github.danbarrese</external-project.location>
         <!-- https://jitpack.io/#danbarrese/elasticsearch-utils -->
         <elasticsearch-utils.version>1.2-SNAPSHOT</elasticsearch-utils.version>
         <!-- https://jitpack.io/#danbarrese/random-object-generator/ -->
