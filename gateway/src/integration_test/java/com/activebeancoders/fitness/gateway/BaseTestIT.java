@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @WebIntegrationTest
 @IntegrationTest({ "server.port:0" })
 public class BaseTestIT {
-
+    
     @Test
     public void verifyContext() throws Exception {
         System.out.println("hi");

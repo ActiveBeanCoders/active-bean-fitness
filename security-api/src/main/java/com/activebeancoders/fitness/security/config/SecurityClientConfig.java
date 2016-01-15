@@ -19,6 +19,8 @@ import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
  */
 @Configuration
 @PropertySource(value = "classpath:/security-api.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${user.home}/activebeancoders/security-api.properties", ignoreResourceNotFound = true)
 public class SecurityClientConfig {
 
     @Autowired

@@ -22,6 +22,8 @@ import java.util.Map;
 @Configuration
 @ComponentScan(basePackages = "com.activebeancoders.fitness")
 @PropertySource(value = "classpath:/data-access-service.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${user.home}/activebeancoders/data-access-service.properties", ignoreResourceNotFound = true)
 public class DataAccessServiceConfig {
 
     @Autowired
