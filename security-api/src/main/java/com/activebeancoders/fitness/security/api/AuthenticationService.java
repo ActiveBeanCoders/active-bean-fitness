@@ -8,6 +8,7 @@ import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithTo
  *
  * @author Dan Barrese
  */
+// TODO: move this into SecurityService.
 public interface AuthenticationService {
 
     AuthenticationWithToken authenticate(String username, String password);

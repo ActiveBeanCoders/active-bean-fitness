@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
  *
  * @author Dan Barrese
  */
+// TODO: move this into SecurityService.
 public interface TokenValidationService {
 
     /**
