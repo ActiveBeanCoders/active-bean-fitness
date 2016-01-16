@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.service;
 
-import com.activebeancoders.fitness.activebeancoders.BaseTestIT;
+import com.activebeancoders.fitness.BaseTestIT;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

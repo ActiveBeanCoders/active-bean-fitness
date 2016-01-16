@@ -18,6 +18,8 @@ import javax.annotation.PostConstruct;
  */
 @Configuration
 @PropertySource(value = "classpath:/hibernate-api.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${user.home}/activebeancoders/hibernate-api.properties", ignoreResourceNotFound = true)
 public class HibernateClientConfig {
 
     @Autowired

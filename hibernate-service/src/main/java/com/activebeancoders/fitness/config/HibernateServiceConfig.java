@@ -10,6 +10,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @PropertySource(value = "classpath:/hibernate-service.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${user.home}/activebeancoders/hibernate-service.properties", ignoreResourceNotFound = true)
 public class HibernateServiceConfig {
 
     //To resolve ${} in @Value

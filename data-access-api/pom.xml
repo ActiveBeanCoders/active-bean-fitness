@@ -26,7 +26,7 @@
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
 
         <!-- Elasticsearch -->
-        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+        <dependency> <groupId>${external-project.location}</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
 
         <!-- Logging -->
         <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> </dependency>
@@ -41,8 +41,9 @@
 
         <!-- misc. -->
         <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>${guava.version}</version> </dependency>
-        <dependency> <groupId>com.github.danbarrese</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
-        <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
+        <dependency> <groupId>${external-project.location}</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
+        <dependency> <groupId>${external-project.location}</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
+        <dependency> <groupId>commons-io</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
 
     </dependencies>
 

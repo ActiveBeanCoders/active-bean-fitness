@@ -15,6 +15,8 @@ import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
  */
 @Configuration
 @PropertySource(value = "classpath:/elasticsearch-api.properties", ignoreResourceNotFound = false)
+@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${user.home}/activebeancoders/elasticsearch-api.properties", ignoreResourceNotFound = true)
 public class ElasticsearchClientConfig {
 
     @Autowired
