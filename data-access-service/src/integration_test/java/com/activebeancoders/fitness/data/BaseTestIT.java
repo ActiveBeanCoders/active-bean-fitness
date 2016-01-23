@@ -1,4 +1,4 @@
-package com.activebeancoders.fitness.gateway;
+package com.activebeancoders.fitness.data;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,15 +11,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Dan Barrese
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = GatewayApplication.class)
+@SpringApplicationConfiguration(classes = DataAccessServiceApplication.class)
 @WebIntegrationTest
 @IntegrationTest({ "server.port:0" })
 public class BaseTestIT {
-    
+
     @Test
     public void verifyContext() throws Exception {
         System.out.println("hi");
     }
 
 }
-

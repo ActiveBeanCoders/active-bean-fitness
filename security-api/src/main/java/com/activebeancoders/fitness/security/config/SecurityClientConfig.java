@@ -8,6 +8,7 @@ import com.activebeancoders.fitness.security.api.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
@@ -21,6 +22,7 @@ import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 @PropertySource(value = "classpath:/security-api.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:${user.home}/activebeancoders/security-api.properties", ignoreResourceNotFound = true)
+@ComponentScan(basePackages = "com.activebeancoders.fitness.security")
 public class SecurityClientConfig {
 
     @Autowired
