@@ -33,11 +33,14 @@
         <wro4j.version>1.7.6</wro4j.version>
 
         <!--<external-project.location>net.pladform</external-project.location>-->
+        <!--<elasticsearch-utils.version>1.2-SNAPSHOT</elasticsearch-utils.version>-->
+        <!--<random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>-->
+        
         <external-project.location>com.github.danbarrese</external-project.location>
         <!-- https://jitpack.io/#danbarrese/elasticsearch-utils -->
-        <elasticsearch-utils.version>1.2-SNAPSHOT</elasticsearch-utils.version>
+        <elasticsearch-utils.version>1.2</elasticsearch-utils.version>
         <!-- https://jitpack.io/#danbarrese/random-object-generator/ -->
-        <random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>
+        <random-object-generator.version>0.1</random-object-generator.version>
 
         <elasticsearch-api.version>0.8.0-SNAPSHOT</elasticsearch-api.version>
         <fitness-common.version>0.8.0-SNAPSHOT</fitness-common.version>

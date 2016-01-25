@@ -6,7 +6,6 @@ bin/
 workspace.xml
 .idea
 *.iml
-data/
 .name
 .classpath
 .project
