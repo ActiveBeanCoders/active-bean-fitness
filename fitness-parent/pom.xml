@@ -36,10 +36,10 @@
         <!--<elasticsearch-utils.version>1.2-SNAPSHOT</elasticsearch-utils.version>-->
         <!--<random-object-generator.version>0.1-SNAPSHOT</random-object-generator.version>-->
         
-        <external-project.location>com.github.danbarrese</external-project.location>
         <!-- https://jitpack.io/#danbarrese/elasticsearch-utils -->
-        <elasticsearch-utils.version>1.2</elasticsearch-utils.version>
         <!-- https://jitpack.io/#danbarrese/random-object-generator/ -->
+        <external-project.location>com.github.danbarrese</external-project.location>
+        <elasticsearch-utils.version>1.2</elasticsearch-utils.version>
         <random-object-generator.version>0.1</random-object-generator.version>
 
         <elasticsearch-api.version>0.8.0-SNAPSHOT</elasticsearch-api.version>
