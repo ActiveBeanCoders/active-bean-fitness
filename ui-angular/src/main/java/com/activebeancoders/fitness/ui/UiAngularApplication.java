@@ -1,9 +1,12 @@
 package com.activebeancoders.fitness.ui;
 
+import com.activebeancoders.fitness.security.config.SecurityClientConfig;
+import com.activebeancoders.fitness.security.config.TomcatHttpsConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PropertySource(value = "classpath:/ui-angular.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:${user.home}/activebeancoders/ui-angular.properties", ignoreResourceNotFound = true)
+@Import({ SecurityClientConfig.class, TomcatHttpsConfiguration.class})
 public class UiAngularApplication {
 
     public static void main(String[] args) {

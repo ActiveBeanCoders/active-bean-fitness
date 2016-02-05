@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
+import javax.annotation.PostConstruct;
+import java.util.Properties;
+
 /**
  * Spring configuration for security-api.
  *

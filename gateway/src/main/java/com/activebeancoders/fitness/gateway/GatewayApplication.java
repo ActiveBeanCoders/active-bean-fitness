@@ -1,11 +1,14 @@
 package com.activebeancoders.fitness.gateway;
 
+import com.activebeancoders.fitness.security.config.SecurityClientConfig;
+import com.activebeancoders.fitness.security.config.TomcatHttpsConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Controller;
 @PropertySource(value = "classpath:/gateway.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:${user.home}/activebeancoders/gateway.properties", ignoreResourceNotFound = true)
+@Import({ SecurityClientConfig.class, TomcatHttpsConfiguration.class})
 public class GatewayApplication {
 
     public static void main(String[] args) {
