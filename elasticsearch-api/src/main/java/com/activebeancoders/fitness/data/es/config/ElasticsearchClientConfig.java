@@ -27,6 +27,7 @@ public class ElasticsearchClientConfig {
 
     @Bean
     public IActivityDao remoteActivityEsDao() {
+        System.out.println(elasticsearchServiceUrl);
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
         proxy.setServiceUrl(elasticsearchServiceUrl + "/activityEsDao.http");
         proxy.setServiceInterface(IActivityDao.class);
