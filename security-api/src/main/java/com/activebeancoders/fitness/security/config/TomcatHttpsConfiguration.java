@@ -2,7 +2,6 @@ package com.activebeancoders.fitness.security.config;
 
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
@@ -31,9 +30,6 @@ public class TomcatHttpsConfiguration {
             @Value("${zserver.ssl.trustStoreType}") String trustStoreType)
             throws Exception {
 
-        // This is boiler plate code to setup https on embedded Tomcat
-        // with Spring Boot:
-
         Properties properties = System.getProperties();
         properties.put("javax.net.ssl.keyStore", keyStoreFile);
         properties.put("javax.net.ssl.keyStorePassword", keyStorePassword);
@@ -46,27 +42,24 @@ public class TomcatHttpsConfiguration {
         final String absoluteKeyStoreFile = new File(keyStoreFile).getAbsolutePath();
         final String absoluteTrustStoreFile = new File(trustStoreFile).getAbsolutePath();
 
-        return new EmbeddedServletContainerCustomizer() {
-            @Override
-            public void customize(ConfigurableEmbeddedServletContainer container) {
-                TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
-                tomcat.addConnectorCustomizers(connector -> {
-                    connector.setPort(Integer.parseInt(serverPort));
-                    connector.setSecure(true);
-                    connector.setScheme("https");
+        return container -> {
+            TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+            tomcat.addConnectorCustomizers(connector -> {
+                connector.setPort(Integer.parseInt(serverPort));
+                connector.setSecure(true);
+                connector.setScheme("https");
 
-                    Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
-                    proto.setSSLEnabled(true);
+                Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
+                proto.setSSLEnabled(true);
 
-                    proto.setKeystoreFile(absoluteKeyStoreFile);
-                    proto.setKeystorePass(keyStorePassword);
-                    proto.setKeystoreType(keyStoreType);
-                    proto.setTruststoreFile(absoluteTrustStoreFile);
-                    proto.setTruststorePass(trustStorePassword);
-                    proto.setTruststoreType(trustStoreType);
-                    proto.setKeyAlias(keyAlias);
-                });
-            }
+                proto.setKeystoreFile(absoluteKeyStoreFile);
+                proto.setKeystorePass(keyStorePassword);
+                proto.setKeystoreType(keyStoreType);
+                proto.setTruststoreFile(absoluteTrustStoreFile);
+                proto.setTruststorePass(trustStorePassword);
+                proto.setTruststoreType(trustStoreType);
+                proto.setKeyAlias(keyAlias);
+            });
         };
     }
 }
