@@ -1,6 +1,5 @@
 package com.activebeancoders.fitness.data.es;
 
-import com.activebeancoders.fitness.data.es.dao.ActivityEsDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
