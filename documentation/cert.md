@@ -1,6 +1,3 @@
-left off: try running everything locally again, make sure password is good for self-signed cert.
-
-
 # Working locally (localhost)
 
 ## Generating your own self-signed certificate (keystore)
@@ -163,16 +160,16 @@ openssl \
     -out keystore.p12 \
     -name tomcat \
     -CAfile fullchain.pem
-supplied password: CHANGEIT
+supplied password: mypassword
 
-blaaah___keytool \
+___keytool \
     -importkeystore \
-    -deststorepass changeit \
-    -destkeypass changeit \
+    -deststorepass mypassword \
+    -destkeypass mypassword \
     -destkeystore tomcat.keystore \
     -srckeystore keystore.p12 \
     -srcstoretype PKCS12 \
-    -srcstorepass CHANGEIT \
+    -srcstorepass mypassword \
     -alias tomcat
 
 keytool -import -alias root -keystore tomcat.keystore -trustcacerts -file fullchain.pem

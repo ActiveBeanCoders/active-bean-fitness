@@ -21,7 +21,6 @@ import java.util.Map;
  */
 @Configuration
 @PropertySource(value = "classpath:/data-access-service.properties", ignoreResourceNotFound = false)
-@PropertySource(value = "file:/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:/activebeancoders/data-access-service.properties", ignoreResourceNotFound = true)
 public class DataAccessServiceConfig {
 

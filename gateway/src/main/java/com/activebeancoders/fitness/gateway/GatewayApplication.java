@@ -24,7 +24,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 @EnableZuulProxy
 @PropertySource(value = "classpath:/gateway.properties", ignoreResourceNotFound = false)
-@PropertySource(value = "file:/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:/activebeancoders/gateway.properties", ignoreResourceNotFound = true)
 @Import({ SecurityClientConfig.class, TomcatHttpsConfiguration.class})
 public class GatewayApplication {

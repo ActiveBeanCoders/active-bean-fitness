@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @PropertySource(value = "classpath:/ui-angular.properties", ignoreResourceNotFound = false)
-@PropertySource(value = "file:/activebeancoders/global.properties", ignoreResourceNotFound = true)
 @PropertySource(value = "file:/activebeancoders/ui-angular.properties", ignoreResourceNotFound = true)
 @Import({ SecurityClientConfig.class, TomcatHttpsConfiguration.class})
 public class UiAngularApplication {
