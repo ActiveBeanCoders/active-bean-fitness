@@ -6,6 +6,7 @@ import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -35,8 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 @EnableAutoConfiguration
 @EnableConfigurationProperties
 @PropertySource(value = "classpath:/security-service.properties", ignoreResourceNotFound = false)
-@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
-@PropertySource(value = "file:${user.home}/activebeancoders/security-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/security-service.properties", ignoreResourceNotFound = true)
 public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

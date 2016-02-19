@@ -15,8 +15,7 @@ import java.net.UnknownHostException;
  */
 @Configuration
 @PropertySource(value = "classpath:/elasticsearch-service.properties", ignoreResourceNotFound = false)
-@PropertySource(value = "file:${user.home}/activebeancoders/global.properties", ignoreResourceNotFound = true)
-@PropertySource(value = "file:${user.home}/activebeancoders/elasticsearch-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/elasticsearch-service.properties", ignoreResourceNotFound = true)
 public class ElasticsearchServiceConfig {
 
     //To resolve ${} in @Value
