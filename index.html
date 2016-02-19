@@ -20,62 +20,72 @@
 
     <section class="main-content">
       <h1>
-<a id="active-bean-fitness---overview" class="anchor" href="#active-bean-fitness---overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Active Bean Fitness - Overview</h1>
+<a id="active-bean-fitness---overview" class="anchor" href="#active-bean-fitness---overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Active Bean Fitness - Overview</h1>
 
 <h2>
-<a id="what-is-the-app" class="anchor" href="#what-is-the-app" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is the app?</h2>
+<a id="what-is-the-app" class="anchor" href="#what-is-the-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is the app?</h2>
 
 <p>This is a service used to record fitness activities, track progress, track equipment wear.  TODO</p>
 
 <h2>
-<a id="goals" class="anchor" href="#goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goals</h2>
+<a id="goals" class="anchor" href="#goals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Goals</h2>
 
 <p>We're building an app about something we are passionate about.  At the same time, we want to learn how to use many different modern web technologies.  The application may incorporate many duplicate functions, such as multiple databases or multiple UI frameworks, for the sake of learning.</p>
 
 <p>We want to build an application with millions of records that span multiple servers.  We want to have so much data that efficient storage and retrieval become problems that we must solve.  The system should be massive, distributed, secure, performant, and fault-tolerant.</p>
 
 <h2>
-<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Roadmap</h2>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Roadmap</h2>
 
 <p>The roadmap is a work in progress.</p>
 
 <h3>
-<a id="v10" class="anchor" href="#v10" aria-hidden="true"><span class="octicon octicon-link"></span></a>v1.0</h3>
+<a id="v10" class="anchor" href="#v10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v1.0</h3>
 
 <ul>
-<li>AngularJS</li>
-<li>HTML 5</li>
-<li>Java 8</li>
-<li>Spring Boot</li>
-<li>Hibernate 4</li>
-<li>MySQL</li>
-<li>Elasticsearch on 1 server, 1 million records.</li>
-<li>Full-text search on all records</li>
-<li>User sign-up and authentication</li>
-<li>App security (user log-in, token authentication, CSRF &amp; XSS protection, etc.)</li>
+<li>AngularJS -- <strong>done</strong>
+</li>
+<li>HTML 5 -- <strong>done</strong>
+</li>
+<li>Java 8 -- <strong>done</strong>
+</li>
+<li>Spring Boot -- <strong>done</strong>
+</li>
+<li>Hibernate 4 -- <strong>done</strong>
+</li>
+<li>MySQL -- <strong>done</strong>
+</li>
+<li>Elasticsearch on 1 server, 1 million records. -- <strong>done, but needs to be deployed</strong>
+</li>
+<li>Full-text search on all records -- <strong>done</strong>
+</li>
+<li>User sign-up and authentication -- <strong>done</strong>
+</li>
+<li>App security (user log-in, token authentication, CSRF &amp; XSS protection, etc.) -- <strong>done, except for CSRF token integration</strong>
+</li>
 </ul>
 
 <h3>
-<a id="v20" class="anchor" href="#v20" aria-hidden="true"><span class="octicon octicon-link"></span></a>v2.0</h3>
+<a id="v20" class="anchor" href="#v20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v2.0</h3>
 
 <ul>
 <li>Elasticsearch on 2 servers, 10 million records</li>
 <li>User session information stored in external data store (Redis?)</li>
-<li>User ability to create private data</li>
+<li>Establish user roles for viewing private/public data.  For example, when a user logs in, they see their own fitness data and are unable to see other users' data.</li>
 <li>iOS app</li>
 </ul>
 
 <h3>
-<a id="v30" class="anchor" href="#v30" aria-hidden="true"><span class="octicon octicon-link"></span></a>v3.0</h3>
+<a id="v30" class="anchor" href="#v30" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v3.0</h3>
 
 <ul>
 <li>Elasticsearch on 5 servers, 500 million records</li>
-<li>In-memory database for warm data</li>
+<li>In-memory database for data that is accessed most often</li>
 <li>Android app</li>
 </ul>
 
 <h3>
-<a id="v40" class="anchor" href="#v40" aria-hidden="true"><span class="octicon octicon-link"></span></a>v4.0</h3>
+<a id="v40" class="anchor" href="#v40" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v4.0</h3>
 
 <ul>
 <li>MongoDB with 1 million records</li>
@@ -84,11 +94,9 @@
 </ul>
 
 <h3>
-<a id="v50" class="anchor" href="#v50" aria-hidden="true"><span class="octicon octicon-link"></span></a>v5.0</h3>
+<a id="v50" class="anchor" href="#v50" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>v5.0</h3>
 
 <ul>
-<li>Dart for middle-tier</li>
-<li>PolymerDart for UI</li>
 <li>Support SSO through Google (and Facebook? and Twitter?)</li>
 </ul>
 
