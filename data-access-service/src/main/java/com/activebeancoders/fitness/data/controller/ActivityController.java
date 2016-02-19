@@ -24,18 +24,18 @@ public class ActivityController {
     @Autowired
     private ActivityDao activityDao;
 
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
+    @RequestMapping(value = RestEndpoint.ACTIVITY_BY_ID, method = RequestMethod.GET)
     public Activity get(@PathVariable("id") String id) {
         return activityDao.get(id);
     }
 
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
+    @RequestMapping(value = RestEndpoint.ACTIVITY_ADD, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void addActivity(@RequestBody Activity activity) {
         activityDao.save(activity);
     }
 
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.ACTIVITY_LOG, method = RequestMethod.GET)
+    @RequestMapping(value = RestEndpoint.ACTIVITY_LOG, method = RequestMethod.GET)
     public List<Activity> mostRecentActivities(@RequestParam(required = false, defaultValue = "10") String count) {
         int size = 10;
         try {
@@ -46,7 +46,7 @@ public class ActivityController {
         return activityDao.findMostRecentActivities(size);
     }
 
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.SEARCH, method = RequestMethod.POST)
+    @RequestMapping(value = RestEndpoint.SEARCH, method = RequestMethod.POST)
     public List<Activity> search(@RequestBody ActivitySearchCriteria activitySearchCriteria) {
         return activityDao.search(activitySearchCriteria);
     }
