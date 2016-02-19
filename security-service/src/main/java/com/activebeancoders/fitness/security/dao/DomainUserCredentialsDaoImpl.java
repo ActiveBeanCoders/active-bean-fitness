@@ -17,12 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class DomainUserCredentialsDaoImpl implements DomainUserCredentialsDao {
 
     private static final Logger log = LoggerFactory.getLogger(DomainUserCredentialsDaoImpl.class);
-    private SessionFactory sessionFactory;
-    //TODO: have security data in separate mysql server?
 
     @Autowired
-    public DomainUserCredentialsDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    private SessionFactory sessionFactory;
+
+    //TODO: have security data in separate mysql server?
+
+    public DomainUserCredentialsDaoImpl() {
     }
 
     // public methods

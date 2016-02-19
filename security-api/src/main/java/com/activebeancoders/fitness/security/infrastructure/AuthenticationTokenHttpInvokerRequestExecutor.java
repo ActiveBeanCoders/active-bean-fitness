@@ -17,17 +17,15 @@ import java.io.IOException;
  *
  * @author Dan Barrese
  */
-// TODO: how to use this invoker for HTTPS requests?  Is there a property I need to set
 @Component
 public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponentsHttpInvokerRequestExecutor {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Autowired
     private AuthenticationDao authenticationDao;
 
-    @Autowired
-    public AuthenticationTokenHttpInvokerRequestExecutor(AuthenticationDao authenticationDao) {
-        this.authenticationDao = authenticationDao;
+    public AuthenticationTokenHttpInvokerRequestExecutor() {
     }
 
     @Override

@@ -19,13 +19,14 @@ import org.springframework.stereotype.Service;
 public class SecurityServiceImpl implements SecurityService {
 
     private static final Logger log = LoggerFactory.getLogger(SecurityServiceImpl.class);
-    private DomainUserDao domainUserDao;
-    private DomainUserCredentialsDao domainUserCredentialsDao;
 
     @Autowired
-    public SecurityServiceImpl(DomainUserDao domainUserDao, DomainUserCredentialsDao domainUserCredentialsDao) {
-        this.domainUserDao = domainUserDao;
-        this.domainUserCredentialsDao = domainUserCredentialsDao;
+    private DomainUserDao domainUserDao;
+
+    @Autowired
+    private DomainUserCredentialsDao domainUserCredentialsDao;
+
+    public SecurityServiceImpl() {
     }
 
     @Override

@@ -20,11 +20,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    public TokenAuthenticationProvider(TokenService tokenService) {
-        this.tokenService = tokenService;
+    public TokenAuthenticationProvider() {
     }
 
     @Override

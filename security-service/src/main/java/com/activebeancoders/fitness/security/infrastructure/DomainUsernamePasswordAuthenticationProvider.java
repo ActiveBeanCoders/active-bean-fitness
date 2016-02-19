@@ -29,16 +29,17 @@ import java.util.List;
 @Component
 public class DomainUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired
     private TokenService tokenService;
+
+    @Autowired
     private DomainUserDao domainUserDao;
+
+    @Autowired
     private DomainUserCredentialsDao domainUserCredentialsDao;
 
 
-    @Autowired
-    public DomainUsernamePasswordAuthenticationProvider(TokenService tokenService, DomainUserDao domainUserDao, DomainUserCredentialsDao domainUserCredentialsDao) {
-        this.tokenService = tokenService;
-        this.domainUserDao = domainUserDao;
-        this.domainUserCredentialsDao = domainUserCredentialsDao;
+    public DomainUsernamePasswordAuthenticationProvider() {
     }
 
     /**
