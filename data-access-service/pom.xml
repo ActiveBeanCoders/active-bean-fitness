@@ -23,10 +23,9 @@
 
         <!-- A.B.C. dependencies -->
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>data-access-api</artifactId> <version>${data-access-api.version}</version> </dependency>
-        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>elasticsearch-api</artifactId> <version>${elasticsearch-api.version}</version> </dependency>
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>hibernate-api</artifactId> <version>${hibernate-api.version}</version> </dependency>
-        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
 
         <!-- Spring -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
@@ -34,9 +33,6 @@
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-tomcat</artifactId> </dependency>
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> </dependency>
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-aop</artifactId> </dependency>
-
-        <!-- Elasticsearch -->
-        <dependency> <groupId>${external-project.location}</groupId> <artifactId>elasticsearch-utils</artifactId> <version>${elasticsearch-utils.version}</version> </dependency>
 
         <!-- Hibernate -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-data-jpa</artifactId> </dependency>
@@ -53,7 +49,6 @@
         <!-- misc. -->
         <dependency> <groupId>c3p0</groupId> <artifactId>c3p0</artifactId> <version>0.9.1.2</version> </dependency>
         <dependency> <groupId>com.google.guava</groupId> <artifactId>guava</artifactId> <version>18.0</version> </dependency>
-        <dependency> <groupId>${external-project.location}</groupId> <artifactId>random-object-generator</artifactId> <version>${random-object-generator.version}</version> </dependency>
         <dependency> <groupId>org.apache.commons</groupId> <artifactId>commons-io</artifactId> <version>${commons-io.version}</version> </dependency>
 
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> </dependency>

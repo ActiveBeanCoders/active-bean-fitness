@@ -23,11 +23,11 @@ import javax.annotation.Nonnull;
 @Component
 public class TokenValidationServiceImpl implements TokenValidationService {
 
+    @Autowired
+    @Qualifier("tokenAuthenticationProvider")
     private TokenAuthenticationProvider tokenAuthenticationProvider;
 
-    @Autowired
-    public TokenValidationServiceImpl(@Qualifier("tokenAuthenticationProvider") TokenAuthenticationProvider tokenAuthenticationProvider) {
-        this.tokenAuthenticationProvider = tokenAuthenticationProvider;
+    public TokenValidationServiceImpl() {
     }
 
     @Override

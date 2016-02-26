@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class DomainUserDaoImpl implements DomainUserDao {
 
     private static final Logger log = LoggerFactory.getLogger(DomainUserDaoImpl.class);
-    private SessionFactory sessionFactory;
 
     @Autowired
-    public DomainUserDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    private SessionFactory sessionFactory;
+
+    public DomainUserDaoImpl() {
     }
 
     // public methods

@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.util.SecurityContextAwareExecutor;
-import com.activebeancoders.fitness.util.Assert;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.Executor;
@@ -30,10 +30,11 @@ public class AsyncRemoteMethodCallConfig implements AsyncConfigurer {
 
     @PostConstruct
     protected void init() {
-        Assert.assertNotNull(corePoolSize);
-        Assert.assertNotNull(maxPoolSize);
-        Assert.assertNotNull(queueCapacity);
-        Assert.assertStringIsInitialized(threadNamePrefix);
+        Assert.notNull(corePoolSize);
+        Assert.notNull(maxPoolSize);
+        Assert.notNull(queueCapacity);
+        Assert.isTrue(!(threadNamePrefix.startsWith("${")));
+        Assert.isTrue(!(threadNamePrefix.endsWith("}")));
     }
 
     @Override

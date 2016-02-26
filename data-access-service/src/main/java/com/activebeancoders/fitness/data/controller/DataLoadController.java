@@ -23,7 +23,7 @@ public class DataLoadController {
     /**
      * Rebilds the index with random data.
      */
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.RELOAD, method = RequestMethod.POST)
+    @RequestMapping(value = RestEndpoint.RELOAD, method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse reloadActivities(@RequestParam(required = false, defaultValue = "20") final String count) {
         indexerWorker.loadRandomRecords(Long.valueOf(count));
@@ -32,7 +32,7 @@ public class DataLoadController {
         return jsonResponse;
     }
 
-    @RequestMapping(value = com.activebeancoders.fitness.data.es.controller.RestEndpoint.RELOAD_STATUS, method = RequestMethod.GET)
+    @RequestMapping(value = RestEndpoint.RELOAD_STATUS, method = RequestMethod.GET)
     @ResponseBody
     public JsonResponse reloadActivitiesStatus() {
         JsonResponse jsonResponse = new JsonResponse();
