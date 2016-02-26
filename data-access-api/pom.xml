@@ -13,7 +13,7 @@
     <version>0.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Fitness Data Access API</name>
+    <name>Active Bean Fitness - Data Access API</name>
 
     <properties>
         <java.version>1.8</java.version>

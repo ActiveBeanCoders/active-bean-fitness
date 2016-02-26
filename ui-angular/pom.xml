@@ -9,15 +9,15 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.activebeancoders</groupId>
     <artifactId>ui-angular</artifactId>
     <version>0.8.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>ui-angular</name>
+    <name>Active Bean Fitness - ui-angular</name>
     <description>Angular UI</description>
 
     <properties>
+        <java.version>1.8</java.version>
         <wro4j.version>1.7.6</wro4j.version>
     </properties>
 
@@ -118,10 +118,6 @@
                         <groupId>org.webjars</groupId>
                         <artifactId>bootstrap</artifactId>
                         <version>3.2.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-actuator</artifactId>
                     </dependency>
                 </dependencies>
             </plugin>
