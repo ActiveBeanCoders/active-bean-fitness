@@ -8,7 +8,7 @@ function($scope, $http) {
 		if (data.name) {
 			$scope.authenticated = true;
 			$scope.user = data.name
-			$http.get('/resource/').success(function(data) {
+			$http.get('/alldata/').success(function(data) {
 				$scope.greeting = data;
 			})
 		} else {

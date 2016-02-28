@@ -126,7 +126,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     // -----------------------------------------------------------------------
 
     var loadActivityLog = function() {
-        $http.get('/resource/activityLog').success(function(data) {
+        $http.get('/alldata/api/activity/recent').success(function(data) {
             $scope.recentActivities = data;
         });
     }
@@ -204,7 +204,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     $scope.searchCriteria = {};
     $scope.searchActivity = function() {
         $http({
-            method: 'POST', url: '/resource/search',
+            method: 'POST', url: '/alldata/api/activity/search',
             data: { 'fullText': $scope.searchCriteria.fullText }
         }).
         success(function(data, status, headers, config) {
@@ -219,7 +219,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     $scope.activityToAdd = {};
     $scope.addActivity = function() {
         $http({
-            method: 'POST', url: '/resource/activity-add',
+            method: 'POST', url: '/alldata/api/activity/add',
             data: $scope.activityToAdd
         }).
         success(function(data, status, headers, config) {
@@ -242,7 +242,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 	    }
         $http({
             method: 'POST',
-            url: '/resource/reload' + params
+            url: '/alldata/api/activity/reload' + params
         }).
         success(function(data, status, headers, config) {
             $scope.reloadResult = "Success! " + data.value;

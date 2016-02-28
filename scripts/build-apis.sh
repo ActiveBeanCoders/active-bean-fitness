@@ -9,9 +9,9 @@ apis=(
     "common"
     "security-api"
     "fitness-parent"
-    "data-access-api"
-    "elasticsearch-api"
-    "hibernate-api"
+    "data-all-api"
+    "data-es-api"
+    "data-db-api"
 )
 printf '%s\n' "Building APIs (${apis[*]})"
 

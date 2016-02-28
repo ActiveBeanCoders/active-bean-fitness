@@ -13,7 +13,7 @@
 
     <groupId>com.activebeancoders.fitness</groupId>
     <artifactId>security-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Active Bean Fitness - Security API</name>
