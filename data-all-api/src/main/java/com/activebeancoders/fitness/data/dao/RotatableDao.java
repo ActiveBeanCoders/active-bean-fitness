@@ -4,6 +4,7 @@ import com.activebeancoders.fitness.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -40,13 +41,17 @@ public abstract class RotatableDao<T> {
      * @return The number of milliseconds after which if no exception is thrown,
      * all previous exceptions by the primary DAO will be ignored.
      */
-    protected abstract long getMillisAfterWhichToDiscardFailures();
+    protected long getMillisAfterWhichToDiscardFailures() {
+        return 0; // i.e. do not rotate
+    }
 
     /**
      * @return The number of times the primary DAO must fail before giving
      * up and moving on to next DAO.
      */
-    protected abstract int getFailureGiveupCount();
+    protected int getFailureGiveupCount() {
+        return Integer.MAX_VALUE;
+    }
 
     // public methods
     // ````````````````````````````````````````````````````````````````````````
@@ -69,6 +74,7 @@ public abstract class RotatableDao<T> {
     // protected methods
     // ````````````````````````````````````````````````````````````````````````
 
+    @PostConstruct
     protected void init() {
         Assert.assertNotEmpty(daos, "DAO map must have at least one platform-specific DAO inside of it.");
     }

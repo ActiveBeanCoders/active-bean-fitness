@@ -15,7 +15,8 @@ import org.springframework.stereotype.Component;
  *
  * @author Dan Barrese
  */
-@Component
+// TODO: rename to dataLoaderEs
+@Component("esDataLoader")
 @Primary
 public class DataLoaderEsImpl implements DataLoader {
 

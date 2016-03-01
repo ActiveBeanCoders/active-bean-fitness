@@ -22,7 +22,8 @@ import java.util.List;
  *
  * @author Dan Barrese
  */
-@Component
+// TODO: rename to "activityDaoEs"
+@Component("activityEsDao")
 @Primary
 public class ActivityDaoEsImpl extends AbstractEsDto<Activity> implements ActivityDao {
 

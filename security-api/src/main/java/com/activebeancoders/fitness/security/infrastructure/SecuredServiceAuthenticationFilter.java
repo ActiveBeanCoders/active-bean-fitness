@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
-import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,12 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
-    private TokenValidationService tokenValidationService;
+    private AuthenticationService authenticationService;
     private AuthenticationDao authenticationDao;
 
-    public SecuredServiceAuthenticationFilter(TokenValidationService tokenValidationService,
+    public SecuredServiceAuthenticationFilter(AuthenticationService authenticationService,
                                               AuthenticationDao authenticationDao) {
-        this.tokenValidationService = tokenValidationService;
+        this.authenticationService = authenticationService;
         this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }
@@ -65,7 +65,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         AuthenticationWithToken existingAuthentication = null;
         try {
             if (token.isPresent()) {
-                existingAuthentication = tokenValidationService.validateToken(token);
+                existingAuthentication = authenticationService.validateToken(token);
                 logSuccessfulAccess(existingAuthentication, resourcePath);
 
                 // This is done so this service can forward authentication data to remote method calls.

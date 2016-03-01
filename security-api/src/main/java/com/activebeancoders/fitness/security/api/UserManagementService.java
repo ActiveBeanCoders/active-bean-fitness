@@ -6,7 +6,7 @@ import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
 /**
  * @author Dan Barrese
  */
-public interface SecurityService {
+public interface UserManagementService {
 
     DomainUser createUserAccount(DomainUserCredentials domainUser);
 

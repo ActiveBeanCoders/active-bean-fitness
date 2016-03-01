@@ -1,6 +1,5 @@
-package com.activebeancoders.fitness.security.service;
+package com.activebeancoders.fitness.security.api;
 
-import com.activebeancoders.fitness.security.api.SecurityService;
 import com.activebeancoders.fitness.security.dao.DomainUserCredentialsDao;
 import com.activebeancoders.fitness.security.dao.DomainUserDao;
 import com.activebeancoders.fitness.security.domain.DomainUser;
@@ -16,9 +15,9 @@ import org.springframework.stereotype.Service;
  */
 @Primary
 @Service
-public class SecurityServiceImpl implements SecurityService {
+public class UserManagementServiceImpl implements UserManagementService {
 
-    private static final Logger log = LoggerFactory.getLogger(SecurityServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserManagementServiceImpl.class);
 
     @Autowired
     private DomainUserDao domainUserDao;
@@ -26,7 +25,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private DomainUserCredentialsDao domainUserCredentialsDao;
 
-    public SecurityServiceImpl() {
+    public UserManagementServiceImpl() {
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.pladform.elasticsearch.service.EsService;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
@@ -33,7 +34,7 @@ public class DataEsServiceConfig {
     @Scope("singleton")
     public Client esClient() {
         try {
-            // TODO: pull hostname and port from properties.
+            // TODO: resolve via property
             String hostname = "localhost";
             int port = 9300; // 9300 for Java API, 9200 for REST API.
             InetAddress host = InetAddress.getByName(hostname);

@@ -34,7 +34,7 @@ public class IdGenerator {
 
     @PostConstruct
     protected void init() {
-        Long maxId = activityDao.findMaxId(); // TODO: ignore failures as long as 1 succeeds?
+        Long maxId = activityDao.findMaxId();
         nextId = new AtomicLong(maxId + 1);
     }
 

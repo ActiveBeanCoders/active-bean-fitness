@@ -2,8 +2,7 @@ package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
-import com.activebeancoders.fitness.security.api.SecurityService;
-import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.api.UserManagementService;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationTokenHttpInvokerRequestExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,13 +30,13 @@ public class SecurityClientConfig {
     private String securityServiceUrl;
 
     @Bean
-    public SecurityService remoteSecurityService() {
+    public UserManagementService remoteUserManagementService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
         proxy.setServiceUrl(securityServiceUrl + "/public/securityService.http");
-        proxy.setServiceInterface(SecurityService.class);
+        proxy.setServiceInterface(UserManagementService.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();
-        return (SecurityService) proxy.getObject();
+        return (UserManagementService) proxy.getObject();
     }
 
     @Bean
@@ -48,16 +47,6 @@ public class SecurityClientConfig {
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();
         return (AuthenticationService) proxy.getObject();
-    }
-
-    @Bean
-    public TokenValidationService remoteTokenValidationService() {
-        HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceUrl(securityServiceUrl + "/public/" + SecurityClientController.getTokenValidationEndpointFromRemoteMethodCall());
-        proxy.setServiceInterface(TokenValidationService.class);
-        proxy.setHttpInvokerRequestExecutor(executor);
-        proxy.afterPropertiesSet();
-        return (TokenValidationService) proxy.getObject();
     }
 
 }

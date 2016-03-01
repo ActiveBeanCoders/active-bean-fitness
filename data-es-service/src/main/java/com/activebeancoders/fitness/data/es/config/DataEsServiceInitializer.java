@@ -18,20 +18,20 @@ public class DataEsServiceInitializer implements ServletContextInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(DataEsClientConfig.class);
-
-        // Manage the lifecycle of the root application context
-        servletContext.addListener(new ContextLoaderListener(rootContext));
-
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-        dispatcherContext.register(DataEsServiceRemotingConfig.class);
-
-        // Register and map the dispatcher servlet
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("rmi", new DispatcherServlet(dispatcherContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/rmi/*");
+//        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+//        rootContext.register(DataEsClientConfig.class);
+//
+//        // Manage the lifecycle of the root application context
+//        servletContext.addListener(new ContextLoaderListener(rootContext));
+//
+//        // Create the dispatcher servlet's Spring application context
+//        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+//        dispatcherContext.register(DataEsServiceRemotingConfig.class);
+//
+//        // Register and map the dispatcher servlet
+//        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("rmi", new DispatcherServlet(dispatcherContext));
+//        dispatcher.setLoadOnStartup(1);
+//        dispatcher.addMapping("/rmi/*");
     }
 
 }

@@ -2,8 +2,7 @@ package com.activebeancoders.fitness.security.controller;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
-import com.activebeancoders.fitness.security.api.SecurityService;
-import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.api.UserManagementService;
 import com.activebeancoders.fitness.security.domain.CurrentlyLoggedInUser;
 import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
@@ -34,9 +33,7 @@ public class SecurityServiceController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
-    private SecurityService securityService;
-    @Autowired
-    private TokenValidationService tokenValidationService;
+    private UserManagementService userManagementService;
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
@@ -55,7 +52,7 @@ public class SecurityServiceController {
     @ResponseStatus(value = HttpStatus.OK)
     public void validateAuthToken(@RequestHeader(value = "X-Auth-Token") final String token) {
         Optional<String> sessionToken = Optional.fromNullable(token);
-        tokenValidationService.validateToken(sessionToken);
+        authenticationService.validateToken(sessionToken);
     }
 
     @RequestMapping(value = SecurityClientController.URL_AUTH_USER_CREDS, method = RequestMethod.POST)
@@ -79,7 +76,7 @@ public class SecurityServiceController {
     @ResponseStatus(value = HttpStatus.OK)
     public void logout(@RequestHeader(value = "X-Auth-Token") final String token) {
         Optional<String> sessionToken = Optional.fromNullable(token);
-        tokenValidationService.invalidateToken(sessionToken);
+        authenticationService.invalidateToken(sessionToken);
     }
 
     // TODO: should this be publicly accessible?  Seems like easy DOS opportunity.
@@ -88,7 +85,7 @@ public class SecurityServiceController {
             @RequestHeader(value = "username") final String username,
             @RequestHeader(value = "plaintextPassword") final String plaintextPassword) {
         DomainUserCredentials domainUserCredentials = new DomainUserCredentials(username, plaintextPassword);
-        return securityService.createUserAccount(domainUserCredentials);
+        return userManagementService.createUserAccount(domainUserCredentials);
     }
 
 }

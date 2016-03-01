@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.data.hib.config;
 
-import com.activebeancoders.fitness.security.api.TokenValidationService;
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter;
@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 public class DataDbServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier("remoteTokenValidationService")
-    private TokenValidationService tokenValidationService;
+    @Qualifier("remoteAuthenticationService")
+    private AuthenticationService authenticationService;
 
     @Autowired
     private AuthenticationDao authenticationDao;
@@ -49,7 +49,7 @@ public class DataDbServiceSecurityConfig extends WebSecurityConfigurerAdapter {
                 and().
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(tokenValidationService, authenticationDao),
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(authenticationService, authenticationDao),
                 BasicAuthenticationFilter.class);
     }
 

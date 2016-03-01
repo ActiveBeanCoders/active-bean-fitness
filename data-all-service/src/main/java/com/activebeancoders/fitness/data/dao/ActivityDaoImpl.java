@@ -2,29 +2,19 @@ package com.activebeancoders.fitness.data.dao;
 
 import com.activebeancoders.fitness.data.entity.Activity;
 import com.activebeancoders.fitness.data.search.ActivitySearchCriteria;
-import com.activebeancoders.fitness.util.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
  * @author Dan Barrese
  */
-// TODO: no need for this to be "rotateable", that's happy horseshit.
 public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements ActivityDao {
 
     private static final Logger log = LoggerFactory.getLogger(ActivityDaoImpl.class);
-
-    @Value("${dao.failure.timeout.millis}")
-    private long millisAfterWhichToDiscardFailures;
-
-    @Value("${dao.failure.rotate}")
-    private int failureGiveupCount;
 
     @Autowired
     @Lazy
@@ -39,12 +29,7 @@ public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements Activi
 
     @Override
     public Activity get(Object id) {
-        try {
-            return getPrimaryDao().get(id);
-        } catch (Exception e) {
-            handleError();
-            throw e;
-        }
+        return getPrimaryDao().get(id);
     }
 
     @Override
@@ -66,7 +51,6 @@ public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements Activi
         } catch (Exception e) {
             allSucceeded = false;
             exception = e;
-            handleError();
         }
 
         // do work with all other DAO's.
@@ -103,7 +87,6 @@ public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements Activi
         } catch (Exception e) {
             allSucceeded = false;
             exception = e;
-            handleError();
         }
 
         // do work with all other DAO's.
@@ -129,22 +112,12 @@ public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements Activi
 
     @Override
     public List<Activity> search(ActivitySearchCriteria activitySearchCriteria) {
-        try {
-            return getPrimaryDao().search(activitySearchCriteria);
-        } catch (Exception e) {
-            handleError();
-            throw e;
-        }
+        return getPrimaryDao().search(activitySearchCriteria);
     }
 
     @Override
     public List<Activity> findMostRecentActivities(int size) {
-        try {
-            return getPrimaryDao().findMostRecentActivities(size);
-        } catch (Exception e) {
-            handleError();
-            throw e;
-        }
+        return getPrimaryDao().findMostRecentActivities(size);
     }
 
     @Override
@@ -165,29 +138,6 @@ public class ActivityDaoImpl extends RotatableDao<ActivityDao> implements Activi
         }
         return maxId;
     }
-
-    // protected methods
-    // ````````````````````````````````````````````````````````````````````````
-
-    @PostConstruct
-    protected void init() {
-        super.init();
-        Assert.assertTrue(millisAfterWhichToDiscardFailures > 0L);
-        Assert.assertTrue(failureGiveupCount > 0L);
-    }
-
-    @Override
-    protected long getMillisAfterWhichToDiscardFailures() {
-        return millisAfterWhichToDiscardFailures;
-    }
-
-    @Override
-    protected int getFailureGiveupCount() {
-        return failureGiveupCount;
-    }
-
-    // private methods
-    // ````````````````````````````````````````````````````````````````````````
 
 }
 

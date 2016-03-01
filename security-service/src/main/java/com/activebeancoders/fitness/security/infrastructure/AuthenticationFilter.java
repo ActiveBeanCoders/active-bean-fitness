@@ -1,7 +1,7 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
+import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.api.SecurityClientController;
-import com.activebeancoders.fitness.security.api.TokenValidationService;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,12 +29,12 @@ public class AuthenticationFilter extends GenericFilterBean {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private UrlPathHelper urlPathHelper;
-    private TokenValidationService tokenValidationService;
+    private AuthenticationService authenticationService;
     private AuthenticationDao authenticationDao;
 
-    public AuthenticationFilter(TokenValidationService tokenValidationService,
+    public AuthenticationFilter(AuthenticationService authenticationService,
                                 AuthenticationDao authenticationDao) {
-        this.tokenValidationService = tokenValidationService;
+        this.authenticationService = authenticationService;
         this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }
@@ -55,7 +55,7 @@ public class AuthenticationFilter extends GenericFilterBean {
         try {
             // Validate the token if one is present.
             if (token.isPresent()) {
-                authentication = tokenValidationService.validateToken(token);
+                authentication = authenticationService.validateToken(token);
                 if (!authentication.isAuthenticated()) {
                     throw new InternalAuthenticationServiceException("Invalid session token.");
                 } else {
