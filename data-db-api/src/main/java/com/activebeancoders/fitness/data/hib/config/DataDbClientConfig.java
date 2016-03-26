@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 @Configuration
 @PropertySource(value = "classpath:/data-db-api.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/data-db-api.properties", ignoreResourceNotFound = true)
+// TODO: why use remoting like this when we can just use REST API?
 public class DataDbClientConfig {
 
     @Autowired

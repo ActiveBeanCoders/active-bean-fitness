@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Responsible for moving Activity data in/out of MySQL.
@@ -70,10 +71,7 @@ public class ActivityDaoMySqlImpl implements ActivityDao {
         if (results == null) {
             return null;
         }
-        List<Activity> typedResults = new ArrayList<>();
-        for (Object o : results) {
-            typedResults.add((Activity) o);
-        }
+        List<Activity> typedResults = results.stream().map(o -> (Activity) o).collect(Collectors.toList());
         return typedResults;
     }
 
