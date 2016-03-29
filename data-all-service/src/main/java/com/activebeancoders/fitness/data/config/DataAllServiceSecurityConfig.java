@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataAllServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier("remoteAuthenticationService")
+    @Qualifier("remoteAuthenticationServiceImpl")
     private AuthenticationService authenticationService;
 
     @Autowired

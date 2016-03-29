@@ -29,6 +29,7 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
 
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
+    // TODO: just instantiate here instead of passing in as constructor param.
     private AuthenticationService authenticationService;
     private AuthenticationDao authenticationDao;
 

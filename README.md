@@ -146,3 +146,6 @@ Go to https://localhost:8080  (don't forget the http*S*!)
 ## Sign up / Log-in
 Log-in, or sign up with any username/password you want.
 
+# Misc todos
+* AuthenticationWithToken should contain user id, name, and type.
+

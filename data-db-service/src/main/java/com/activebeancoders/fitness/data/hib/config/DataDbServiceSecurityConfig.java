@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DataDbServiceSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier("remoteAuthenticationService")
+    @Qualifier("remoteAuthenticationServiceImpl")
     private AuthenticationService authenticationService;
 
     @Autowired

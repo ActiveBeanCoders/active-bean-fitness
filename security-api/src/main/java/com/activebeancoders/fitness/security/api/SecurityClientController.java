@@ -1,32 +1,48 @@
 package com.activebeancoders.fitness.security.api;
 
+import com.activebeancoders.fitness.common.RestApiArgument;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Dan Barrese
  */
 public abstract class SecurityClientController {
 
-    public static final String URL_VALIDATE_AUTH_TOKEN = "/public/token/verify";
-    public static final String URL_AUTH_USER_CREDS = "/public/authenticate";
-    public static final String URL_LOGOUT = "/public/logout";
+    public static final String URI_VALIDATE_AUTHC_TOKEN = "/public/token/verify";
+    public static final String URI_AUTHENTICATE = "/public/authenticate";
+    public static final String URI_LOGOUT = "/public/logout";
 
-    public static String getLogoutEndpointFromRESTCall() {
-        return URL_LOGOUT;
-    }
+    public enum Endpoint {
+        VALIDATE_AUTHC_TOKEN(URI_VALIDATE_AUTHC_TOKEN,
+                "header:string:X-Auth-Token:required"),
 
-    public static String getAuthenticateEndpointFromRESTCall() {
-        return URL_AUTH_USER_CREDS;
-    }
+        AUTHENTICATE(URI_AUTHENTICATE,
+                "header:string:X-Auth-Username:required",
+                "header:string:X-Auth-Password:required"),
 
-    public static String getAuthenticateEndpointFromRemoteMethodCall() {
-        return "authenticationService.http";
-    }
+        LOGOUT(URI_LOGOUT,
+                "header:string:X-Auth-Token:required");
 
-    public static String getTokenValidationEndpointFromRESTCall() {
-        return URL_VALIDATE_AUTH_TOKEN;
-    }
+        private String uri;
+        private List<RestApiArgument> args = new ArrayList<>();
 
-    public static String getTokenValidationEndpointFromRemoteMethodCall() {
-        return "tokenValidationService.http";
+        Endpoint(String uri, String... args) {
+            this.uri = uri;
+            for (String arg : args) {
+                this.args.add(new RestApiArgument(arg.split(":")));
+            }
+        }
+
+        public String getUri() {
+            return uri;
+        }
+
+        public List<RestApiArgument> getArgs() {
+            return args;
+        }
     }
 
 }
+

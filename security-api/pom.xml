@@ -21,9 +21,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <fitness-spring-utils.version>1.0.0-SNAPSHOT</fitness-spring-utils.version>
+        <fitness-common.version>1.0.0-SNAPSHOT</fitness-common.version>
     </properties>
 
     <dependencies>
+
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>common</artifactId> <version>${fitness-common.version}</version></dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>spring-utils</artifactId> <version>${fitness-spring-utils.version}</version> </dependency>
 
         <!-- Spring -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>
@@ -81,6 +86,16 @@
             </exclusions>
         </dependency>
         <dependency> <groupId>org.springframework</groupId> <artifactId>spring-web</artifactId> </dependency>
+        <dependency>
+            <groupId>com.activebeancoders.fitness</groupId>
+            <artifactId>spring-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.activebeancoders.fitness</groupId>
+            <artifactId>spring-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 

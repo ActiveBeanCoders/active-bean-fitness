@@ -11,6 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @PropertySource(value = "classpath:/data-db-service.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/data-db-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/urls.properties", ignoreResourceNotFound = true)
 public class DataDbServiceConfig {
 
     //To resolve ${} in @Value

@@ -49,6 +49,7 @@
         <data-all-api.version>0.9.0-SNAPSHOT</data-all-api.version>
         <ui-angular.version>0.8.0-SNAPSHOT</ui-angular.version>
         <security-api.version>0.9.0-SNAPSHOT</security-api.version>
+        <fitness-spring-utils.version>1.0.0-SNAPSHOT</fitness-spring-utils.version>
     </properties>
 
     <dependencies>

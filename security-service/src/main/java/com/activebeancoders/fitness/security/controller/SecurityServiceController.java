@@ -48,20 +48,20 @@ public class SecurityServiceController {
         return Collections.singletonMap("username", domainUser.getUsername());
     }
 
-    @RequestMapping(value = SecurityClientController.URL_VALIDATE_AUTH_TOKEN, method = RequestMethod.POST)
+    @RequestMapping(value = SecurityClientController.URI_VALIDATE_AUTHC_TOKEN, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void validateAuthToken(@RequestHeader(value = "X-Auth-Token") final String token) {
+    public AuthenticationWithToken validateAuthToken(@RequestHeader(value = "X-Auth-Token") final String token) {
         Optional<String> sessionToken = Optional.fromNullable(token);
-        authenticationService.validateToken(sessionToken);
+        return authenticationService.validateToken(sessionToken);
     }
 
-    @RequestMapping(value = SecurityClientController.URL_AUTH_USER_CREDS, method = RequestMethod.POST)
-    public TokenResponse authenticateUserCredentials(@RequestHeader(value = "X-Auth-Username") final String username,
+    @RequestMapping(value = SecurityClientController.URI_AUTHENTICATE, method = RequestMethod.POST)
+    public AuthenticationWithToken authenticateUserCredentials(@RequestHeader(value = "X-Auth-Username") final String username,
                                               @RequestHeader(value = "X-Auth-Password") final String plaintextPassword) {
         // TODO: set cookie on response?  Is that more secure?
         try {
             AuthenticationWithToken authentication = authenticationService.authenticate(username, plaintextPassword);
-            return new TokenResponse(authentication.getToken());
+            return authentication;
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             authenticationDao.clearCurrentSessionAuthentication();
             throw new Http500Error();
@@ -72,7 +72,7 @@ public class SecurityServiceController {
         }
     }
 
-    @RequestMapping(value = SecurityClientController.URL_LOGOUT, method = RequestMethod.POST)
+    @RequestMapping(value = SecurityClientController.URI_LOGOUT, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void logout(@RequestHeader(value = "X-Auth-Token") final String token) {
         Optional<String> sessionToken = Optional.fromNullable(token);
@@ -80,6 +80,7 @@ public class SecurityServiceController {
     }
 
     // TODO: should this be publicly accessible?  Seems like easy DOS opportunity.
+    // TODO: only system user should be allowed to execute this method.
     @RequestMapping(value = "/public/user/create", method = RequestMethod.POST)
     public DomainUser createUserAccount(
             @RequestHeader(value = "username") final String username,

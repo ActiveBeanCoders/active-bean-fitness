@@ -35,6 +35,10 @@ public class ThreadLocalContext {
         }
     }
 
+    public static AuthenticationWithToken getSessionContext() {
+        return (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
+    }
+
     /**
      * Removes the user's session context from the security context of the thread which
      * calls this method.

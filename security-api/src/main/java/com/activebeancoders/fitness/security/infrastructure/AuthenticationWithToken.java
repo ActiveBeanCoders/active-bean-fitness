@@ -1,10 +1,10 @@
 package com.activebeancoders.fitness.security.infrastructure;
 
 import com.activebeancoders.fitness.security.domain.DomainUser;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Objects;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -16,11 +16,16 @@ import java.util.UUID;
  *
  * @author Dan Barrese
  */
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken implements Serializable {
+public class AuthenticationWithToken implements Authentication, Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final AuthenticationWithToken NON_AUTHENTICATED_INSTANCE = new AuthenticationWithToken();
     private String csrfToken;
+    private DomainUser principal;
+    private String plaintextPassword;
+    private boolean authenticated;
+    private String sessionToken;
+    private Collection<GrantedAuthority> authorities;
 
     public static AuthenticationWithToken nonAuthenticatedInstance() {
         return NON_AUTHENTICATED_INSTANCE;
@@ -30,42 +35,109 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
         if (authentication == null) {
             return nonAuthenticatedInstance();
         }
-        AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(authentication.getPrincipal(),
-                authentication.getCredentials(), authentication.getAuthorities());
-        authenticationWithToken.setDetails(authentication.getDetails());
+        AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(
+                (String) authentication.getPrincipal(),
+                (String) authentication.getCredentials(),
+                (Collection<GrantedAuthority>) authentication.getAuthorities());
+        authenticationWithToken.setToken((String) authentication.getDetails());
         return authenticationWithToken;
     }
 
-    public AuthenticationWithToken(Object principal, Object credentials) {
-        super(principal == null ? null : principal.toString(), credentials);
-        csrfToken = UUID.randomUUID().toString();
+    public AuthenticationWithToken(String username, String plaintextPassword,
+                                   Collection<GrantedAuthority> authorities) {
+        DomainUser domainUser = new DomainUser();
+        domainUser.setUsername(username);
+        this.principal = domainUser;
+        this.plaintextPassword = plaintextPassword;
+        this.authorities = authorities;
+        postConstruct();
     }
 
-    public AuthenticationWithToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
-        super(principal, credentials, grantedAuthorities);
-        csrfToken = UUID.randomUUID().toString();
+    public AuthenticationWithToken(DomainUser principal, String plaintextPassword) {
+        this.principal = principal;
+        this.plaintextPassword = plaintextPassword;
+        postConstruct();
     }
 
-    public void setToken(String token) {
-        setDetails(token);
+    public AuthenticationWithToken(DomainUser principal, String plaintextPassword, Collection<GrantedAuthority> authorities) {
+        this.principal = principal;
+        this.plaintextPassword = plaintextPassword;
+        this.authorities = authorities;
+        postConstruct();
+    }
+
+    protected void postConstruct() {
+        this.authenticated = true;
+        csrfToken = UUID.randomUUID().toString();
     }
 
     public String getToken() {
-        return String.valueOf(getDetails());
+        return sessionToken;
     }
+
+    public void setToken(String token) {
+        this.sessionToken = token;
+    }
+
 
     public String getCsrfToken() {
         return csrfToken;
     }
 
+    /**
+     * Deprecated.  Use {@link #getUsername}.
+     */
+    @Deprecated
+    @Override
+    public String getName() {
+        return getUsername();
+    }
+
     public String getUsername() {
-        return getPrincipal() == null ? null : getPrincipal().getUsername();
+        return principal == null ? null : principal.getUsername();
     }
 
     @Override
     public DomainUser getPrincipal() {
-        Object principal = super.getPrincipal();
-        return principal == null ? null : (DomainUser) principal;
+        return principal;
+    }
+
+    @JsonDeserialize(using = GrantedAuthoritySerializer.class)
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    /**
+     * Deprecated.  Use {@link #getPlaintextPassword}.
+     */
+    @Deprecated
+    @Override
+    public Object getCredentials() {
+        return getPlaintextPassword();
+    }
+
+    public String getPlaintextPassword() {
+        return plaintextPassword;
+    }
+
+    /**
+     * Deprecated.  Use {@link #getToken}.
+     */
+    @Deprecated
+    @Override
+    public Object getDetails() {
+        return getToken();
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    @Override
+    public void setAuthenticated(boolean b) throws IllegalArgumentException {
+        this.authenticated = b;
     }
 
     @Override
@@ -82,7 +154,6 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
     // ```````````````````````````````````````````````````````````````````````
 
     private AuthenticationWithToken() {
-        super(null, null);
         setAuthenticated(false);
     }
 

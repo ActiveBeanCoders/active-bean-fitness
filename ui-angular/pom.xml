@@ -24,6 +24,7 @@
     <dependencies>
 
         <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>security-api</artifactId> <version>${security-api.version}</version> </dependency>
+        <dependency> <groupId>com.activebeancoders.fitness</groupId> <artifactId>spring-utils</artifactId> <version>${fitness-spring-utils.version}</version> </dependency>
 
         <!-- Spring -->
         <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-web</artifactId> </dependency>

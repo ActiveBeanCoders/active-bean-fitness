@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 @EnableConfigurationProperties
 @PropertySource(value = "classpath:/security-service.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/security-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/urls.properties", ignoreResourceNotFound = true)
 public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

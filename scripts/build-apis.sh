@@ -7,6 +7,7 @@ function die {
 
 apis=(
     "common"
+    "spring-utils"
     "security-api"
     "fitness-parent"
     "data-all-api"

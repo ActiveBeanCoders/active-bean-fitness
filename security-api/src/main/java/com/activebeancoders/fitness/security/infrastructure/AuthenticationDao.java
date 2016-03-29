@@ -53,7 +53,6 @@ public class AuthenticationDao {
      * Removes the authentication information from the ThreadLocal context.
      */
     public void clearCurrentSessionAuthentication() {
-        // TODO: how does this know WHICH authentication information to remove?  Or does it just remove ALL authentication objects from the context??
         SecurityContextHolder.clearContext();
     }
 

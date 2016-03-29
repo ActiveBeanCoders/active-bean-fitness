@@ -22,6 +22,7 @@ import java.util.Map;
 @Configuration
 @PropertySource(value = "classpath:/data-all-service.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/data-all-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/urls.properties", ignoreResourceNotFound = true)
 public class DataAllServiceConfig {
 
     @Autowired

@@ -17,6 +17,7 @@ import java.net.UnknownHostException;
 @Configuration
 @PropertySource(value = "classpath:/data-es-service.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/data-es-service.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:/activebeancoders/urls.properties", ignoreResourceNotFound = true)
 public class DataEsServiceConfig {
 
     //To resolve ${} in @Value
