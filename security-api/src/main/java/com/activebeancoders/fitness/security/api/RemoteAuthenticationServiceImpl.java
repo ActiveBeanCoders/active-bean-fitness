@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.security.api;
 
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
-import com.activebeancoders.fitness.security.infrastructure.ThreadLocalContext;
 import com.activebeancoders.fitness.spring.util.Http;
 import com.activebeancoders.fitness.spring.util.header.AuthcTokenHttpHeader;
 import com.activebeancoders.fitness.spring.util.header.PasswordHttpHeader;
