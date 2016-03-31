@@ -52,7 +52,7 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
      * @throws AuthenticationException if username/password are invalid.
      */
     @Override
-    public AuthenticationWithToken authenticate(Authentication authentication) throws AuthenticationException {
+    public UserSession authenticate(Authentication authentication) throws AuthenticationException {
         Optional<String> username = (Optional) authentication.getPrincipal();
         Optional<String> plaintextPassword = (Optional) authentication.getCredentials();
 
@@ -79,14 +79,14 @@ public class DomainUsernamePasswordAuthenticationProvider implements Authenticat
             throw new MissingDomainUserException("DomainUser with username " + username.get() + " is missing from the database!");
         }
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(domainUser.getCommaSeparatedRoles());
-        AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(domainUser, null, authorities);
+        UserSession userSession = new UserSession(domainUser, null, authorities);
 
         // Create session token.
         String newToken = tokenService.generateNewToken();
-        authenticationWithToken.setToken(newToken);
-        tokenService.store(newToken, authenticationWithToken);
+        userSession.setToken(newToken);
+        tokenService.store(newToken, userSession);
 
-        return authenticationWithToken;
+        return userSession;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.activebeancoders.fitness.security.util;
 
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
-import com.activebeancoders.fitness.security.infrastructure.ThreadLocalContext;
+import com.activebeancoders.fitness.security.infrastructure.UserSession;
+import com.activebeancoders.fitness.security.infrastructure.UserSessionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -25,36 +25,32 @@ public class SecurityContextAwareExecutor extends ThreadPoolTaskExecutor {
 
     @Override
     public <T> Future<T> submit(final Callable<T> c) {
-        final AuthenticationWithToken authentication = (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
+        final UserSession authentication = (UserSession) SecurityContextHolder.getContext().getAuthentication();
         if (log.isDebugEnabled()) {
             log.debug("Adding authentication '{}' to async thread local context.");
         }
         return super.submit(() -> {
             try {
-                ThreadLocalContext.addSessionContextToSecurityContext(authentication);
-                ThreadLocalContext.addSessionContextToLogging(authentication);
+                UserSessionContext.set(authentication);
                 return c.call();
             } catch (Exception e) {
                 log.error("Error submitting security context aware callable.", e);
                 return null;
             } finally {
-                ThreadLocalContext.removeSessionContextFromSecurityContext(authentication);
-                ThreadLocalContext.removeSessionContextFromLogging(authentication);
+                UserSessionContext.clear();
             }
         });
     }
 
     @Override
     public void execute(final Runnable r) {
-        final AuthenticationWithToken authentication = (AuthenticationWithToken) SecurityContextHolder.getContext().getAuthentication();
+        final UserSession authentication = (UserSession) SecurityContextHolder.getContext().getAuthentication();
         super.execute(() -> {
             try {
-                ThreadLocalContext.addSessionContextToSecurityContext(authentication);
-                ThreadLocalContext.addSessionContextToLogging(authentication);
+                UserSessionContext.set(authentication);
                 r.run();
             } finally {
-                ThreadLocalContext.removeSessionContextFromSecurityContext(authentication);
-                ThreadLocalContext.removeSessionContextFromLogging(authentication);
+                UserSessionContext.clear();
             }
         });
     }

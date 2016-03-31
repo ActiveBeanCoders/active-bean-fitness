@@ -1,7 +1,6 @@
 package com.activebeancoders.fitness.security.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.AuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -49,9 +48,6 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @Autowired
-    private AuthenticationDao authenticationDao;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
@@ -64,8 +60,7 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 anyRequest().authenticated().
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new AuthenticationFilter(authenticationService, authenticationDao),
-                BasicAuthenticationFilter.class);
+        http.addFilterBefore(new AuthenticationFilter(authenticationService), BasicAuthenticationFilter.class);
     }
 
     @Override

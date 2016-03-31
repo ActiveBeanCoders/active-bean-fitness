@@ -3,7 +3,6 @@ package com.activebeancoders.fitness.security.infrastructure;
 import org.apache.http.client.methods.HttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.remoting.httpinvoker.HttpComponentsHttpInvokerRequestExecutor;
 import org.springframework.remoting.httpinvoker.HttpInvokerClientConfiguration;
 import org.springframework.stereotype.Component;
@@ -22,16 +21,13 @@ public class AuthenticationTokenHttpInvokerRequestExecutor extends HttpComponent
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private AuthenticationDao authenticationDao;
-
     public AuthenticationTokenHttpInvokerRequestExecutor() {
     }
 
     @Override
     protected HttpPost createHttpPost(HttpInvokerClientConfiguration config) throws IOException {
         HttpPost httpPost = super.createHttpPost(config);
-        AuthenticationWithToken authentication = authenticationDao.getCurrentSessionAuthentication();
+        UserSession authentication = UserSessionContext.get();
         if (authentication.isAuthenticated()) {
             // authentication.getAuthorities() -> user's roles
             // authentication.getCredentials() -> ?

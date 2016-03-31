@@ -30,12 +30,9 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
     private final static Logger log = LoggerFactory.getLogger(SecuredServiceAuthenticationFilter.class);
     private UrlPathHelper urlPathHelper;
     private AuthenticationService authenticationService;
-    private AuthenticationDao authenticationDao;
 
-    public SecuredServiceAuthenticationFilter(AuthenticationService authenticationService,
-                                              AuthenticationDao authenticationDao) {
+    public SecuredServiceAuthenticationFilter(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-        this.authenticationDao = authenticationDao;
         urlPathHelper = new UrlPathHelper();
     }
 
@@ -62,48 +59,45 @@ public class SecuredServiceAuthenticationFilter extends GenericFilterBean {
         Optional<String> token = Optional.fromNullable(httpRequest.getHeader("X-Auth-Token"));
         String resourcePath = urlPathHelper.getPathWithinApplication(httpRequest);
 
-        AuthenticationWithToken existingAuthentication = null;
+        UserSession existingAuthentication = null;
         try {
             if (token.isPresent()) {
                 existingAuthentication = authenticationService.validateToken(token);
                 logSuccessfulAccess(existingAuthentication, resourcePath);
 
                 // This is done so this service can forward authentication data to remote method calls.
-                authenticationDao.save(existingAuthentication);
+                UserSessionContext.set(existingAuthentication);
             }
 
             if (log.isDebugEnabled()) {
                 log.debug("AuthenticationFilter is passing request down the filter chain");
             }
-            ThreadLocalContext.addSessionContextToLogging(existingAuthentication);
 
             // Continue processing.
             chain.doFilter(request, response);
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
             logFailedAccess(existingAuthentication, resourcePath);
-            authenticationDao.clearCurrentSessionAuthentication();
             log.error("Internal authentication service exception", internalAuthenticationServiceException);
             httpResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (AuthenticationException authenticationException) {
             logFailedAccess(existingAuthentication, resourcePath);
-            authenticationDao.clearCurrentSessionAuthentication();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, authenticationException.getMessage());
         } finally {
-            ThreadLocalContext.removeSessionContextFromLogging(existingAuthentication);
+            UserSessionContext.clear();
         }
     }
 
     // protected methods
     // ```````````````````````````````````````````````````````````````````````
 
-    protected void logFailedAccess(AuthenticationWithToken authentication, String resourcePath) {
+    protected void logFailedAccess(UserSession authentication, String resourcePath) {
         if (log.isDebugEnabled()) {
             String username = authentication == null ? "<unauthorized>" : authentication.getUsername();
             log.debug("User '{}' --access-denied--> '{}'", username, resourcePath);
         }
     }
 
-    protected void logSuccessfulAccess(AuthenticationWithToken authentication, String resourcePath) {
+    protected void logSuccessfulAccess(UserSession authentication, String resourcePath) {
         if (log.isDebugEnabled()) {
             log.debug("User '{}' --access-granted--> '{}'", authentication.getUsername(), resourcePath);
         }

@@ -1,6 +1,6 @@
 package com.activebeancoders.fitness.security.api;
 
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import com.activebeancoders.fitness.security.infrastructure.UserSession;
 import com.google.common.base.Optional;
 
 import javax.annotation.Nonnull;
@@ -13,9 +13,9 @@ import javax.annotation.Nonnull;
  */
 public interface AuthenticationService {
 
-    AuthenticationWithToken authenticate(String username, String password);
+    UserSession authenticate(String username, String password);
 
-    AuthenticationWithToken validateToken(@Nonnull final Optional<String> token);
+    UserSession validateToken(@Nonnull final Optional<String> token);
 
     void invalidateToken(@Nonnull final Optional<String> token);
 

@@ -11,37 +11,37 @@ import java.util.Collection;
 import java.util.UUID;
 
 /**
- * Wrapper for {@link org.springframework.security.core.Authentication} with helper
- * methods.
+ * Represents the user's session and all the info that goes along with it such as the
+ * session token, the user object, whether the session is authenticated, etc.
  *
  * @author Dan Barrese
  */
-public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken implements Serializable {
+public class UserSession extends PreAuthenticatedAuthenticationToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final AuthenticationWithToken NON_AUTHENTICATED_INSTANCE = new AuthenticationWithToken();
+    private static final UserSession NON_AUTHENTICATED_INSTANCE = new UserSession();
     private String csrfToken;
 
-    public static AuthenticationWithToken nonAuthenticatedInstance() {
+    public static UserSession nonAuthenticatedInstance() {
         return NON_AUTHENTICATED_INSTANCE;
     }
 
-    public static AuthenticationWithToken createFrom(Authentication authentication) {
+    public static UserSession createFrom(Authentication authentication) {
         if (authentication == null) {
             return nonAuthenticatedInstance();
         }
-        AuthenticationWithToken authenticationWithToken = new AuthenticationWithToken(authentication.getPrincipal(),
+        UserSession userSession = new UserSession(authentication.getPrincipal(),
                 authentication.getCredentials(), authentication.getAuthorities());
-        authenticationWithToken.setDetails(authentication.getDetails());
-        return authenticationWithToken;
+        userSession.setDetails(authentication.getDetails());
+        return userSession;
     }
 
-    public AuthenticationWithToken(Object principal, Object credentials) {
+    public UserSession(Object principal, Object credentials) {
         super(principal == null ? null : principal.toString(), credentials);
         csrfToken = UUID.randomUUID().toString();
     }
 
-    public AuthenticationWithToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
+    public UserSession(Object principal, Object credentials, Collection<? extends GrantedAuthority> grantedAuthorities) {
         super(principal, credentials, grantedAuthorities);
         csrfToken = UUID.randomUUID().toString();
     }
@@ -81,7 +81,7 @@ public class AuthenticationWithToken extends PreAuthenticatedAuthenticationToken
     // private methods
     // ```````````````````````````````````````````````````````````````````````
 
-    private AuthenticationWithToken() {
+    private UserSession() {
         super(null, null);
         setAuthenticated(false);
     }

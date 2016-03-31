@@ -27,7 +27,7 @@ public class TokenAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public AuthenticationWithToken authenticate(Authentication authentication) throws AuthenticationException {
+    public UserSession authenticate(Authentication authentication) throws AuthenticationException {
         Optional<String> token = (Optional) authentication.getPrincipal();
         if (!token.isPresent() || token.get().isEmpty()) {
             throw new BadCredentialsException("Invalid token");

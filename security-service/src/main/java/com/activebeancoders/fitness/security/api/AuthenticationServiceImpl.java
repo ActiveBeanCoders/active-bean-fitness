@@ -1,10 +1,10 @@
 package com.activebeancoders.fitness.security.api;
 
 import com.activebeancoders.fitness.security.AuthenticationUtils;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import com.activebeancoders.fitness.security.infrastructure.UserSession;
 import com.activebeancoders.fitness.security.infrastructure.DomainUsernamePasswordAuthenticationProvider;
 import com.activebeancoders.fitness.security.infrastructure.TokenAuthenticationProvider;
+import com.activebeancoders.fitness.security.infrastructure.UserSessionContext;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,31 +34,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private DomainUsernamePasswordAuthenticationProvider domainUsernamePasswordAuthenticationProvider;
 
     @Autowired
-    private AuthenticationDao authenticationDao;
-
-    @Autowired
     @Qualifier("tokenAuthenticationProvider")
     private TokenAuthenticationProvider tokenAuthenticationProvider;
 
     @Override
-    public AuthenticationWithToken authenticate(final String username, final String plainTextPassword) {
+    public UserSession authenticate(final String username, final String plainTextPassword) {
         UsernamePasswordAuthenticationToken authenticationWithToken = AuthenticationUtils.createAuthToken(username, plainTextPassword);
-        AuthenticationWithToken resultOfAuthentication = domainUsernamePasswordAuthenticationProvider.authenticate(authenticationWithToken);
+        UserSession resultOfAuthentication = domainUsernamePasswordAuthenticationProvider.authenticate(authenticationWithToken);
         if (log.isInfoEnabled()) {
             log.info("User '{}' authenticating...succeeded={}", extractUsername(resultOfAuthentication), resultOfAuthentication.isAuthenticated());
         }
-        authenticationDao.save(resultOfAuthentication);
+        UserSessionContext.set(resultOfAuthentication);
         return resultOfAuthentication;
     }
 
-    protected String extractUsername(AuthenticationWithToken authentication) {
+    protected String extractUsername(UserSession authentication) {
         return authentication == null ? "<unauthorized>" : authentication.getUsername();
     }
 
     @Override
-    public AuthenticationWithToken validateToken(@Nonnull final Optional<String> token) {
+    public UserSession validateToken(@Nonnull final Optional<String> token) {
         PreAuthenticatedAuthenticationToken requestAuthentication = new PreAuthenticatedAuthenticationToken(token, null);
-        AuthenticationWithToken authentication = tokenAuthenticationProvider.authenticate(requestAuthentication);
+        UserSession authentication = tokenAuthenticationProvider.authenticate(requestAuthentication);
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new InternalAuthenticationServiceException("Unable to authenticate Domain User for provided credentials");
         }

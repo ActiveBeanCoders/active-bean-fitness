@@ -2,7 +2,6 @@ package com.activebeancoders.fitness.data.config;
 
 import com.activebeancoders.fitness.security.api.AuthenticationService;
 import com.activebeancoders.fitness.security.config.SecurityClientConfig;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
 import com.activebeancoders.fitness.security.infrastructure.SecuredServiceAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,9 +33,6 @@ public class DataAllServiceSecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("remoteAuthenticationService")
     private AuthenticationService authenticationService;
 
-    @Autowired
-    private AuthenticationDao authenticationDao;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable();
@@ -49,7 +45,7 @@ public class DataAllServiceSecurityConfig extends WebSecurityConfigurerAdapter {
                 and().
                 anonymous().disable().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
-        http.addFilterBefore(new SecuredServiceAuthenticationFilter(authenticationService, authenticationDao),
+        http.addFilterBefore(new SecuredServiceAuthenticationFilter(authenticationService),
                 BasicAuthenticationFilter.class);
     }
 

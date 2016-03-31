@@ -8,9 +8,9 @@ import com.activebeancoders.fitness.security.domain.DomainUser;
 import com.activebeancoders.fitness.security.domain.DomainUserCredentials;
 import com.activebeancoders.fitness.security.exception.Http401Error;
 import com.activebeancoders.fitness.security.exception.Http500Error;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationDao;
-import com.activebeancoders.fitness.security.infrastructure.AuthenticationWithToken;
+import com.activebeancoders.fitness.security.infrastructure.UserSession;
 import com.activebeancoders.fitness.security.infrastructure.TokenResponse;
+import com.activebeancoders.fitness.security.infrastructure.UserSessionContext;
 import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +36,6 @@ public class SecurityServiceController {
     private UserManagementService userManagementService;
     @Autowired
     private AuthenticationService authenticationService;
-    @Autowired
-    private AuthenticationDao authenticationDao;
 
     public SecurityServiceController() {
     }
@@ -60,13 +58,13 @@ public class SecurityServiceController {
                                               @RequestHeader(value = "X-Auth-Password") final String plaintextPassword) {
         // TODO: set cookie on response?  Is that more secure?
         try {
-            AuthenticationWithToken authentication = authenticationService.authenticate(username, plaintextPassword);
+            UserSession authentication = authenticationService.authenticate(username, plaintextPassword);
             return new TokenResponse(authentication.getToken());
         } catch (InternalAuthenticationServiceException internalAuthenticationServiceException) {
-            authenticationDao.clearCurrentSessionAuthentication();
+            UserSessionContext.clear();
             throw new Http500Error();
         } catch (AuthenticationException authenticationException) {
-            authenticationDao.clearCurrentSessionAuthentication();
+            UserSessionContext.clear();
             log.info("Unauthorized: '{}'", authenticationException.getMessage());
             throw new Http401Error();
         }
