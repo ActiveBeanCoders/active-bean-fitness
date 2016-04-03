@@ -114,10 +114,10 @@ logging.level.org.springframework=WARN
 
 The app is split into several services, all of which should be running, all of which use a separate Tomcat server and separate port number.  The services are:
 * **gateway**: receives all requests and routes them to correct server and port.
-* **data-access-service**: abstraction layer, moves data in/out of storage system(s).
 * **ui-angular**: the user interface.
-* **elasticsearch-service**: moves data in/out of Elasticsearch.
-* **hibernate-service**: moves data in/out of MySQL.
+* **data-es-service**: moves data in/out of Elasticsearch.
+* **data-db-service**: moves data in/out of MySQL.
+* **data-all-service**: abstraction layer, moves data in/out of storage system(s).
 * **security-service**: log-in, log-out, authenticates every request.
 
 ## Build APIs

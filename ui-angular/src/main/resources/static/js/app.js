@@ -19,7 +19,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 	var verifyToken = function(token) {
         $http({
             method: 'POST',
-            url: '/security/public/token/verify',
+            url: '/security/api/authz/token/verify',
             headers: {
                 'X-Auth-Token': token
             }
@@ -57,7 +57,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 	var authenticate = function(credentials) {
         $http({
             method: 'POST',
-            url: '/security/public/authenticate',
+            url: '/security/api/authz/authenticate',
             headers: {
                 'X-Auth-Username': credentials.username,
                 'X-Auth-Password': credentials.password
@@ -87,7 +87,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 
     // Log-out function
 	$scope.logout = function() {
-		$http.post('/security/public/logout', {})
+		$http.post('/security/api/authz/logout', {})
 		.success(function() {
             clearLocalUserData();
 			$window.location.reload();
@@ -107,7 +107,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 	var createUserAccount = function(credentials) {
         $http({
             method: 'POST',
-            url: '/security/public/user/create',
+            url: '/security/api/user/create',
             headers: {
                 'username': credentials.username,
                 'plaintextPassword': credentials.password

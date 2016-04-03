@@ -21,7 +21,7 @@ public class SecurityServiceRemotingConfig {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @Bean(name = "/public/securityService.http")
+    @Bean(name = "/api/authz/securityService.http")
     public HttpInvokerServiceExporter securityService() {
         HttpInvokerServiceExporter httpInvokerServiceExporter = new HttpInvokerServiceExporter();
         httpInvokerServiceExporter.setService(userManagementService);
@@ -29,7 +29,7 @@ public class SecurityServiceRemotingConfig {
         return httpInvokerServiceExporter;
     }
 
-    @Bean(name = "/public/authenticationService.http")
+    @Bean(name = "/api/authz/authenticationService.http")
     public HttpInvokerServiceExporter authenticationService() {
         HttpInvokerServiceExporter httpInvokerServiceExporter = new HttpInvokerServiceExporter();
         httpInvokerServiceExporter.setService(authenticationService);

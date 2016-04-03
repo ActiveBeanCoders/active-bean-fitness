@@ -19,24 +19,36 @@ import javax.annotation.PostConstruct;
 @Configuration
 @PropertySource(value = "classpath:/data-db-api.properties", ignoreResourceNotFound = false)
 @PropertySource(value = "file:/activebeancoders/data-db-api.properties", ignoreResourceNotFound = true)
-// TODO: why use remoting like this when we can just use REST API?
 public class DataDbClientConfig {
 
     @Autowired
     private AuthenticationTokenHttpInvokerRequestExecutor executor;
 
-    @Value("${external-url.hibernate-service}")
-    private String hibernateServiceUrl;
+    @Value("${data-db-service.url.protocol}")
+    private String protocol;
+
+    @Value("${data-db-service.url.hostname}")
+    private String hostname;
+
+    @Value("${data-db-service.url.port}")
+    private Integer port;
 
     @PostConstruct
     protected void init() {
-        Assert.assertStringIsInitialized(hibernateServiceUrl);
+        Assert.assertStringIsInitialized(protocol);
+        Assert.assertStringIsInitialized(hostname);
+        Assert.assertNotNull(port);
+    }
+
+    @Bean
+    public String dataDbServiceRemoteUrl() {
+        return String.format("%s://%s:%d", protocol, hostname, port);
     }
 
     @Bean
     public ActivityDao remoteActivityMySqlDao() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceUrl(hibernateServiceUrl + "/activityMySqlDao.http");
+        proxy.setServiceUrl(dataDbServiceRemoteUrl() + "/activityMySqlDao.http");
         proxy.setServiceInterface(ActivityDao.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();
@@ -46,7 +58,7 @@ public class DataDbClientConfig {
     @Bean
     public DataLoader remoteHibDataLoader() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceUrl(hibernateServiceUrl + "/hibDataLoader.http");
+        proxy.setServiceUrl(dataDbServiceRemoteUrl() + "/hibDataLoader.http");
         proxy.setServiceInterface(DataLoader.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();

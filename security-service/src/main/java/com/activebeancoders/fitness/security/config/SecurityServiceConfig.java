@@ -56,7 +56,7 @@ public class SecurityServiceConfig extends WebSecurityConfigurerAdapter {
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().
                 authorizeRequests().
-                antMatchers("/public/**").permitAll().
+                antMatchers("/api/authz/**", "/api/user/create").permitAll().
                 anyRequest().authenticated().
                 and().
                 exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());

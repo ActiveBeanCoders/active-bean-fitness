@@ -11,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
+import org.springframework.util.Assert;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Spring configuration for security-api.
@@ -26,13 +29,33 @@ public class SecurityClientConfig {
     @Autowired
     private AuthenticationTokenHttpInvokerRequestExecutor executor;
 
-    @Value("${external-url.security-service}")
-    private String securityServiceUrl;
+    @Value("${security-service.url.protocol}")
+    private String protocol;
+
+    @Value("${security-service.url.hostname}")
+    private String hostname;
+
+    @Value("${security-service.url.port}")
+    private Integer port;
+
+    @PostConstruct
+    protected void init() {
+        Assert.notNull(protocol);
+        Assert.isTrue(!protocol.startsWith("${"));
+        Assert.notNull(hostname);
+        Assert.isTrue(!hostname.startsWith("${"));
+        Assert.notNull(port);
+    }
+
+    @Bean
+    public String securityServiceRemoteUrl() {
+        return String.format("%s://%s:%d", protocol, hostname, port);
+    }
 
     @Bean
     public UserManagementService remoteUserManagementService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceUrl(securityServiceUrl + "/public/securityService.http");
+        proxy.setServiceUrl(securityServiceRemoteUrl() + "/api/authz/securityService.http");
         proxy.setServiceInterface(UserManagementService.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();
@@ -42,7 +65,7 @@ public class SecurityClientConfig {
     @Bean
     public AuthenticationService remoteAuthenticationService() {
         HttpInvokerProxyFactoryBean proxy = new HttpInvokerProxyFactoryBean();
-        proxy.setServiceUrl(securityServiceUrl + "/public/" + SecurityClientController.getAuthenticateEndpointFromRemoteMethodCall());
+        proxy.setServiceUrl(securityServiceRemoteUrl() + "/api/authz/authenticationService.http");
         proxy.setServiceInterface(AuthenticationService.class);
         proxy.setHttpInvokerRequestExecutor(executor);
         proxy.afterPropertiesSet();

@@ -78,7 +78,7 @@ public class SecurityServiceController {
     }
 
     // TODO: should this be publicly accessible?  Seems like easy DOS opportunity.
-    @RequestMapping(value = "/public/user/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user/create", method = RequestMethod.POST)
     public DomainUser createUserAccount(
             @RequestHeader(value = "username") final String username,
             @RequestHeader(value = "plaintextPassword") final String plaintextPassword) {
