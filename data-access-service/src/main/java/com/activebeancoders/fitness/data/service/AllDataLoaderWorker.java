@@ -79,7 +79,7 @@ public class AllDataLoaderWorker implements DataLoaderWorker {
             beforeLoad();
             lastKnownStatus = "Loading...";
             indexABunchOfRandomData(Long.valueOf(count));
-            log.info("Data reload complete.");
+            log.info("Data reload complete.  Loaded " + count + " records.");
             lastKnownStatus = "Data reload complete.  Loaded " + count + " records.";
             return new AsyncResult<>(true);
         } catch (Exception e) {

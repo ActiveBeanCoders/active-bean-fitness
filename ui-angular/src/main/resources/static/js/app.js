@@ -6,6 +6,8 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     // authentication stuff
     // -----------------------------------------------------------------------
 
+    $scope.authErr = {};
+
     // holds username, password
 	$scope.credentials = {};
 
@@ -48,6 +50,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     // Clears all user data held locally as JS variables or browser cookies.
 	var clearLocalUserData = function() {
         $cookies.remove('X-Auth-Token');
+        $http.defaults.headers.common['X-Auth-Token'] = undefined;
         $cookies.remove('username');
         $scope.authenticated = false;
         $scope.username = "guest";
@@ -93,7 +96,12 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
 			$window.location.reload();
 		}).error(function(data) {
 		    // TODO: do something useful here instead of alert.
-            alert('log-out failed');
+		    if(data.error == 'Unauthorized') {
+		        //Unauthorized for logout, most likely cause is token is invalid
+		        clearLocalUserData();
+		    } else {
+		        alert('log-out failed');
+		    }
 		});
 	}
 
@@ -161,6 +169,7 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
     // -----------------------------------------------------------------------
 
 	$scope.initHomePage = function() {
+	    $scope.reloadCount = 11;
 		$scope.activePage = $scope.homePage;
 	}
 
@@ -230,13 +239,15 @@ app.controller('MainCtrl',  ['$scope', '$http', '$log', '$interval', '$filter', 
         });
     };
 
-    $scope.reloadCount = 0;
+    $scope.reloadValues = {
+        "reloadCount" : 11
+    };
     $scope.reloadResult = "";
 	$scope.reloadActivities = function() {
         $scope.reloadResult = "";
 	    params = null;
-	    if ($scope.reloadCount && $scope.reloadCount > 0) {
-	        params = "?count=" + $scope.reloadCount;
+	    if ($scope.reloadValues.reloadCount && $scope.reloadValues.reloadCount > 0) {
+	        params = "?count=" + $scope.reloadValues.reloadCount;
 	    } else {
 	        params = "?count=11";
 	    }
