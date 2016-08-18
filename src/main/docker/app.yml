@@ -1,0 +1,17 @@
+version: '2'
+services:
+    active_bean_fitness-app:
+        image: active_bean_fitness
+        external_links:
+            - active_bean_fitness-mongodb:mongodb
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod
+            - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017
+            - SPRING_DATA_MONGODB_DATABASE=active_bean_fitness
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    active_bean_fitness-mongodb:
+        extends:
+            file: mongodb.yml
+            service: active_bean_fitness-mongodb

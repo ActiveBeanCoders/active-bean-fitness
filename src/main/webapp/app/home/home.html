@@ -1,0 +1,49 @@
+<div ng-cloak>
+    <div ng-switch="vm.isAuthenticated()">
+        <div class="alert alert-success" ng-switch-when="true">
+            You are logged in as user "{{vm.account.login}}".
+        </div>
+
+        <div class="alert alert-warning" ng-switch-when="false">
+            If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
+        </div>
+
+        <div class="alert alert-warning" ng-switch-when="false">
+            You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
+        </div>
+    </div>
+</div>
+
+<div id="homeNav"
+     ng-include="'app/partials/home-page.html'"
+     ng-hide="homePage != activePage">
+</div>
+<div id="activityNav"
+     ng-include="'app/partials/activity-page.html'"
+     ng-hide="activityPage != activePage">
+</div>
+<div id="viewLogNav"
+     ng-include="'app/partials/view-log-page.html'"
+     ng-hide="logPage != activePage">
+</div>
+<div id="workoutsNav"
+     ng-include="'app/partials/workouts-page.html'"
+     ng-hide="workoutsPage != activePage">
+</div>
+<div id="equipmentNav"
+     ng-include="'app/partials/equipment-page.html'"
+     ng-hide="equipmentPage != activePage">
+</div>
+<div id="coursesNav"
+     ng-include="'app/partials/courses-page.html'"
+     ng-hide="coursesPage != activePage">
+</div>
+<div id="progressNav"
+     ng-include="'app/partials/progress-page.html'"
+     ng-hide="progressPage != activePage">
+</div>
+<div id="viewOthersNav"
+     ng-include="'app/partials/view-others-page.html'"
+     ng-hide="viewOthersPage != activePage">
+</div>
+

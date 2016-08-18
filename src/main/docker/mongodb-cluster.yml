@@ -1,0 +1,17 @@
+version: '2'
+services:
+    active_bean_fitness-mongodb:
+        container_name: active_bean_fitness-mongodb
+        image: mongo:3.3.9
+        ports:
+            - "27017:27017"
+        command: mongos --configdb active_bean_fitness-mongodb-config
+    active_bean_fitness-mongodb-node:
+        build:
+            context: .
+            dockerfile: mongodb/MongoDB.Dockerfile
+        command: mongod --replSet rs1 --noprealloc --smallfiles
+    active_bean_fitness-mongodb-config:
+        image: mongo:mongo:3.3.9
+        container_name: active_bean_fitness-mongodb-config
+        command: mongod --noprealloc --smallfiles --configsvr --dbpath /data/db
