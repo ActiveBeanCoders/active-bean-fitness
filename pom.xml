@@ -61,10 +61,19 @@
         <!-- These remain empty unless the corresponding profile is active -->
         <profile.no-liquibase></profile.no-liquibase>
         <profile.swagger></profile.swagger>
+
+        <random-object-generator.version>0.1</random-object-generator.version>
+        <external-project.location>com.github.danbarrese</external-project.location>
     </properties>
 
 
     <dependencies>
+        <dependency>
+            <groupId>${external-project.location}</groupId>
+            <artifactId>random-object-generator</artifactId>
+            <version>${random-object-generator.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
