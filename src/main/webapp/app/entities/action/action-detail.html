@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span>Action</span> {{vm.action.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>User Id</span></dt>
+        <dd>
+            <span>{{vm.action.userId}}</span>
+        </dd>
+        <dt><span>Start</span></dt>
+        <dd>
+            <span>{{vm.action.start | date:'medium'}}</span>
+        </dd>
+        <dt><span>Duration</span></dt>
+        <dd>
+            <span>{{vm.action.duration}}</span>
+        </dd>
+        <dt><span>Unit</span></dt>
+        <dd>
+            <span>{{vm.action.unit}}</span>
+        </dd>
+        <dt><span>Distance</span></dt>
+        <dd>
+            <span>{{vm.action.distance}}</span>
+        </dd>
+        <dt><span>Comment</span></dt>
+        <dd>
+            <span>{{vm.action.comment}}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+            <span>{{vm.action.type}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="action-detail.edit({id:vm.action.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm"> Edit</span>
+    </button>
+</div>

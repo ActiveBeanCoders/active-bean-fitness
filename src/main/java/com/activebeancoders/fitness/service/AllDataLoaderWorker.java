@@ -1,7 +1,8 @@
 package com.activebeancoders.fitness.service;
 
-import com.activebeancoders.fitness.domain.Activity;
-import com.activebeancoders.fitness.repository.ActivityRepository;
+import com.activebeancoders.fitness.domain.Action;
+import com.activebeancoders.fitness.domain.enumeration.ActionType;
+import com.activebeancoders.fitness.repository.ActionRepository;
 import com.google.common.collect.ImmutableMap;
 import net.pladform.random.IdAwareObjectGenerator;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class AllDataLoaderWorker implements DataLoaderWorker {
     private Map<String, DataLoader> dataLoaderMap;
 
     @Autowired
-    private ActivityRepository activityRepository;
+    private ActionRepository actionRepo;
 
     private String lastKnownStatus = "Inactive.";
 
@@ -98,19 +99,16 @@ public class AllDataLoaderWorker implements DataLoaderWorker {
         }
         final IdAwareObjectGenerator generator = new IdAwareObjectGenerator();
         for (long l = 0; l < count; l++) {
-            Activity activity = generator.generate(Activity.class, ImmutableMap.<String, Callable>builder()
-                    .put("setId", () -> generator.nextId())
+            Action action = generator.generate(Action.class, ImmutableMap.<String, Callable>builder()
                     .put("setUserId", () -> generator.randomLong(1, 500))
-                    .put("setActivity", () -> generator.choose(new String[]{"Running", "Cycling", "Hiking", "Swimming"}))
+                    .put("setType", () -> generator.choose(ActionType.values()))
                     .put("setUnit", () -> generator.choose(new String[]{"Miles", "Kilometers", "Steps", "Laps"}))
                     .put("setDistance", () -> generator.randomDouble(1.0, 100.0))
-                    .put("setDistHour", () -> generator.randomLong(0, 12))
-                    .put("setDistMin", () -> generator.randomLong(1, 59))
-                    .put("setDistSec", () -> generator.randomLong(0, 59))
+                    .put("setDuration", () -> generator.randomInt(0, 300))
                     .put("setDate", () -> generator.randomDate("2000-01-01 00:00:00"))
                     .put("setComment", () -> generator.words(generator.randomInt(10, 100)))
                     .build());
-            activityRepository.save(activity);
+            actionRepo.save(action);
             if (l % tenPercent == 0) {
                 log.debug("Indexed {} objects so far.", l);
             }
